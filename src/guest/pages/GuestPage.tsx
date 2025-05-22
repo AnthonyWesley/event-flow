@@ -1,14 +1,15 @@
 import FlexSection from "../../components/FlexSection";
 import Spin from "../../components/Spin";
-import { InfoLine } from "../../components/InfoLine";
 import SaleList from "../../sale/components/SaleList";
-import { useEvent } from "../../event/hooks/useEvent";
 import useProduct from "../../product/hooks/useProduct";
 import useSeller from "../../seller/hooks/useSeller";
 import SellerForm from "../../seller/components/SellerForm";
 import SaleForm from "../../sale/components/SaleForm";
 import Modal from "../../components/Modal";
 import Avatar from "../../components/Avatar";
+import RankingDisplay from "../../ranking/components/RankingDisplay";
+import { InfoLine } from "../../components/InfoLine";
+import { useEvent } from "../../event/hooks/useEvent";
 import { goalUtils } from "../../helpers/goalUtils";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { CircularProgress } from "../../components/CircularProgress";
@@ -16,7 +17,6 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { SellerOutputDto } from "../../seller/services/sellerService";
 import { SaleOutputDto } from "../../sale/services/saleService";
-import RankingDisplay from "../../ranking/components/RankingDisplay";
 
 export default function GuestPage() {
   // const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));

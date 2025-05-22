@@ -46,7 +46,7 @@ export default function EventsPageDetailPage() {
                   className="cursor-pointer self-end rounded-full border border-gray-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
                   onClick={() => navigate(-1)}
                 >
-                  <Icon icon="icon-park-outline:back" width="20" />
+                  <Icon icon="hugeicons:link-backward" width="20" />
                 </div>
               </Tooltip>
 

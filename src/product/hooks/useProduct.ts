@@ -13,7 +13,7 @@ export default function useProduct(productId?: string) {
   const queryProduct = useQuery({
     queryKey: ["productData", productId],
     queryFn: () => productService.findOne(productId ?? ""),
-    enabled: isAuthenticated,
+    enabled: isAuthenticated && !!productId,
   });
 
   return { queryProducts, queryProduct };

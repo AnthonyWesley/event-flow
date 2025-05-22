@@ -93,7 +93,6 @@ api.interceptors.response.use(
       }
     }
 
-    // Se já tentou refresh e ainda dá erro 401/403, desloga direto pra evitar loop
     if ([401, 403].includes(error.response?.status) && originalRequest._retry) {
       await logout();
     }
@@ -101,5 +100,6 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+console.log("API baseURL:", import.meta.env.VITE_API_URL);
 
 export default api;

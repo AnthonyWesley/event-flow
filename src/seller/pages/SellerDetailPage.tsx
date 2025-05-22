@@ -6,21 +6,30 @@ import SellerForm from "../components/SellerForm";
 import Dialog from "../../components/Dialog";
 import { useSellerMutations } from "../hooks/useSellerMutations";
 import Card from "../../components/Card";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
+import { useEvent } from "../../event/hooks/useEvent";
+import { EventOutputDto } from "../../event/services/eventService";
+import { SellerOutputDto } from "../services/sellerService";
+import Accordion from "../../components/Accordion";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function SellerDetailPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { sellerId } = useParams<{ sellerId: string }>();
   const {
     querySeller: { data: seller, isLoading, error },
   } = useSeller(sellerId);
 
-  // const {
-  //   queryEvents: { data: events },
-  //   currentEvent,
-  // } = useEvent();
+  const {
+    queryEvents: { data: events },
+  } = useEvent();
+
+  const sellerEvents = events?.filter((ev: EventOutputDto) =>
+    ev?.allSellers?.filter((se: SellerOutputDto) => se.id === sellerId),
+  );
 
   // const {
   //   queryProducts: { data: products },
@@ -73,7 +82,27 @@ export default function SellerDetailPage() {
             </>
           }
         >
-          <div>Meus eventos</div>
+          <Accordion
+            title={<div>Meus eventos</div>}
+            content={sellerEvents?.map((ev: EventOutputDto, index: number) => (
+              <div
+                key={index}
+                className="flex items-center justify-between border-b border-gray-500/15 py-2"
+              >
+                <InfoLine label="Evento:" value={ev.name} line="col" />
+                <Icon
+                  icon="hugeicons:link-forward"
+                  width="30"
+                  onClick={() =>
+                    navigate(`/events/${ev.id}`, {
+                      state: { backgroundLocation: location },
+                    })
+                  }
+                  className="hover:text-cyan-400"
+                />
+              </div>
+            ))}
+          />
         </Card>
       </FlexSection>
     </>

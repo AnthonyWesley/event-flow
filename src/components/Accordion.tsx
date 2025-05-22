@@ -28,7 +28,7 @@ export default function Accordion({
     <div
       className={` ${disabled ? "pointer-events-none" : "pointer-events-auto"} w-full overflow-hidden rounded-sm bg-transparent`}
     >
-      <div className="mb-1 flex w-full items-center justify-between gap-1 rounded-md px-2 text-white focus:outline-none">
+      <div className="mb-1 flex w-full items-center justify-between gap-1 rounded-md pl-1 text-white focus:outline-none">
         {title ? title : ""}
 
         {!icon && (
@@ -53,7 +53,9 @@ export default function Accordion({
         className={`overflow-hidden transition-all duration-500`}
         style={{ maxHeight: height }}
       >
-        <div ref={contentRef}>{content}</div>
+        <div className="px-2" ref={contentRef}>
+          {content}
+        </div>
       </div>
     </div>
   );
