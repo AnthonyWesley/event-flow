@@ -11,9 +11,9 @@ export default function useSeller(sellerId?: string) {
   });
 
   const querySeller = useQuery({
-    queryKey: ["sellerData"],
+    queryKey: ["sellerData", sellerId],
     queryFn: () => sellerService.findOne(sellerId ?? ""),
-    enabled: isAuthenticated,
+    enabled: isAuthenticated && !!sellerId,
   });
   return { querySellers, querySeller };
 }
