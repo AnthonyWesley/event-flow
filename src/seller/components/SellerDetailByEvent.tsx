@@ -146,7 +146,7 @@ export default function SellerDetailByEvent({
           </FlexSection>
           <div className="ml-auto">
             <CopyToClipboard
-              text={`${import.meta.env.VITE_API_URL || "http://localhost:5173"}/guest/${seller.id}?partnerToken=${token}`}
+              text={`https://event-flow-api.vercel.app/guest/${seller.id}?partnerToken=${token}`}
               label="Copiar Convite"
             />
           </div>
