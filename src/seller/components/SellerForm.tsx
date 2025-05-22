@@ -57,18 +57,19 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
             photo: "",
           },
         },
-        {
-          onSuccess: (createdSeller: any) => {
-            clearForm();
+        { onSuccess: () => clearForm() },
+        // {
+        //   onSuccess: (createdSeller: any) => {
+        //     clearForm();
 
-            if (eventId && (seller?.id || createdSeller?.id)) {
-              sendEmail.mutate({
-                eventId,
-                sellerId: seller?.id || createdSeller.id,
-              });
-            }
-          },
-        },
+        //     if (eventId && (seller?.id || createdSeller?.id)) {
+        //       sendEmail.mutate({
+        //         eventId,
+        //         sellerId: seller?.id || createdSeller.id,
+        //       });
+        //     }
+        //   },
+        // },
       );
     } else {
       selectedPeople.forEach((person) => {
