@@ -33,7 +33,7 @@ export default function App() {
           {!isGuestPage && <PendingModal />}
         </>
       )}
-      {!isAuthenticated && <Navbar links={PUBLIC_ROUTES} />}
+      {!isAuthenticated && !isGuestPage && <Navbar links={PUBLIC_ROUTES} />}
 
       <main className="container mx-auto flex flex-1 flex-col px-2">
         <ToastContainer />
@@ -72,10 +72,9 @@ export default function App() {
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<Sale />} />
           </Route>
+          <Route path="guest/:sellerId" element={<GuestPage />} />
           <Route path="auth" element={<AuthPage />} />
           <Route path="pricing" element={<Pricing />} />
-
-          <Route path="guest/:sellerId" element={<GuestPage />} />
         </Routes>
       </main>
       <Footer />

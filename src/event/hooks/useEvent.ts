@@ -11,7 +11,7 @@ export function useEvent(eventId?: string) {
   });
 
   const queryEvent = useQuery({
-    queryKey: ["eventData"],
+    queryKey: ["eventData", eventId],
     queryFn: () => eventService.findOne(eventId ?? ""),
     enabled: isAuthenticated,
   });

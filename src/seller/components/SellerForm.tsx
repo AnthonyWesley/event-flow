@@ -6,7 +6,7 @@ import { SellerOutputDto } from "../services/sellerService";
 import Card from "../../components/Card";
 import MultiSelectCombobox from "../../components/MultiSelectCombobox";
 import { formatPhoneNumber } from "../../auth/components/authForm";
-import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
+// import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 
 type SellerFormProps = {
   seller?: SellerOutputDto;
@@ -19,7 +19,7 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
   const [phone, setPhone] = useState("");
   const [selectedPeople, setSelectedPeople] = useState<SellerOutputDto[]>([]);
   const [isCreateButton, setIsCreateButton] = useState(true);
-  const { sendEmail } = useGuestMutations();
+  // const { sendEmail } = useGuestMutations();
   const { createOrUpdate } = useSellerMutations();
 
   useEffect(() => {
@@ -83,16 +83,16 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
               photo: "",
             },
           },
-          {
-            onSuccess: (createdSeller: any) => {
-              if (eventId && createdSeller?.id) {
-                sendEmail.mutate({
-                  eventId,
-                  sellerId: createdSeller.id,
-                });
-              }
-            },
-          },
+          // {
+          //   onSuccess: (createdSeller: any) => {
+          //     if (eventId && createdSeller?.id) {
+          //       sendEmail.mutate({
+          //         eventId,
+          //         sellerId: createdSeller.id,
+          //       });
+          //     }
+          //   },
+          // },
         );
       });
 

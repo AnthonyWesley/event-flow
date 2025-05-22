@@ -53,29 +53,29 @@ export function useGuestMutations() {
       toast.error(err.response?.data?.message || "Erro ao salvar vendedor"),
   });
 
-  const sendEmail = useMutation({
-    mutationFn: ({
-      eventId,
-      sellerId,
-    }: {
-      eventId: string;
-      sellerId: string;
-    }) => guestService.sendInvitation(eventId, sellerId),
-    onSuccess: () => {
-      toast.success("Convite enviado com sucesso!");
-    },
+  // const sendEmail = useMutation({
+  //   mutationFn: ({
+  //     eventId,
+  //     sellerId,
+  //   }: {
+  //     eventId: string;
+  //     sellerId: string;
+  //   }) => guestService.sendInvitation(eventId, sellerId),
+  //   onSuccess: () => {
+  //     toast.success("Convite enviado com sucesso!");
+  //   },
 
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["sellersData"] });
-      queryClient.invalidateQueries({ queryKey: ["eventsData"] });
-    },
-    onError: (err: any) =>
-      toast.error(err.response?.data?.message || "Erro ao salvar vendedor"),
-  });
+  //   onSettled: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["sellersData"] });
+  //     queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+  //   },
+  //   onError: (err: any) =>
+  //     toast.error(err.response?.data?.message || "Erro ao salvar vendedor"),
+  // });
 
   return {
     createOrUpdate,
     deleteSale,
-    sendEmail,
+    // sendEmail,
   };
 }

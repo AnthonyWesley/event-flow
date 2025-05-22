@@ -33,7 +33,6 @@ export default function Modal({
           className="flex justify-center rounded font-semibold transition duration-300 ease-in-out"
           onClick={() => {
             openModal(id);
-            console.log(id);
           }}
         >
           <Tooltip
