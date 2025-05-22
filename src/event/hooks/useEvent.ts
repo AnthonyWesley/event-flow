@@ -1,0 +1,24 @@
+import { useQuery } from "@tanstack/react-query";
+import { EventOutputDto, eventService } from "../services/eventService";
+
+export function useEvent(eventId?: string) {
+  const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
+
+  const queryEvents = useQuery({
+    queryKey: ["eventsData"],
+    queryFn: eventService.list,
+    enabled: isAuthenticated,
+  });
+
+  const queryEvent = useQuery({
+    queryKey: ["eventData"],
+    queryFn: () => eventService.findOne(eventId ?? ""),
+    enabled: isAuthenticated,
+  });
+
+  const currentEvent = queryEvents.data?.find(
+    (event: EventOutputDto) => event.isActive,
+  );
+
+  return { queryEvents, queryEvent, currentEvent };
+}
