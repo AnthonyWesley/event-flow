@@ -20,6 +20,7 @@ export function useSaleMutations() {
       toast.error(err.response?.data?.message || "Erro ao excluir venda"),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["salesData"] });
+      queryClient.invalidateQueries({ queryKey: ["guestData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
     },
   });
@@ -55,6 +56,7 @@ export function useSaleMutations() {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["sellersData"] });
       queryClient.invalidateQueries({ queryKey: ["sellerData"] });
+      queryClient.invalidateQueries({ queryKey: ["guestData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
     },
     onError: (err: any) =>

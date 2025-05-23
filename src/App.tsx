@@ -23,7 +23,10 @@ import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 export default function App() {
   const location = useLocation();
   const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
-  const isGuestPage = matchPath("/guest/:sellerId", location.pathname);
+  const isGuestPage = matchPath(
+    "events/:eventId/guest/:sellerId",
+    location.pathname,
+  );
   const state = location.state as { backgroundLocation?: Location };
   return (
     <div className="flex min-h-screen flex-col">
@@ -72,7 +75,10 @@ export default function App() {
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<Sale />} />
           </Route>
-          <Route path="guest/:sellerId" element={<GuestPage />} />
+          <Route
+            path="events/:eventId/guest/:sellerId"
+            element={<GuestPage />}
+          />
           <Route path="auth" element={<AuthPage />} />
           <Route path="pricing" element={<Pricing />} />
         </Routes>

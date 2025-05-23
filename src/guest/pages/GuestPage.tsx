@@ -2,7 +2,6 @@ import FlexSection from "../../components/FlexSection";
 import Spin from "../../components/Spin";
 import SaleList from "../../sale/components/SaleList";
 import useProduct from "../../product/hooks/useProduct";
-import useSeller from "../../seller/hooks/useSeller";
 import SellerForm from "../../seller/components/SellerForm";
 import SaleForm from "../../sale/components/SaleForm";
 import Modal from "../../components/Modal";
@@ -13,23 +12,23 @@ import { useEvent } from "../../event/hooks/useEvent";
 import { goalUtils } from "../../helpers/goalUtils";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { CircularProgress } from "../../components/CircularProgress";
-import { useParams, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { SellerOutputDto } from "../../seller/services/sellerService";
+import { useParams } from "react-router-dom";
 import { SaleOutputDto } from "../../sale/services/saleService";
+import useGuest from "../hooks/useGuest";
 
 export default function GuestPage() {
   // const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
 
-  const [isReady, setIsReady] = useState(false);
-  const { sellerId } = useParams<{ sellerId: string }>();
-  const [searchParams] = useSearchParams();
-  const partnerToken = searchParams.get("partnerToken");
+  // const [isReady, setIsReady] = useState(false);
+  const { eventId, sellerId } = useParams<{
+    eventId: string;
+    sellerId: string;
+  }>();
+  // const [searchParams] = useSearchParams();
 
   const {
-    querySeller: { data: seller, isLoading: isSellerLoading, error },
-  } = useSeller(sellerId);
-
+    queryGuest: { data: seller, isLoading: isSellerLoading, error },
+  } = useGuest(eventId ?? "", sellerId ?? "");
   const {
     currentEvent,
     queryEvents: { isLoading: isEventLoading },
@@ -39,10 +38,10 @@ export default function GuestPage() {
     queryProducts: { data: products },
   } = useProduct();
 
-  useEffect(() => {
-    if (partnerToken) sessionStorage.setItem("accessToken", partnerToken);
-    setIsReady(true);
-  }, [partnerToken]);
+  // useEffect(() => {
+  //   if (partnerToken) sessionStorage.setItem("accessToken", partnerToken);
+  //   setIsReady(true);
+  // }, [partnerToken]);
 
   const allSalesBySeller = currentEvent?.sales.filter(
     (sa: SaleOutputDto) => sa.sellerId === sellerId,
@@ -54,34 +53,32 @@ export default function GuestPage() {
   );
   const isValueGoal = currentEvent?.goalType === "VALUE";
 
-  if (!isReady) return <Spin />;
+  // if (!isReady) return <Spin />;
 
   if (isSellerLoading) return <Spin />;
   if (isEventLoading) return <Spin />;
   if (error) return "An error has occurred: " + error.message;
-  const currentSeller = currentEvent?.allSellers.filter(
-    (se: SellerOutputDto) => se?.id === sellerId,
-  );
 
   const currentProgress = isValueGoal
-    ? currentSeller[0]?.totalSalesValue
-    : currentSeller[0]?.totalSalesCount;
+    ? seller?.guest?.totalSalesValue
+    : seller?.guest?.totalSalesCount;
   const goalLabel = isValueGoal ? currencyFormatter.ToBRL(goal) : `${goal}`;
+  console.log(seller.guest);
 
   return (
     <div className="flex flex-col">
       <FlexSection className="flex-row gap-2 bg-slate-900">
-        <Avatar name={seller?.name} />
+        <Avatar name={seller.guest?.name} />
         <div className="flex w-full flex-col items-start justify-evenly lg:flex-row">
           <InfoLine
-            value={seller?.name?.split(" ").slice(0, 2).join(" ")}
+            value={seller.guest?.name?.split(" ").slice(0, 2).join(" ")}
             size="base"
           />
-          <InfoLine label="E-mail:" value={seller.email} size="sm" />
-          <InfoLine label="Telefone:" value={seller.phone} size="sm" />
+          <InfoLine label="E-mail:" value={seller.guest.email} size="sm" />
+          <InfoLine label="Telefone:" value={seller.guest.phone} size="sm" />
         </div>
         <Modal id="GuestPageSellerForm" icon="carbon:edit">
-          <SellerForm seller={seller} />
+          <SellerForm seller={seller.guest} />
         </Modal>
       </FlexSection>
       <FlexSection className="flex-row bg-slate-900">
@@ -94,7 +91,7 @@ export default function GuestPage() {
         <div className="flex w-20 items-start justify-center border-r border-l border-gray-500/25 pl-2 text-4xl">
           <h1>
             {currentEvent.allSellers.findIndex(
-              (s: any) => s.name === seller.name,
+              (s: any) => s.name === seller.guest.name,
             ) + 1}
           </h1>
           <p className="text-base">º</p>
@@ -120,14 +117,14 @@ export default function GuestPage() {
 
           <InfoLine
             label="Vendas:"
-            value={currentSeller[0]?.totalSalesCount}
+            value={seller.guest?.totalSalesCount}
             icon="iconoir:box-iso"
             // color={!isValueGoal ? goalColor : ""}
           />
 
           <InfoLine
             label="Total:"
-            value={currencyFormatter.ToBRL(currentSeller[0]?.totalSalesValue)}
+            value={currencyFormatter.ToBRL(seller.guest?.totalSalesValue)}
             // color={isValueGoal ? goalColor : ""}
           />
         </FlexSection>

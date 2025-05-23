@@ -45,6 +45,11 @@ export const guestService = {
     return response.data;
   },
 
+  getGuest: async (eventId: string, sellerId: string) => {
+    const response = await api.get(`/events/${eventId}/guest/${sellerId}`);
+
+    return response.data;
+  },
   // createOrAttachToEvent: async (eventId: string, data: GuestInputDto) => {
   //   let seller;
 
