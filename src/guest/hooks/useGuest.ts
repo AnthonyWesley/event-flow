@@ -5,7 +5,7 @@ export default function useGuest(eventId: string, sellerId: string) {
   const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
 
   const queryGuest = useQuery({
-    queryKey: ["guestData", eventId, sellerId],
+    queryKey: ["guestData"],
     queryFn: () => guestService.getGuest(eventId, sellerId),
     enabled: isAuthenticated && !!eventId && !!sellerId,
   });
