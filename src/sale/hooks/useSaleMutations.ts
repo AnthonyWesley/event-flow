@@ -53,12 +53,18 @@ export function useSaleMutations() {
       ]);
       return { previous };
     },
-    onSettled: () => {
+    onSettled: (_, __, variables) => {
+      const { eventId, data } = variables;
+      const sellerId = data.sellerId;
+
       queryClient.invalidateQueries({ queryKey: ["sellersData"] });
       queryClient.invalidateQueries({ queryKey: ["sellerData"] });
-      queryClient.invalidateQueries({ queryKey: ["guestData"] });
+      queryClient.invalidateQueries({
+        queryKey: ["guestData", eventId, sellerId],
+      });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
     },
+
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao salvar vendedor"),
   });
