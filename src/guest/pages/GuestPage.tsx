@@ -63,7 +63,6 @@ export default function GuestPage() {
     ? seller?.guest?.totalSalesValue
     : seller?.guest?.totalSalesCount;
   const goalLabel = isValueGoal ? currencyFormatter.ToBRL(goal) : `${goal}`;
-  console.log(seller.guest);
 
   return (
     <div className="flex flex-col">
