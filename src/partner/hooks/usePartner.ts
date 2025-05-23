@@ -14,6 +14,7 @@ export default function usePartner() {
     queryKey: ["notificationsData"],
     queryFn: partnerService.getNotification,
     enabled: isAuthenticated,
+    refetchInterval: 5000,
   });
 
   return { queryPartner, queryPartnerNotifications };
