@@ -53,8 +53,10 @@ export function useEventMutations() {
           : "Erro ao salvar evento",
       );
     },
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["eventsData"] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["notificationsData"] });
+    },
   });
 
   return {

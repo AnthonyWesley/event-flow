@@ -29,8 +29,10 @@ export function useProductMutations() {
     },
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao salvar product"),
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["productsData"] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["productsData"] });
+      queryClient.invalidateQueries({ queryKey: ["guestData"] });
+    },
   });
 
   return {

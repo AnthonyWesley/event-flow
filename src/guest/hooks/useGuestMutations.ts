@@ -48,6 +48,7 @@ export function useGuestMutations() {
       queryClient.invalidateQueries({ queryKey: ["sellerData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
       queryClient.invalidateQueries({ queryKey: ["guestData"] });
+      queryClient.invalidateQueries({ queryKey: ["salesData"] });
       queryClient.invalidateQueries({ queryKey: ["notificationsData"] });
     },
     onError: (err: any) =>

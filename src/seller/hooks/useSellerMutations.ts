@@ -27,6 +27,7 @@ export function useSellerMutations() {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["sellersData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["guestData"] });
     },
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao excluir vendedor"),

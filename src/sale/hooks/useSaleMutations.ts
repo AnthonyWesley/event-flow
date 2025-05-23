@@ -53,18 +53,13 @@ export function useSaleMutations() {
       ]);
       return { previous };
     },
-    onSettled: (_, __, variables) => {
-      const { eventId, data } = variables;
-      const sellerId = data.sellerId;
-
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["sellersData"] });
       queryClient.invalidateQueries({ queryKey: ["sellerData"] });
-      queryClient.invalidateQueries({
-        queryKey: ["guestData", eventId, sellerId],
-      });
+      queryClient.invalidateQueries({ queryKey: ["guestData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["notificationsData"] });
     },
-
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao salvar vendedor"),
   });
