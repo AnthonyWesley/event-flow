@@ -34,15 +34,15 @@ export function useGuestMutations() {
       toast.warning("Solicitação enviada!");
       closeModal("GuestPageSaleForm");
     },
-    onMutate: async (newSale) => {
-      await queryClient.cancelQueries({ queryKey: ["salesData"] });
-      const previous = queryClient.getQueryData(["salesData"]);
-      queryClient.setQueryData(["salesData"], (old: any) => [
-        ...(old || []),
-        newSale,
-      ]);
-      return { previous };
-    },
+    // onMutate: async (newSale) => {
+    //   await queryClient.cancelQueries({ queryKey: ["salesData"] });
+    //   const previous = queryClient.getQueryData(["salesData"]);
+    //   queryClient.setQueryData(["salesData"], (old: any) => [
+    //     ...(old || []),
+    //     newSale,
+    //   ]);
+    //   return { previous };
+    // },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["sellersData"] });
       queryClient.invalidateQueries({ queryKey: ["sellerData"] });

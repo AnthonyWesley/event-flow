@@ -8,6 +8,7 @@ export default function useGuest(eventId: string, sellerId: string) {
     queryKey: ["guestData"],
     queryFn: () => guestService.getGuest(eventId, sellerId),
     enabled: isAuthenticated && !!eventId && !!sellerId,
+    // refetchInterval: 5000,
   });
 
   return { queryGuest };

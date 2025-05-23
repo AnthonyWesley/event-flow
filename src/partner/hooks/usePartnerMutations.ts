@@ -21,6 +21,7 @@ export function usePartnerMutations() {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["salesData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["guestData"] });
       queryClient.invalidateQueries({ queryKey: ["notificationsData"] });
     },
     onError: (err: any) =>
