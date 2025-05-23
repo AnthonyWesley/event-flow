@@ -8,6 +8,7 @@ export default function useSeller(sellerId?: string) {
     queryKey: ["sellersData"],
     queryFn: sellerService.list,
     enabled: isAuthenticated,
+    refetchInterval: 5000,
   });
 
   const querySeller = useQuery({

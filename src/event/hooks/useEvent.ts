@@ -8,6 +8,7 @@ export function useEvent(eventId?: string) {
     queryKey: ["eventsData"],
     queryFn: eventService.list,
     enabled: isAuthenticated,
+    refetchInterval: 5000,
   });
 
   const queryEvent = useQuery({

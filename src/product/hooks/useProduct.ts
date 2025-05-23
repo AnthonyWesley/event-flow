@@ -8,6 +8,7 @@ export default function useProduct(productId?: string) {
     queryKey: ["productsData"],
     queryFn: productService.list,
     enabled: isAuthenticated,
+    refetchInterval: 5000,
   });
 
   const queryProduct = useQuery({
