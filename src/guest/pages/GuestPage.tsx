@@ -91,10 +91,13 @@ export default function GuestPage() {
         />
         <div className="flex w-20 items-start justify-center border-r border-l border-gray-500/25 pl-2 text-4xl">
           <h1>
-            {currentEvent?.allSellers?.findIndex(
-              (s: any) => s.name === seller?.guest?.name,
-            ) + 1}
+            {Array.isArray(currentEvent?.allSellers)
+              ? currentEvent.allSellers.findIndex(
+                  (s: any) => s.name === seller?.guest?.name,
+                ) + 1
+              : "-"}
           </h1>
+
           <p className="text-base">º</p>
         </div>
         <Modal id="GuestPageSaleForm" icon="carbon:shopping-cart-plus">
@@ -129,21 +132,25 @@ export default function GuestPage() {
       <div className={`w-full lg:flex`}>
         <div className="w-full rounded-sm border-t-4 border-b-4 border-rose-500 bg-slate-900/50">
           <h1 className="bg-rose-500 p-2">Minhas vendas</h1>
-          <div className="h-[35vh] overflow-y-scroll lg:h-[45vh]">
-            <SaleList
-              sales={seller.guest.sales}
-              sellers={currentEvent?.allSellers}
-              products={products}
-              isGuest
-            />
-          </div>
+          {seller?.guest?.sales.length > 0 && (
+            <div className="h-[35vh] overflow-y-scroll lg:h-[45vh]">
+              <SaleList
+                sales={seller?.guest?.sales}
+                sellers={currentEvent?.allSellers}
+                products={products}
+                isGuest
+              />
+            </div>
+          )}
         </div>
         <span className="p-2"></span>
         <div className="pointer-events-none w-full rounded-sm border-t-4 border-b-4 border-cyan-800 bg-slate-900/50">
           <h1 className="bg-cyan-800 p-2">Rankig</h1>
-          <div className="pointer-events-auto h-[35vh] overflow-y-scroll lg:h-[45vh]">
-            <RankingDisplay event={currentEvent} disable />
-          </div>
+          {currentEvent && (
+            <div className="pointer-events-auto h-[35vh] overflow-y-scroll lg:h-[45vh]">
+              <RankingDisplay event={currentEvent} disable />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ export default function useGuest(eventId: string, sellerId: string) {
   const queryGuest = useQuery({
     queryKey: ["guestData", eventId, sellerId],
     queryFn: () => guestService.getGuest(eventId, sellerId),
-    enabled: isAuthenticated,
+    enabled: isAuthenticated && !!eventId && !!sellerId,
   });
 
   return { queryGuest };
