@@ -25,8 +25,9 @@ export default function SaleList({
   products,
   isGuest,
 }: SaleListProps) {
-  const sortedItems = [...sales].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  const sortedItems = [...sales]?.sort(
+    (a, b) =>
+      new Date(b.createdAt)?.getTime() - new Date(a.createdAt)?.getTime(),
   );
   return (
     <ul role="list" className="w-full rounded-sm border-b border-gray-100/15">

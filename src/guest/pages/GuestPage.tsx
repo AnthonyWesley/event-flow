@@ -13,14 +13,13 @@ import { goalUtils } from "../../helpers/goalUtils";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { CircularProgress } from "../../components/CircularProgress";
 import { useParams } from "react-router-dom";
-import { SaleOutputDto } from "../../sale/services/saleService";
 import useGuest from "../hooks/useGuest";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function GuestPage() {
   // const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
 
-  const [isReady, setIsReady] = useState(false);
+  // const [isReady, setIsReady] = useState(false);
   const { eventId, sellerId } = useParams<{
     eventId: string;
     sellerId: string;
@@ -36,51 +35,51 @@ export default function GuestPage() {
   } = useEvent();
 
   const {
-    queryProducts: { data: products },
+    queryProducts: { data: products, isLoading: isProductLoading },
   } = useProduct();
 
+  // useEffect(() => {
+  //   sessionStorage.setItem("accessToken", seller.token.accessToken);
+  //   setIsReady(true);
+  // }, []);
+
   useEffect(() => {
-    sessionStorage.setItem("accessToken", seller.token.accessToken);
-    setIsReady(true);
+    const token = new URLSearchParams(window.location.search).get("token");
+
+    if (token) {
+      sessionStorage.setItem("accessToken", token);
+    }
   }, []);
 
-  console.log(seller.token);
+  if (isEventLoading) return <Spin />;
+  if (isProductLoading) return <Spin />;
+  if (isSellerLoading) return <Spin />;
+  if (error) return "An error has occurred: " + error.message;
 
-  const allSalesBySeller = currentEvent?.sales.filter(
-    (sa: SaleOutputDto) => sa.sellerId === sellerId,
-  );
-
+  const isValueGoal = currentEvent?.goalType === "VALUE";
+  const currentProgress =
+    seller?.guest?.[isValueGoal ? "totalSalesValue" : "totalSalesCount"];
   const goal = goalUtils.calculateSellerGoal(
     currentEvent?.allSellers,
     currentEvent?.goal ?? 0,
   );
-  const isValueGoal = currentEvent?.goalType === "VALUE";
-
-  if (!isReady) return <Spin />;
-
-  if (isSellerLoading) return <Spin />;
-  if (isEventLoading) return <Spin />;
-  if (error) return "An error has occurred: " + error.message;
-
-  const currentProgress = isValueGoal
-    ? seller?.guest?.totalSalesValue
-    : seller?.guest?.totalSalesCount;
   const goalLabel = isValueGoal ? currencyFormatter.ToBRL(goal) : `${goal}`;
+  const goalColor = goalUtils.handleGoalAchieved(currentProgress, goal);
 
   return (
     <div className="flex flex-col">
       <FlexSection className="flex-row gap-2 bg-slate-900">
-        <Avatar name={seller.guest?.name} />
+        <Avatar name={seller?.guest?.name} />
         <div className="flex w-full flex-col items-start justify-evenly lg:flex-row">
           <InfoLine
-            value={seller.guest?.name?.split(" ").slice(0, 2).join(" ")}
+            value={seller?.guest?.name?.split(" ").slice(0, 2).join(" ")}
             size="base"
           />
-          <InfoLine label="E-mail:" value={seller.guest.email} size="sm" />
-          <InfoLine label="Telefone:" value={seller.guest.phone} size="sm" />
+          <InfoLine label="E-mail:" value={seller?.guest.email} size="sm" />
+          <InfoLine label="Telefone:" value={seller?.guest.phone} size="sm" />
         </div>
         <Modal id="GuestPageSellerForm" icon="carbon:edit">
-          <SellerForm seller={seller.guest} />
+          <SellerForm seller={seller?.guest} />
         </Modal>
       </FlexSection>
       <FlexSection className="flex-row bg-slate-900">
@@ -92,8 +91,8 @@ export default function GuestPage() {
         />
         <div className="flex w-20 items-start justify-center border-r border-l border-gray-500/25 pl-2 text-4xl">
           <h1>
-            {currentEvent.allSellers.findIndex(
-              (s: any) => s.name === seller.guest.name,
+            {currentEvent?.allSellers?.findIndex(
+              (s: any) => s.name === seller?.guest?.name,
             ) + 1}
           </h1>
           <p className="text-base">º</p>
@@ -103,31 +102,26 @@ export default function GuestPage() {
         </Modal>
       </FlexSection>
       <FlexSection className="my-2 flex-row justify-start border-t border-b border-gray-400/15">
-        {/* <InfoLine label="Vendas:" value={event?.name} /> */}
-        <CircularProgress
-          total={goal}
-          current={currentProgress}
-          // color={goalColor}
-        />
+        <CircularProgress total={goal} current={currentProgress} />
         <FlexSection className="items-start">
           <InfoLine
             label="Meta:"
             value={goalLabel}
             icon={!isValueGoal ? "iconoir:box-iso" : ""}
-            // color={goalColor}
+            color={goalColor}
           />
 
           <InfoLine
             label="Vendas:"
-            value={seller.guest?.totalSalesCount}
+            value={seller?.guest?.totalSalesCount}
             icon="iconoir:box-iso"
-            // color={!isValueGoal ? goalColor : ""}
+            color={!isValueGoal ? goalColor : ""}
           />
 
           <InfoLine
             label="Total:"
-            value={currencyFormatter.ToBRL(seller.guest?.totalSalesValue)}
-            // color={isValueGoal ? goalColor : ""}
+            value={currencyFormatter.ToBRL(seller?.guest?.totalSalesValue)}
+            color={goalColor}
           />
         </FlexSection>
       </FlexSection>
@@ -137,8 +131,8 @@ export default function GuestPage() {
           <h1 className="bg-rose-500 p-2">Minhas vendas</h1>
           <div className="h-[35vh] overflow-y-scroll lg:h-[45vh]">
             <SaleList
-              sales={allSalesBySeller}
-              sellers={currentEvent.allSellers}
+              sales={seller.guest.sales}
+              sellers={currentEvent?.allSellers}
               products={products}
               isGuest
             />

@@ -40,7 +40,7 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
     name: product.name,
   }));
 
-  const isGuestSeller = currentEvent.allSellers.filter(
+  const isGuestSeller = currentEvent?.allSellers.filter(
     (se: SellerOutputDto) => se.id === guestId,
   );
 

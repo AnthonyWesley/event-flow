@@ -47,6 +47,8 @@ export const guestService = {
 
   getGuest: async (eventId: string, sellerId: string) => {
     const response = await api.get(`/events/${eventId}/guest/${sellerId}`);
+    // sessionStorage.setItem("accessToken", response.data.token.accessToken);
+    // console.log(response.data);
 
     return response.data;
   },

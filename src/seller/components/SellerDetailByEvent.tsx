@@ -13,6 +13,7 @@ import Modal from "../../components/Modal";
 import { CircularProgress } from "../../components/CircularProgress";
 import { useModalStore } from "../../store/useModalStore";
 import CopyToClipboard from "../../components/CopyToClipboard";
+import { useState, useEffect } from "react";
 
 interface SellerDetailByEventProps {
   seller: {
@@ -44,7 +45,7 @@ export default function SellerDetailByEvent({
   goalLabel,
   index,
 }: SellerDetailByEventProps) {
-  // const [token, setToken] = useState(sessionStorage.getItem("accessToken"));
+  const [token, setToken] = useState(sessionStorage.getItem("accessToken"));
   const { deleteSeller } = useSellerMutations();
   const {
     queryProducts: { data: products = [] },
@@ -57,9 +58,9 @@ export default function SellerDetailByEvent({
     (sale: any) => sale.sellerId === seller.id,
   );
 
-  // useEffect(() => {
-  //   setToken(sessionStorage.getItem("accessToken"));
-  // }, []);
+  useEffect(() => {
+    setToken(sessionStorage.getItem("accessToken"));
+  }, []);
 
   return (
     <div className="w-full">
@@ -146,7 +147,8 @@ export default function SellerDetailByEvent({
           </FlexSection>
           <div className="ml-auto">
             <CopyToClipboard
-              text={`https://event-flow-api.vercel.app/events/${event.id}/guest/${seller.id}`}
+              // text={`https://event-flow-api.vercel.app/events/${event.id}/guest/${seller.id}`}
+              text={`http://localhost:5173/events/${event.id}/guest/${seller.id}?token=${token}`}
               label="Copiar Convite"
             />
           </div>
