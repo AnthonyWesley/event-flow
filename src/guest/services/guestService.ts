@@ -52,22 +52,6 @@ export const guestService = {
 
     return response.data;
   },
-  // createOrAttachToEvent: async (eventId: string, data: GuestInputDto) => {
-  //   let seller;
-
-  //   try {
-  //     const response = await api.get(`/sellers/email/${data.email}`);
-  //     seller = response.data;
-  //   } catch (error) {
-  //     const created = await api.post(`/sellers`, data);
-
-  //     seller = created.data;
-  //   } finally {
-  //     if (eventId) await api.post(`/events/${eventId}/sellers/${seller.id}`);
-  //   }
-
-  //   return seller;
-  // },
 
   update: async (
     actionType: "CREATE_SALE" | "UPDATE_SALE" | "DELETE_SALE",

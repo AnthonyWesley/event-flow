@@ -169,15 +169,16 @@ export default function PendingModal() {
                   approve.mutate({ pendingActionId: sale.id, approve: true })
                 }
               >
-                Aceitar
+                {approve.isPending ? "..." : "Aprovar"}
               </button>
+
               <button
                 className="w-full rounded-md bg-rose-600 px-3 py-1.5 text-sm text-white hover:bg-rose-500"
                 onClick={() =>
                   approve.mutate({ pendingActionId: sale.id, approve: false })
                 }
               >
-                Recusar
+                {approve.isPending ? "..." : "Recusar"}
               </button>
             </div>
           </li>

@@ -47,7 +47,6 @@ export function SaleItem({
   const seller = sellers.find((s) => s.id === sale.sellerId);
   const product = products?.find((p) => p.id === sale.productId);
   const { deleteSale } = useSaleMutations();
-
   return (
     <li
       key={sale.id}
@@ -59,7 +58,16 @@ export function SaleItem({
             <p className="mt-1 truncate text-xs/5 text-gray-300">
               {sale.quantity}x {product?.name}
             </p>
-            <p className="text-sm/6 font-semibold">{seller?.name}</p>
+            {!isGuest && (
+              <p className="text-sm/6 font-semibold">
+                {seller?.name?.split(" ").slice(0, 1).join(" ")}
+              </p>
+            )}
+            {isGuest && (
+              <p className="text-sm/6 font-semibold">
+                {/* {seller?.name?.split(" ").slice(0, 1).join(" ")} */}-
+              </p>
+            )}
           </div>
         </div>
         <div className="shrink-0 sm:flex sm:flex-col sm:items-end">
@@ -80,7 +88,8 @@ export function SaleItem({
             }
           >
             <Icon
-              icon="material-symbols:delete-sweep-outline-sharp"
+              icon={`${deleteSale.isPending ? "eos-icons:loading" : "material-symbols:delete-sweep-outline-sharp"}`}
+              // icon={`"material-symbols:delete-sweep-outline-sharp"`}
               width="25"
             />
           </div>
