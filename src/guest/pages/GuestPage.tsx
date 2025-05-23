@@ -15,11 +15,12 @@ import { CircularProgress } from "../../components/CircularProgress";
 import { useParams } from "react-router-dom";
 import { SaleOutputDto } from "../../sale/services/saleService";
 import useGuest from "../hooks/useGuest";
+import { useEffect, useState } from "react";
 
 export default function GuestPage() {
   // const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
 
-  // const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const { eventId, sellerId } = useParams<{
     eventId: string;
     sellerId: string;
@@ -38,10 +39,12 @@ export default function GuestPage() {
     queryProducts: { data: products },
   } = useProduct();
 
-  // useEffect(() => {
-  //   if (partnerToken) sessionStorage.setItem("accessToken", partnerToken);
-  //   setIsReady(true);
-  // }, [partnerToken]);
+  useEffect(() => {
+    sessionStorage.setItem("accessToken", seller.token.accessToken);
+    setIsReady(true);
+  }, []);
+
+  console.log(seller.token);
 
   const allSalesBySeller = currentEvent?.sales.filter(
     (sa: SaleOutputDto) => sa.sellerId === sellerId,
@@ -53,7 +56,7 @@ export default function GuestPage() {
   );
   const isValueGoal = currentEvent?.goalType === "VALUE";
 
-  // if (!isReady) return <Spin />;
+  if (!isReady) return <Spin />;
 
   if (isSellerLoading) return <Spin />;
   if (isEventLoading) return <Spin />;
