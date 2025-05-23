@@ -21,9 +21,9 @@ export function formatPhoneNumber(value: string): string {
 
 export default function AuthForm({ isLogin, onSubmit, isLoading }: Props) {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("parceiro1@email.com");
   const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("S&nh@1234");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
