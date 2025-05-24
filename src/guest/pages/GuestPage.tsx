@@ -17,14 +17,10 @@ import useGuest from "../hooks/useGuest";
 import { useEffect } from "react";
 
 export default function GuestPage() {
-  // const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
-
-  // const [isReady, setIsReady] = useState(false);
   const { eventId, sellerId } = useParams<{
     eventId: string;
     sellerId: string;
   }>();
-  // const [searchParams] = useSearchParams();
 
   const {
     queryGuest: { data: seller, isLoading: isSellerLoading, error },
@@ -38,11 +34,6 @@ export default function GuestPage() {
     queryProducts: { data: products, isLoading: isProductLoading },
   } = useProduct();
 
-  // useEffect(() => {
-  //   sessionStorage.setItem("accessToken", seller.token.accessToken);
-  //   setIsReady(true);
-  // }, []);
-
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token");
 
@@ -54,7 +45,7 @@ export default function GuestPage() {
   if (isEventLoading) return <Spin />;
   if (isProductLoading) return <Spin />;
   if (isSellerLoading) return <Spin />;
-  if (error) return "An error has occurred: " + error.message;
+  // if (error) return "An error has occurred: " + error.message;
 
   const isValueGoal = currentEvent?.goalType === "VALUE";
   const currentProgress =
@@ -65,6 +56,19 @@ export default function GuestPage() {
   );
   const goalLabel = isValueGoal ? currencyFormatter.ToBRL(goal) : `${goal}`;
   const goalColor = goalUtils.handleGoalAchieved(currentProgress, goal);
+
+  if (error) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-900 text-white">
+        <div className="space-y-2 text-center">
+          <h1 className="text-2xl font-bold">Participante não encontrado</h1>
+          <p className="text-lg">
+            Esse evento pode ter sido removido ou o link está incorreto.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col">
