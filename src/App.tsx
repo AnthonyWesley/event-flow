@@ -19,6 +19,7 @@ import GuestPage from "./guest/pages/GuestPage";
 import PendingModal from "./components/PendingModal";
 import { PRIVATE_ROUTES } from "./constants/privateRoutes";
 import { PUBLIC_ROUTES } from "./constants/publicRoutes";
+import ErrorPage from "./auth/pages/ErrorPage";
 
 export default function App() {
   const location = useLocation();
@@ -81,34 +82,15 @@ export default function App() {
           />
           <Route path="auth" element={<AuthPage />} />
           <Route path="pricing" element={<Pricing />} />
+          {/* Páginas específicas de erro */}
+          <Route path="/unauthorized" element={<ErrorPage code={401} />} />
+          <Route path="/not-found" element={<ErrorPage code={404} />} />
+
+          {/* Catch-all para 404 */}
+          <Route path="*" element={<ErrorPage code={404} />} />
         </Routes>
       </main>
       <Footer />
     </div>
   );
-}
-
-{
-  /* {dataUser?.name && <FooterNav />}
-  <Routes>
-    <Route path="/" element={<PrivateRoutes />}>
-      <Route index element={<Home />} />
-      <Route path="record/:id" element={<Records />} />
-      <Route path="accounts" element={<Accounts />} />
-      <Route path="movements" element={<Movements />} />
-      <Route path="categories" element={<Categories />} />
-    </Route>
-
-    <Route path="login" element={<UserAuth />} />
-  </Routes>
-  {dataUser?.name && <HeaderNav />}
-
-  <Toast />
-  <Confirm /> */
-}
-{
-  /* {!isAuthPage && <Navbar />} */
-}
-{
-  /* {!isAuthPage && <Footer />} */
 }

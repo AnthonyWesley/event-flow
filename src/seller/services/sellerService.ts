@@ -1,4 +1,4 @@
-import api from "../../api/axios";
+import partnerApi from "../../api/axios";
 
 export type SellerInputDto = {
   name: string;
@@ -17,7 +17,7 @@ export type SellerOutputDto = {
 
 export const sellerService = {
   create: async (data: SellerInputDto) => {
-    const response = await api.post(`/sellers/`, data);
+    const response = await partnerApi.post(`/sellers/`, data);
     return response.data;
   },
 
@@ -25,16 +25,16 @@ export const sellerService = {
     let seller;
 
     try {
-      const response = await api.get(`/sellers/email/${data.email}`);
+      const response = await partnerApi.get(`/sellers/email/${data.email}`);
       seller = response.data;
     } catch (error) {
-      const created = await api.post(`/sellers`, data);
+      const created = await partnerApi.post(`/sellers`, data);
       seller = created.data;
     }
 
     try {
       if (eventId) {
-        await api.post(`/events/${eventId}/sellers/${seller.id}`);
+        await partnerApi.post(`/events/${eventId}/sellers/${seller.id}`);
       }
     } catch (err) {
       console.warn("Vínculo já existe ou não pôde ser criado", err);
@@ -44,28 +44,30 @@ export const sellerService = {
   },
 
   deleteToEvent: async (sellerId: string, eventId: string) => {
-    const response = await api.delete(`/events/${eventId}/sellers/${sellerId}`);
+    const response = await partnerApi.delete(
+      `/events/${eventId}/sellers/${sellerId}`,
+    );
 
     return response.data;
   },
 
   list: async () => {
-    const response = await api.get(`/sellers/`);
+    const response = await partnerApi.get(`/sellers/`);
     return response.data.sellers;
   },
 
   findOne: async (sellerId: string) => {
-    const response = await api.get(`/sellers/${sellerId}`);
+    const response = await partnerApi.get(`/sellers/${sellerId}`);
     return response.data;
   },
 
   update: async (sellerId: string, data: SellerInputDto) => {
-    const response = await api.put(`/sellers/${sellerId}`, data);
+    const response = await partnerApi.put(`/sellers/${sellerId}`, data);
     return response.data.sellers;
   },
 
   delete: async (sellerId: string) => {
-    const response = await api.delete(`/sellers/${sellerId}`);
+    const response = await partnerApi.delete(`/sellers/${sellerId}`);
     return response.data.sellers;
   },
 };

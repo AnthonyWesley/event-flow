@@ -1,4 +1,4 @@
-import api from "../../api/axios";
+import partnerApi from "../../api/axios";
 
 export interface LoginPayload {
   email: string;
@@ -13,7 +13,7 @@ export interface RegisterPayload extends LoginPayload {
 
 export const authService = {
   login: async (data: LoginPayload) => {
-    const response = await api.post("/auth/login", data);
+    const response = await partnerApi.post("/auth/login", data);
     const { accessToken } = response.data.output.token;
 
     sessionStorage.setItem("accessToken", accessToken);
@@ -21,7 +21,7 @@ export const authService = {
   },
   register: async (data: RegisterPayload) => {
     try {
-      const response = await api.post("/auth/register", {
+      const response = await partnerApi.post("/auth/register", {
         name: data.name,
         email: data.email,
         phone: data.phone,

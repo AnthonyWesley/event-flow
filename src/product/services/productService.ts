@@ -1,4 +1,4 @@
-import api from "../../api/axios";
+import partnerApi from "../../api/axios";
 
 export type ProductInputDto = {
   name: string;
@@ -12,27 +12,27 @@ export type ProductOutputDto = {
 
 export const productService = {
   create: async (data: ProductInputDto) => {
-    const response = await api.post(`/products/`, data);
+    const response = await partnerApi.post(`/products/`, data);
     return response.data;
   },
 
   list: async () => {
-    const response = await api.get(`/products/`);
+    const response = await partnerApi.get(`/products/`);
     return response.data.products;
   },
 
   findOne: async (productId: string) => {
-    const response = await api.get(`/products/${productId}`);
+    const response = await partnerApi.get(`/products/${productId}`);
     return response.data;
   },
 
   update: async (productId: string, data: ProductInputDto) => {
-    const response = await api.put(`/products/${productId}`, data);
+    const response = await partnerApi.put(`/products/${productId}`, data);
     return response.data.products;
   },
 
   delete: async (productId: string) => {
-    const response = await api.delete(`/products/${productId}`);
+    const response = await partnerApi.delete(`/products/${productId}`);
     return response.data.products;
   },
 };

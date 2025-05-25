@@ -1,4 +1,4 @@
-import api from "../../api/axios";
+import partnerApi from "../../api/axios";
 import { SellersType } from "../../ranking/components/RankingDisplay";
 
 export type GoalType = "QUANTITY" | "VALUE";
@@ -26,17 +26,17 @@ export type EventInputDto = {
 
 export const eventService = {
   findOne: async (eventId: string) => {
-    const response = await api.get(`/events/${eventId}`);
+    const response = await partnerApi.get(`/events/${eventId}`);
     return response.data;
   },
 
   list: async () => {
-    const response = await api.get("/events");
+    const response = await partnerApi.get("/events");
     return response.data.events;
   },
 
   listSellerEvent: async (eventId: string, sellerId: string) => {
-    const response = await api.get(
+    const response = await partnerApi.get(
       `/events/${eventId}/sellers/${sellerId}/sellerEvents`,
     );
 
@@ -44,22 +44,22 @@ export const eventService = {
   },
 
   create: async (data: EventInputDto) => {
-    const response = await api.post("/events", data);
+    const response = await partnerApi.post("/events", data);
     return response.data.events;
   },
 
   update: async (eventId: string, data: EventInputDto) => {
-    const response = await api.put(`/events/${eventId}`, data);
+    const response = await partnerApi.put(`/events/${eventId}`, data);
     return response.data.events;
   },
 
   delete: async (eventId: string) => {
-    const response = await api.delete(`/events/${eventId}`);
+    const response = await partnerApi.delete(`/events/${eventId}`);
     return response.data.events;
   },
 
   switchStatus: async (eventId: string) => {
-    const response = await api.patch(`/events/${eventId}/toggle-end`);
+    const response = await partnerApi.patch(`/events/${eventId}/toggle-end`);
     return response.data.events;
   },
 };

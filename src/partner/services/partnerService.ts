@@ -1,4 +1,4 @@
-import api from "../../api/axios";
+import partnerApi from "../../api/axios";
 
 type ApproveOrRejectType = {
   pendingActionId: string;
@@ -14,19 +14,19 @@ export type PartnerOutputDto = {
 };
 export const partnerService = {
   findPartner: async () => {
-    const response = await api.get("/auth/me");
+    const response = await partnerApi.get("/auth/me");
     //   const { accessToken } = response.data;
     //   sessionStorage.setItem("accessToken", accessToken);
     return response.data;
   },
 
   getNotification: async () => {
-    const response = await api.get(`/pending-action/`);
+    const response = await partnerApi.get(`/pending-action/`);
     return response.data.listPendingActions;
   },
 
   approve: async (approveOrReject: ApproveOrRejectType) => {
-    const response = await api.post(
+    const response = await partnerApi.post(
       `/pending-action/approve-reject`,
       approveOrReject,
     );
@@ -34,7 +34,7 @@ export const partnerService = {
   },
 
   update: async (partnerId: string, data: any) => {
-    const response = await api.put(`/partner/${partnerId}`, data);
+    const response = await partnerApi.put(`/partner/${partnerId}`, data);
     return response.data;
   },
 };

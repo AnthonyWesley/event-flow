@@ -1,4 +1,4 @@
-import api from "../../api/axios";
+import partnerApi from "../../api/axios";
 
 export type GuestInputDto = {
   targetId?: string;
@@ -30,7 +30,7 @@ export const guestService = {
     actionType: "CREATE_SALE" | "UPDATE_SALE" | "DELETE_SALE",
     data: Payload,
   ) => {
-    const response = await api.post(`/pending-action/`, {
+    const response = await partnerApi.post(`/pending-action/`, {
       eventId: data.eventId,
       sellerId: data.sellerId,
       actionType,
@@ -46,7 +46,9 @@ export const guestService = {
   },
 
   getGuest: async (eventId: string, sellerId: string) => {
-    const response = await api.get(`/events/${eventId}/guest/${sellerId}`);
+    const response = await partnerApi.get(
+      `/events/${eventId}/guest/${sellerId}`,
+    );
     // sessionStorage.setItem("accessToken", response.data.token.accessToken);
     // console.log(response.data);
 
@@ -58,7 +60,7 @@ export const guestService = {
     data: Payload,
     targetId: string,
   ) => {
-    const response = await api.post(`/pending-action/`, {
+    const response = await partnerApi.post(`/pending-action/`, {
       targetId,
       eventId: data.eventId,
       sellerId: data.sellerId,
@@ -74,7 +76,9 @@ export const guestService = {
   },
 
   sendInvitation: async (eventId: string, sellerId: string) => {
-    const response = await api.post(`/events/${eventId}/guest/${sellerId}`);
+    const response = await partnerApi.post(
+      `/events/${eventId}/guest/${sellerId}`,
+    );
     return response.data.sellers;
   },
 
@@ -83,7 +87,7 @@ export const guestService = {
     data: Payload,
     targetId: string,
   ) => {
-    const response = await api.post(`/pending-action/`, {
+    const response = await partnerApi.post(`/pending-action/`, {
       targetId,
       eventId: data.eventId,
       sellerId: data.sellerId,
