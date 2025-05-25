@@ -82,11 +82,8 @@ export default function App() {
           />
           <Route path="auth" element={<AuthPage />} />
           <Route path="pricing" element={<Pricing />} />
-          {/* Páginas específicas de erro */}
           <Route path="/unauthorized" element={<ErrorPage code={401} />} />
-          <Route path="/not-found" element={<ErrorPage code={404} />} />
-
-          {/* Catch-all para 404 */}
+          <Route path="/not-found" element={<ErrorPage code={403} />} />
           <Route path="*" element={<ErrorPage code={404} />} />
         </Routes>
       </main>

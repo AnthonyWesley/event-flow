@@ -46,6 +46,11 @@ export default function GuestPage() {
   if (isProductLoading) return <Spin />;
   if (isSellerLoading) return <Spin />;
   // if (error) return "An error has occurred: " + error.message;
+  const currentIndex = Array.isArray(currentEvent?.allSellers)
+    ? currentEvent.allSellers.findIndex(
+        (s: any) => s.name === seller?.guest?.name,
+      ) + 1
+    : "-";
 
   const isValueGoal = currentEvent?.goalType === "VALUE";
   const currentProgress =
@@ -93,16 +98,14 @@ export default function GuestPage() {
           size="lg"
           line="col"
         />
-        <div className="flex w-20 items-start justify-center border-r border-l border-gray-500/25 pl-2 text-4xl">
-          <h1>
-            {Array.isArray(currentEvent?.allSellers)
-              ? currentEvent.allSellers.findIndex(
-                  (s: any) => s.name === seller?.guest?.name,
-                ) + 1
-              : "-"}
+        <div className="flex w-20 items-start justify-center rounded-full border border-gray-500/25 pl-2 text-4xl">
+          <h1 className={`${goalUtils.podiumColor(currentIndex)}`}>
+            {currentIndex}
           </h1>
 
-          <p className="text-base">º</p>
+          <p className={`text-base ${goalUtils.podiumColor(currentIndex)}`}>
+            º
+          </p>
         </div>
         <Modal id="GuestPageSaleForm" icon="carbon:shopping-cart-plus">
           <SaleForm eventId={currentEvent?.id} guestId={sellerId} isGuest />
