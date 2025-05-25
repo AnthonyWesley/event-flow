@@ -160,7 +160,7 @@ export default function RankingPage() {
                 {/* </p> */}
               </div>
               <div
-                className={`overflow-y-scroll border-t-4 bg-slate-900 lg:h-[65vh] ${list === "SALES" ? "border-rose-500" : "border-cyan-800"}`}
+                className={`h-[35vh] overflow-y-scroll border-t-4 bg-slate-900 lg:h-[65vh] ${list === "SALES" ? "border-rose-500" : "border-cyan-800"}`}
               >
                 {list === "SALES" &&
                   currentEvent.allSellers &&

@@ -54,9 +54,9 @@ export default function Modal({
         <div className="relative flex max-h-[90vh] w-full max-w-lg flex-col items-center justify-center overflow-auto rounded-lg border-white/90 text-white">
           <Icon
             onClick={() => closeModal(id)}
-            className="absolute top-0 z-40 mb-20 cursor-pointer self-end transition-all hover:text-red-600"
+            className="absolute top-3 right-2 z-40 cursor-pointer self-end transition-all hover:text-red-600"
             icon="line-md:close-small"
-            width={30}
+            width={25}
           />
           {children}
         </div>

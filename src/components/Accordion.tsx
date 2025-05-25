@@ -36,7 +36,7 @@ export default function Accordion({
             icon="line-md:chevron-small-left"
             className="cursor-pointer rounded-sm transition-transform duration-500"
             style={{ transform: isOpen ? "rotate(270deg)" : "rotate(0deg)" }}
-            width={20}
+            width={30}
             onClick={() => setIsOpen(!isOpen)}
           />
         )}
