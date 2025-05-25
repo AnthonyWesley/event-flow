@@ -45,7 +45,7 @@ export default function SellerDetailByEvent({
   goalLabel,
   index,
 }: SellerDetailByEventProps) {
-  const [token, setToken] = useState(sessionStorage.getItem("accessToken"));
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
   const { deleteSeller } = useSellerMutations();
   const {
     queryProducts: { data: products = [] },
@@ -59,7 +59,7 @@ export default function SellerDetailByEvent({
   );
 
   useEffect(() => {
-    setToken(sessionStorage.getItem("accessToken"));
+    setToken(localStorage.getItem("accessToken"));
   }, []);
 
   return (
