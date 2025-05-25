@@ -7,7 +7,9 @@ const partnerApi = axios.create({
 
 partnerApi.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem("accessToken");
+    const token = localStorage.getItem("accessToken");
+    // sessionStorage.getItem("accessToken");
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -37,7 +39,8 @@ partnerApi.interceptors.response.use(
 
     if (error.response?.status === 401 && isGuest) {
       // await partnerApi.post("/auth/logout");
-      sessionStorage.removeItem("accessToken");
+      localStorage.removeItem("accessToken");
+      // sessionStorage.removeItem("accessToken");
       window.location.href = "/unauthorized";
       return Promise.reject(error);
     }
@@ -61,8 +64,8 @@ partnerApi.interceptors.response.use(
       try {
         const response = await partnerApi.post("/auth/refresh");
         const newAccessToken = response.data.accessToken;
-
-        sessionStorage.setItem("accessToken", newAccessToken);
+        localStorage.setItem("accessToken", newAccessToken);
+        // sessionStorage.setItem("accessToken", newAccessToken);
         partnerApi.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
 
         processQueue(null, newAccessToken);
@@ -70,7 +73,8 @@ partnerApi.interceptors.response.use(
       } catch (err) {
         processQueue(err, null);
         await partnerApi.post("/auth/logout");
-        sessionStorage.removeItem("accessToken");
+        // sessionStorage.removeItem("accessToken");
+        localStorage.removeItem("accessToken");
 
         window.location.href = "/auth";
 

@@ -16,7 +16,8 @@ export const authService = {
     const response = await partnerApi.post("/auth/login", data);
     const { accessToken } = response.data.output.token;
 
-    sessionStorage.setItem("accessToken", accessToken);
+    // sessionStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("accessToken", accessToken);
     return response.data;
   },
   register: async (data: RegisterPayload) => {
@@ -32,7 +33,8 @@ export const authService = {
       const token = response.data?.output?.token?.accessToken;
 
       if (token) {
-        sessionStorage.setItem("accessToken", token);
+        // sessionStorage.setItem("accessToken", token);
+        localStorage.setItem("accessToken", token);
       }
 
       return response.data;

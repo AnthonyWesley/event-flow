@@ -23,7 +23,8 @@ import ErrorPage from "./auth/pages/ErrorPage";
 
 export default function App() {
   const location = useLocation();
-  const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
+  const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
+
   const isGuestPage = matchPath(
     "events/:eventId/guest/:sellerId",
     location.pathname,

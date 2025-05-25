@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { partnerService } from "../services/partnerService";
 
 export default function usePartner() {
-  const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
+  const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
 
   const queryPartner = useQuery({
     queryKey: ["partnerData"],

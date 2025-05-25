@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { EventOutputDto, eventService } from "../services/eventService";
 
 export function useEvent(eventId?: string) {
-  const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
+  const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
 
   const queryEvents = useQuery({
     queryKey: ["eventsData"],

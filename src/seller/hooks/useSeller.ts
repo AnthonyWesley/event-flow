@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { sellerService } from "../services/sellerService";
 
 export default function useSeller(sellerId?: string) {
-  const isAuthenticated = Boolean(sessionStorage.getItem("accessToken"));
+  const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
 
   const querySellers = useQuery({
     queryKey: ["sellersData"],
