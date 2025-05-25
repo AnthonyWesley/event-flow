@@ -15,6 +15,7 @@ import { CircularProgress } from "../../components/CircularProgress";
 import { useParams } from "react-router-dom";
 import useGuest from "../hooks/useGuest";
 import { useEffect } from "react";
+import Accordion from "../../components/Accordion";
 
 export default function GuestPage() {
   const { eventId, sellerId } = useParams<{
@@ -80,12 +81,33 @@ export default function GuestPage() {
       <FlexSection className="flex-row gap-2 bg-slate-900">
         <Avatar name={seller?.guest?.name} />
         <div className="flex w-full flex-col items-start justify-evenly lg:flex-row">
-          <InfoLine
-            value={seller?.guest?.name?.split(" ").slice(0, 2).join(" ")}
-            size="base"
+          <Accordion
+            title={
+              <InfoLine
+                label="Convidado:"
+                value={seller?.guest?.name?.split(" ").slice(0, 2).join(" ")}
+                size="base"
+                line="col"
+              />
+            }
+            // icon="..."
+            content={
+              <>
+                <InfoLine
+                  label="E-mail:"
+                  value={seller?.guest.email}
+                  size="sm"
+                  line="col"
+                />
+                <InfoLine
+                  label="Telefone:"
+                  value={seller?.guest.phone}
+                  size="sm"
+                  line="col"
+                />
+              </>
+            }
           />
-          <InfoLine label="E-mail:" value={seller?.guest.email} size="sm" />
-          <InfoLine label="Telefone:" value={seller?.guest.phone} size="sm" />
         </div>
         <Modal id="GuestPageSellerForm" icon="carbon:edit">
           <SellerForm seller={seller?.guest} />
@@ -98,7 +120,8 @@ export default function GuestPage() {
           size="lg"
           line="col"
         />
-        <div className="flex w-20 items-start justify-center rounded-full border border-gray-500/25 pl-2 text-4xl">
+
+        <div className="flex w-20 items-start justify-center border-gray-500/25 pl-2 text-4xl">
           <h1 className={`${goalUtils.podiumColor(currentIndex)}`}>
             {currentIndex}
           </h1>
@@ -107,13 +130,11 @@ export default function GuestPage() {
             º
           </p>
         </div>
-        <Modal id="GuestPageSaleForm" icon="carbon:shopping-cart-plus">
-          <SaleForm eventId={currentEvent?.id} guestId={sellerId} isGuest />
-        </Modal>
       </FlexSection>
       <FlexSection className="my-2 flex-row justify-start border-t border-b border-gray-400/15">
         <CircularProgress total={goal} current={currentProgress} />
-        <FlexSection className="items-start">
+
+        <FlexSection className="w-full items-start justify-start">
           <InfoLine
             label="Meta:"
             value={goalLabel}
@@ -134,13 +155,16 @@ export default function GuestPage() {
             color={goalColor}
           />
         </FlexSection>
+        <Modal id="GuestPageSaleForm" icon="carbon:shopping-cart-plus">
+          <SaleForm eventId={currentEvent?.id} guestId={sellerId} isGuest />
+        </Modal>
       </FlexSection>
 
       <div className={`w-full lg:flex`}>
         <div className="w-full rounded-sm border-t-4 border-b-4 border-rose-500 bg-slate-900/50">
           <h1 className="bg-rose-500 p-2">Minhas vendas</h1>
           {seller?.guest?.sales.length > 0 && (
-            <div className="h-[35vh] overflow-y-scroll lg:h-[45vh]">
+            <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
               <SaleList
                 sales={seller?.guest?.sales}
                 sellers={currentEvent?.allSellers}
@@ -154,7 +178,7 @@ export default function GuestPage() {
         <div className="pointer-events-none w-full rounded-sm border-t-4 border-b-4 border-cyan-800 bg-slate-900/50">
           <h1 className="bg-cyan-800 p-2">Rankig</h1>
           {currentEvent && (
-            <div className="pointer-events-auto h-[35vh] overflow-y-scroll lg:h-[45vh]">
+            <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
               <RankingDisplay event={currentEvent} disable />
             </div>
           )}
