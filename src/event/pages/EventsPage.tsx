@@ -24,8 +24,15 @@ export default function EventsPage() {
   return (
     <>
       <header className="flex items-center justify-between text-xl font-bold">
-        <span className="ml-4 flex flex-col">
+        <span className="ml-4 flex w-full items-center justify-between">
           <h1>EVENTOS</h1>
+          <Modal
+            id="EventsPageEventForm"
+            className="bg-slate-900"
+            icon={<Icon icon="ic:baseline-plus" width="30" />}
+          >
+            <EventForm />
+          </Modal>
         </span>
       </header>
       <div className="grid w-full place-items-center gap-4 p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
@@ -62,13 +69,6 @@ export default function EventsPage() {
           </div>
         ))}
       </div>
-      <Modal
-        id="EventsPageEventForm"
-        className="fixed bottom-10 z-50 bg-slate-900"
-        icon={<Icon icon="ic:baseline-plus" width="40" />}
-      >
-        <EventForm />
-      </Modal>
     </>
   );
 }

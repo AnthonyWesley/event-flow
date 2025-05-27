@@ -17,6 +17,7 @@ interface TopListProps {
   sellerGoal: number;
   currentProgress: number;
   isValueGoal: boolean;
+  total: number;
   goalLabel: string;
 }
 
@@ -36,19 +37,13 @@ export default function TopThree({
   topThree,
   index,
   getId,
+  total,
   sellerGoal,
   currentProgress,
   isValueGoal,
   goalLabel,
 }: TopListProps) {
   const goalColor = getGoalColor(currentProgress, sellerGoal);
-
-  const positionOrder =
-    {
-      0: "order-3",
-      1: "order-1",
-      2: "order-2",
-    }[index] || "order-last";
 
   const positionMargin =
     {
@@ -59,62 +54,82 @@ export default function TopThree({
 
   const correctPosition =
     {
-      0: "2",
+      0: total === 1 ? "1" : "2",
       1: "1",
       2: "3",
     }[index] || "";
+  console.log(total);
 
   const line =
     typeof window !== "undefined" && window.innerWidth < 768 ? "col" : "line";
 
-  const images = ["/images/02.png", "/images/01.png", "/images/03.png"];
+  const getMedalImage = (index: number, total: number) => {
+    if (total === 1) return "/images/01.png";
+    if (total === 2) return index === 1 ? "/images/01.png" : "/images/02.png";
+
+    const map: Record<number, string> = {
+      0: "/images/02.png",
+      1: "/images/01.png",
+      2: "/images/03.png",
+    };
+    return map[index] || "/images/03.png";
+  };
+  // const images = ["/images/02.png", "/images/01.png", "/images/03.png"];
+
   return (
-    <section className="my-5 flex h-full w-full items-end justify-center gap-1">
+    <section className="my-2 flex h-80 w-full items-start justify-center gap-1">
       <div
         onClick={() => getId(topThree?.id)}
-        className={`shake-vertical relative flex flex-col ${positionOrder} items-center ${positionMargin}`}
+        className={`shake-vertical relative flex flex-col items-center justify-between ${positionMargin}`}
       >
         {/* <div
           className={`hexagon-border w-28 drop-shadow-lg md:w-36 lg:w-46 ${getBackgroundColor(index)}`}
         ></div> */}
 
         <img
-          src={images[index]}
+          src={getMedalImage(index, total)}
+          // src={images[index]}
           alt=""
           className="w-28 drop-shadow-lg md:w-36 lg:w-46"
         />
 
-        <div className="absolute top-1/2 left-1/2 z-20 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center pb-20 text-[8px] md:text-sm lg:gap-4 lg:text-sm">
+        <div className="absolute top-0 z-20 mt-5 flex w-full flex-col items-center justify-between gap-1 text-[8px] md:text-sm lg:gap-4 lg:text-sm">
           <span className="text-base md:text-2xl lg:text-2xl">
             {correctPosition}º
           </span>
 
           <Avatar name={topThree?.name} className="lg:size-28" />
 
-          <h1 className="mb-10 text-center text-sm font-bold">
-            {topThree?.name?.split(" ").slice(0, 1).join(" ")}
+          <h1 className="text-center text-[12px] font-bold lg:text-base">
+            {topThree?.name}
           </h1>
         </div>
         <div className="mt-1">
           <InfoLine
             label="Meta:"
-            value={goalLabel}
+            value={(topThree && goalLabel) || 0}
             icon={!isValueGoal ? "iconoir:box-iso" : ""}
             line={isValueGoal ? line : "line"}
             size="sm"
             color={goalColor}
           />
-          <ProgressBar total={sellerGoal} current={currentProgress} />
+          {topThree && (
+            <ProgressBar
+              total={(topThree && sellerGoal) || 0}
+              current={(topThree && currentProgress) || 0}
+            />
+          )}
+
           <InfoLine
             label="Vendas:"
-            value={topThree?.totalSalesCount}
+            value={(topThree && topThree?.totalSalesCount) || 0}
             icon="iconoir:box-iso"
             size="xs"
             color={!isValueGoal ? goalColor : ""}
           />
           <InfoLine
             label="Total"
-            value={currencyFormatter.ToBRL(topThree?.totalSalesValue)}
+            value={currencyFormatter.ToBRL(topThree?.totalSalesValue) ?? 0}
             line={line}
             size="xs"
             color={isValueGoal ? goalColor : ""}

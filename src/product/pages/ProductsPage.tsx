@@ -24,11 +24,15 @@ export default function ProductPage() {
   return (
     <>
       <header className="flex items-center justify-between text-xl font-bold">
-        <span className="ml-4 flex flex-col">
+        <span className="ml-4 flex w-full items-center justify-between">
           <h1>PRODUTOS</h1>
-          <div className="flex">
-            {/* <Icon icon="lets-icons:search-duotone" width="24" height="24" /> */}
-          </div>
+          <Modal
+            id="EventsPageEventForm"
+            className="bg-slate-900"
+            icon={<Icon icon="ic:baseline-plus" width="30" />}
+          >
+            <ProductForm />
+          </Modal>
         </span>
       </header>
 
@@ -56,14 +60,6 @@ export default function ProductPage() {
           </div>
         ))}
       </div>
-
-      <Modal
-        id="ProductPageProductForm"
-        icon={<Icon icon="ic:baseline-plus" width="40" />}
-        className="fixed bottom-10 z-50 bg-slate-900"
-      >
-        <ProductForm />
-      </Modal>
     </>
   );
 }

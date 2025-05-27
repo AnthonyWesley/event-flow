@@ -125,8 +125,12 @@ export default function RankingPage() {
           {/* <SendText /> */}
           <FlexSection className="items-start border border-gray-500/15 px-0 py-0 lg:max-h-[65vh] lg:flex-row">
             <div className="bg-dark flex max-h-full w-full flex-[2] overflow-y-auto lg:min-h-[65vh]">
+              {/* <div className="absolute lg:hidden">
+                <CircularMenu />
+              </div> */}
               {events && <RankingDisplay event={currentEvent} mode="PODIUM" />}
             </div>
+
             <div className="flex h-[65vh] w-full flex-[1] flex-col">
               <div className="flex items-center justify-between border-b border-gray-500/15 bg-slate-900 p-2">
                 {modalActions.map((modal) => (
@@ -159,6 +163,9 @@ export default function RankingPage() {
                 {/* {isSalesOrSellers[list].title} */}
                 {/* </p> */}
               </div>
+              <h1 className="bg-slate-900 p-2 text-center">
+                {list === "SALES" ? "Vendas" : "Vendedores"}
+              </h1>
               <div
                 className={`h-[35vh] overflow-y-scroll border-t-4 bg-slate-900 lg:h-[65vh] ${list === "SALES" ? "border-rose-500" : "border-cyan-800"}`}
               >

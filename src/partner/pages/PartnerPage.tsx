@@ -25,7 +25,7 @@ export default function PartnerPage() {
   };
   return (
     <>
-      <section className="mx-auto mt-4 w-96 place-items-center">
+      <section className="mx-auto mt-4 min-w-90 place-items-center">
         <Card
           key={data.id}
           icon={"ri:map-pin-user-fill"}
@@ -51,19 +51,23 @@ export default function PartnerPage() {
           }
         >
           <FlexSection className="flex-row">
-            <InfoLine label="Name:" value={data.name} />
-            <InfoLine label="Plano:" value={data.plan} />
+            <InfoLine label="Name:" value={data.name} line="col" />
+            <InfoLine label="Plano:" value={data.plan} line="col" />
           </FlexSection>
 
           <FlexSection className="items-start">
-            <InfoLine label="email:" value={data.email} />
-            <InfoLine label="Telefone:" value={data.phone} />
+            <InfoLine label="email:" value={data.email} line="col" />
+            <InfoLine label="Telefone:" value={data.phone} line="col" />
           </FlexSection>
 
           <FlexSection className="flex-row">
-            <InfoLine label="Status:" value={data.status} />
+            <InfoLine label="Status:" value={data.status} line="col" />
 
-            <InfoLine label="Trail até:" value={formatDate(data.trialEndsAt)} />
+            <InfoLine
+              label="Trail até:"
+              value={formatDate(data.trialEndsAt)}
+              line="col"
+            />
           </FlexSection>
         </Card>
       </section>

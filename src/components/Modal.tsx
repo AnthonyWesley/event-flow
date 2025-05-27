@@ -47,14 +47,14 @@ export default function Modal({
       <section
         ref={overlay}
         onClick={clickCloseRef}
-        className={`fixed inset-0 z-40 border-none text-sm backdrop-blur-sm ${
+        className={`fixed inset-0 z-80 border-none text-sm backdrop-blur-sm ${
           isModalOpen(id) ? "flex" : "hidden"
         } items-center justify-center`}
       >
         <div className="relative flex max-h-[90vh] w-full max-w-lg flex-col items-center justify-center overflow-auto rounded-lg border-white/90 text-white">
           <Icon
             onClick={() => closeModal(id)}
-            className="absolute top-3 right-2 z-40 cursor-pointer self-end transition-all hover:text-red-600"
+            className="absolute top-3 right-2 z-80 cursor-pointer self-end transition-all hover:text-red-600"
             icon="line-md:close-small"
             width={25}
           />

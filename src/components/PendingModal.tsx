@@ -96,7 +96,6 @@ export default function PendingModal() {
     sellers,
     products,
   );
-
   return (
     <SlideBar
       icon={
@@ -108,7 +107,7 @@ export default function PendingModal() {
         </Tooltip>
       }
       sliderSide="right"
-      verticalPosition={0}
+      verticalPosition={90}
     >
       <ul
         role="list"

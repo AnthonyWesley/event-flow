@@ -36,8 +36,12 @@ export default function RankingDisplay({
   const reorderedTopThree = (() => {
     const sellers = event?.allSellers || [];
     if (sellers.length >= 3) return [sellers[1], sellers[0], sellers[2]];
+    if (sellers.length === 2) return [sellers[1], sellers[0]];
+    if (sellers.length === 1) return [sellers[0]];
     return sellers.slice(0, 3);
   })();
+
+  console.log(reorderedTopThree);
 
   const ranking = {
     WINNER: event.allSellers?.slice(0, 1),
@@ -47,7 +51,6 @@ export default function RankingDisplay({
   };
 
   const isValueGoal = event.goalType === "VALUE";
-
   return (
     <>
       {ranking[mode]?.map((seller: SellersType, index: number) => {
@@ -109,6 +112,7 @@ export default function RankingDisplay({
               key={index}
               topThree={seller}
               index={index}
+              total={reorderedTopThree?.length}
               getId={!disable ? handleClick : () => {}}
               sellerGoal={sellerGoal}
               currentProgress={currentProgress}

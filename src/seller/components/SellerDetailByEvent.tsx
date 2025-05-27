@@ -69,12 +69,7 @@ export default function SellerDetailByEvent({
 
         <FlexSection className="items-start">
           <Accordion
-            title={
-              <InfoLine
-                value={seller.name.split(" ").slice(0, 2).join(" ")}
-                size="base"
-              />
-            }
+            title={<InfoLine value={seller?.name} size="base" />}
             content={
               <>
                 <InfoLine

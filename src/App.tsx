@@ -1,7 +1,6 @@
 import { matchPath, Route, Routes, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import User from "./partner/pages/PartnerPage";
 import Sale from "./sale/pages/SalePage";
 import Pricing from "./pricing/pages/PricingPage";
@@ -20,10 +19,11 @@ import PendingModal from "./components/PendingModal";
 import { PRIVATE_ROUTES } from "./constants/privateRoutes";
 import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 import ErrorPage from "./auth/pages/ErrorPage";
-
+screen;
 export default function App() {
   const location = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
+  // const mobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const isGuestPage = matchPath(
     "events/:eventId/guest/:sellerId",
@@ -31,7 +31,7 @@ export default function App() {
   );
   const state = location.state as { backgroundLocation?: Location };
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="mb-20 flex lg:mt-20 lg:min-h-[80vh]">
       {isAuthenticated && (
         <>
           {!isGuestPage && <Navbar links={PRIVATE_ROUTES} />}
@@ -87,8 +87,8 @@ export default function App() {
           <Route path="/not-found" element={<ErrorPage code={403} />} />
           <Route path="*" element={<ErrorPage code={404} />} />
         </Routes>
+        {/* <Footer /> */}
       </main>
-      <Footer />
     </div>
   );
 }

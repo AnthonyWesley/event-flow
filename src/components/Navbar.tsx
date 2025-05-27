@@ -13,13 +13,15 @@ export type NavProps = {
 
 export default function Navbar({ links }: NavProps) {
   const pathname = useLocation();
+  // const mobile = typeof window !== "undefined" && window.innerWidth < 768;
+  // console.log(mobile);
 
   return (
-    <nav className="relative my-2 flex w-auto items-center justify-center transition-all duration-[450ms] ease-in-out">
+    <nav
+      className={`fixed bottom-0 z-40 flex w-full items-center justify-center rounded-2xl border-b border-solid border-gray-100/15 bg-slate-900 p-1 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:top-0 lg:bottom-auto`}
+    >
       {/* <ThemeToggle /> */}
-      <div
-        className={`flex w-full rounded-2xl border-b border-solid border-gray-100/15 shadow-lg shadow-black/15 duration-500 ease-in-out`}
-      >
+      <div className={`flex w-full duration-500 ease-in-out`}>
         {links.map((link) => (
           <Link
             key={link.text}
