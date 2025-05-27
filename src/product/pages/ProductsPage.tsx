@@ -24,12 +24,12 @@ export default function ProductPage() {
   return (
     <>
       <header className="flex items-center justify-between text-xl font-bold">
-        <span className="ml-4 flex w-full items-center justify-between">
+        <span className="ml-4 flex w-full items-center justify-between p-1">
           <h1>PRODUTOS</h1>
           <Modal
             id="EventsPageEventForm"
             className="bg-slate-900"
-            icon={<Icon icon="ic:baseline-plus" width="30" />}
+            icon={<Icon icon="ic:baseline-plus" width="25" />}
           >
             <ProductForm />
           </Modal>

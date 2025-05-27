@@ -51,7 +51,7 @@ export default function Modal({
           isModalOpen(id) ? "flex" : "hidden"
         } items-center justify-center`}
       >
-        <div className="relative flex max-h-[90vh] w-full max-w-lg flex-col items-center justify-center overflow-auto rounded-lg border-white/90 text-white">
+        <div className="relative flex max-h-[90vh] w-full max-w-lg flex-col items-center justify-center overflow-auto rounded-lg border-white/90 p-2 text-white">
           <Icon
             onClick={() => closeModal(id)}
             className="absolute top-3 right-2 z-80 cursor-pointer self-end transition-all hover:text-red-600"

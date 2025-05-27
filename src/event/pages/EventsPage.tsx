@@ -24,12 +24,12 @@ export default function EventsPage() {
   return (
     <>
       <header className="flex items-center justify-between text-xl font-bold">
-        <span className="ml-4 flex w-full items-center justify-between">
+        <span className="ml-4 flex w-full items-center justify-between p-1">
           <h1>EVENTOS</h1>
           <Modal
             id="EventsPageEventForm"
             className="bg-slate-900"
-            icon={<Icon icon="ic:baseline-plus" width="30" />}
+            icon={<Icon icon="ic:baseline-plus" width="25" />}
           >
             <EventForm />
           </Modal>
@@ -39,7 +39,7 @@ export default function EventsPage() {
         {events?.map((event: EventOutputDto) => (
           <div
             key={event.id}
-            className="w-full"
+            className={`w-full ${event.isActive ? "opacity-100" : "opacity-70"}`}
             onClick={() =>
               navigate(`/events/${event.id}`, {
                 state: { backgroundLocation: location },
@@ -50,7 +50,7 @@ export default function EventsPage() {
               key={event.id}
               // icon={"iconoir:box-iso"}
               icon="carbon:event"
-              color={"orange"}
+              color={event.isActive ? "orange" : "gray"}
             >
               <HeaderRanking event={event} />
               <FlexSection className="flex-row px-0">
@@ -63,6 +63,7 @@ export default function EventsPage() {
                   line="col"
                   label={event.endDate ? "Finalizado:" : "Status"}
                   value={event.endDate ? formatDate(event.endDate) : "Ativo"}
+                  color={event.isActive ? "green" : ""}
                 />
               </FlexSection>
             </Card>
