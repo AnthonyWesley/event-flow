@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+export function formatPhoneNumber(value: string): string {
+  const cleaned = value.replace(/\D/g, "").slice(0, 11);
+  const match = cleaned.match(/^(\d{0,2})(\d{0,5})(\d{0,4})$/);
+  if (!match) return "";
+  return `${match[1] ? `(${match[1]}` : ""}${match[1]?.length === 2 ? ") " : ""}${match[2] || ""}${match[3] ? `-${match[3]}` : ""}`;
+}
+
 interface Props {
   isLogin: boolean;
   onSubmit: (formData: {
@@ -12,11 +19,14 @@ interface Props {
   isLoading: boolean;
 }
 
-export function formatPhoneNumber(value: string): string {
-  const cleaned = value.replace(/\D/g, "").slice(0, 11);
-  const match = cleaned.match(/^(\d{0,2})(\d{0,5})(\d{0,4})$/);
-  if (!match) return "";
-  return `${match[1] ? `(${match[1]}` : ""}${match[1]?.length === 2 ? ") " : ""}${match[2] || ""}${match[3] ? `-${match[3]}` : ""}`;
+function validatePasswordRules(password: string) {
+  return {
+    length: password.length >= 8,
+    lowercase: /[a-z]/.test(password),
+    uppercase: /[A-Z]/.test(password),
+    number: /\d/.test(password),
+    specialChar: /[@$!%*?&]/.test(password),
+  };
 }
 
 export default function AuthForm({ isLogin, onSubmit, isLoading }: Props) {
@@ -25,6 +35,8 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: Props) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("S&nh@1234");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const passwordValidation = validatePasswordRules(password);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +69,7 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: Props) {
           placeholder="Telefone"
           required
           value={phone}
-          onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
+          onChange={(e) => setPhone(e.target.value)}
           className="w-full rounded-sm border border-gray-500 p-2"
         />
       )}
@@ -69,6 +81,48 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: Props) {
         onChange={(e) => setPassword(e.target.value)}
         className="w-full rounded-sm border border-gray-500 p-2"
       />
+
+      {!isLogin && (
+        <div className="space-y-1 text-sm text-gray-700">
+          <p
+            className={
+              passwordValidation.length ? "text-green-600" : "text-red-600"
+            }
+          >
+            {passwordValidation.length ? "✔" : "❌"} Pelo menos 8 caracteres
+          </p>
+          <p
+            className={
+              passwordValidation.lowercase ? "text-green-600" : "text-red-600"
+            }
+          >
+            {passwordValidation.lowercase ? "✔" : "❌"} Uma letra minúscula
+          </p>
+          <p
+            className={
+              passwordValidation.uppercase ? "text-green-600" : "text-red-600"
+            }
+          >
+            {passwordValidation.uppercase ? "✔" : "❌"} Uma letra maiúscula
+          </p>
+          <p
+            className={
+              passwordValidation.number ? "text-green-600" : "text-red-600"
+            }
+          >
+            {passwordValidation.number ? "✔" : "❌"} Um número
+          </p>
+          <p
+            className={
+              passwordValidation.specialChar ? "text-green-600" : "text-red-600"
+            }
+          >
+            {passwordValidation.specialChar ? "✔" : "❌"} Um caractere especial
+            (@$!%*?&)
+          </p>
+        </div>
+      )}
+
       {!isLogin && (
         <input
           type="password"

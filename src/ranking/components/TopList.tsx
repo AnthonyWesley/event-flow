@@ -77,7 +77,7 @@ export default function TopThree({
   // const images = ["/images/02.png", "/images/01.png", "/images/03.png"];
 
   return (
-    <section className="my-2 flex h-80 w-full items-start justify-center gap-1">
+    <section className="my-2 flex h-[330px] w-full items-start justify-center gap-1">
       <div
         onClick={() => getId(topThree?.id)}
         className={`shake-vertical relative flex flex-col items-center justify-between ${positionMargin}`}

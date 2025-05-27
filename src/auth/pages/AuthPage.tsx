@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import AuthForm from "../components/authForm";
+import { toast } from "react-toastify";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -11,8 +12,11 @@ export default function AuthPage() {
       login.mutate({ email: data.email, password: data.password });
     } else {
       if (data.password !== data.confirmPassword) {
-        return alert("As senhas não coincidem");
+        // return alert("As senhas não coincidem");
+        toast.warning("As senhas não coincidem");
+        return;
       }
+
       register.mutate(data, {
         onSuccess: () => {
           login.mutate({ email: data.email, password: data.password });
@@ -22,7 +26,7 @@ export default function AuthPage() {
   };
 
   return (
-    <section className="flex items-start justify-center">
+    <section className="flex items-start justify-center p-1">
       <div className="w-full max-w-sm rounded-md border border-gray-500 p-6 shadow-lg">
         <h2 className="mb-4 text-center text-2xl font-bold">
           {isLogin ? "Login" : "Criar Conta"}
