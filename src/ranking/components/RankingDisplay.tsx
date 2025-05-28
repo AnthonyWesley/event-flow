@@ -41,8 +41,6 @@ export default function RankingDisplay({
     return sellers.slice(0, 3);
   })();
 
-  console.log(reorderedTopThree);
-
   const ranking = {
     WINNER: event.allSellers?.slice(0, 1),
     PODIUM: reorderedTopThree,

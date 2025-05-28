@@ -18,7 +18,7 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [selectedPeople, setSelectedPeople] = useState<SellerOutputDto[]>([]);
-  const [isCreateButton, setIsCreateButton] = useState(true);
+  const [isCreateButton, setIsCreateButton] = useState(false);
   // const { sendEmail } = useGuestMutations();
   const { createOrUpdate } = useSellerMutations();
 
@@ -114,21 +114,21 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
           <div className="flex h-10 w-full">
             <button
               type="button"
-              onClick={() => setIsCreateButton(true)}
-              className={`w-full rounded-sm border border-gray-500/15 ${
-                isCreateButton ? "bg-cyan-800 text-white" : "text-gray-500"
-              }`}
-            >
-              Criar vendedor
-            </button>
-            <button
-              type="button"
               onClick={() => setIsCreateButton(false)}
               className={`w-full rounded-sm border border-gray-500/15 ${
                 !isCreateButton ? "bg-cyan-800 text-white" : "text-gray-500"
               }`}
             >
               Adicionar vendedor
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsCreateButton(true)}
+              className={`w-full rounded-sm border border-gray-500/15 ${
+                isCreateButton ? "bg-cyan-800 text-white" : "text-gray-500"
+              }`}
+            >
+              Criar vendedor
             </button>
           </div>
         )}
