@@ -17,9 +17,15 @@ export function useEvent(eventId?: string) {
     enabled: isAuthenticated && !!eventId,
   });
 
+  const querySellersByEvents = useQuery({
+    queryKey: ["sellersByEvents", eventId],
+    queryFn: () => eventService.listSellerByEvent(eventId ?? ""),
+    enabled: isAuthenticated && !!eventId,
+  });
+
   const currentEvent = queryEvents.data?.find(
     (event: EventOutputDto) => event.isActive,
   );
 
-  return { queryEvents, queryEvent, currentEvent };
+  return { queryEvents, queryEvent, currentEvent, querySellersByEvents };
 }

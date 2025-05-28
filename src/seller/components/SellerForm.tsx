@@ -6,6 +6,7 @@ import { SellerOutputDto } from "../services/sellerService";
 import Card from "../../components/Card";
 import MultiSelectCombobox from "../../components/MultiSelectCombobox";
 import { formatPhoneNumber } from "../../auth/components/authForm";
+// import { useEvent } from "../../event/hooks/useEvent";
 // import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 
 type SellerFormProps = {
@@ -21,6 +22,9 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
   const [isCreateButton, setIsCreateButton] = useState(true);
   // const { sendEmail } = useGuestMutations();
   const { createOrUpdate } = useSellerMutations();
+  // const {
+  //   querySellersByEvents: { data: sellersByEvent },
+  // } = useEvent(eventId);
 
   useEffect(() => {
     if (seller) {
@@ -109,7 +113,6 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
         <h1 className="rounded text-xl font-bold">
           {seller?.id ? "Editar Vendedor" : "Registro de Vendedor"}
         </h1>
-
         {eventId && (
           <div className="flex h-10 w-full">
             <button
@@ -132,8 +135,7 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
             </button>
           </div>
         )}
-
-        {isCreateButton ? (
+        {isCreateButton && (
           <>
             <label className="flex flex-col">
               Nome:
@@ -166,14 +168,14 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
               />
             </label>
           </>
-        ) : (
+        )}
+        {!isCreateButton && (
           <MultiSelectCombobox
             selectedPeople={selectedPeople}
             setSelectedPeople={setSelectedPeople}
             eventId={eventId}
           />
         )}
-
         <button
           type="submit"
           disabled={createOrUpdate.isPending}

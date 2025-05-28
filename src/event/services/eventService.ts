@@ -43,6 +43,12 @@ export const eventService = {
     return response.data.events;
   },
 
+  listSellerByEvent: async (eventId: string) => {
+    const response = await partnerApi.get(`/events/${eventId}/sellers`);
+
+    return response.data.SellerWithStats;
+  },
+
   create: async (data: EventInputDto) => {
     const response = await partnerApi.post("/events", data);
     return response.data.events;
