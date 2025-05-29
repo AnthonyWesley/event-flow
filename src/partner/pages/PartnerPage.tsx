@@ -9,6 +9,7 @@ import Modal from "../../components/Modal";
 import Tooltip from "../../components/Tooltip";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 export default function PartnerPage() {
   const {
@@ -57,7 +58,11 @@ export default function PartnerPage() {
 
           <FlexSection className="items-start">
             <InfoLine label="email:" value={data.email} line="col" />
-            <InfoLine label="Telefone:" value={data.phone} line="col" />
+            <InfoLine
+              label="Telefone:"
+              value={fieldFormatter.phone(data.phone ?? "")}
+              line="col"
+            />
           </FlexSection>
 
           <FlexSection className="flex-row">

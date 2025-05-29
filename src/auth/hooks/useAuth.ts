@@ -12,7 +12,10 @@ export default function useAuth() {
       navigate("/");
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || "Erro ao fazer login");
+      if (error.response.status === 401) {
+        toast.error("E-mail ou senha incorreta.");
+      } else
+        toast.error(error.response?.data?.message || "Erro ao fazer login");
     },
   });
 
@@ -22,7 +25,10 @@ export default function useAuth() {
       navigate("/");
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || "Erro ao criar conta");
+      if (error.response.status === 401) {
+        toast.error("Esse e-mail já foi cadastrado.");
+      } else
+        toast.error(error.response?.data?.message || "Erro ao criar conta");
     },
   });
 

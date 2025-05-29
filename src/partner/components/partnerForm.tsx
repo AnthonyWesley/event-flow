@@ -21,7 +21,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
     if (partner) {
       setName(partner.name);
       setEmail(partner.email);
-      setPhone(partner.phone);
+      setPhone(fieldFormatter.phone(partner.phone ?? ""));
     }
   }, [partner]);
 
@@ -41,7 +41,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
   };
 
   return (
-    <Card key={partner?.id ?? ""} color="green">
+    <Card key={partner?.id ?? ""} color="">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
