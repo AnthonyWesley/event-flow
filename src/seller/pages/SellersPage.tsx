@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Modal from "../../components/Modal";
 import SellerForm from "../components/SellerForm";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 export default function SellerPage() {
   const {
@@ -49,7 +50,11 @@ export default function SellerPage() {
               <FlexSection className="items-start border-t border-t-gray-500/15">
                 <InfoLine value={seller.name} size="base" />
                 <InfoLine label="E-mail:" value={seller.email} size="sm" />
-                <InfoLine label="Telefone:" value={seller.phone} size="sm" />
+                <InfoLine
+                  label="Telefone:"
+                  value={fieldFormatter.phone(seller.phone ?? "")}
+                  size="sm"
+                />
               </FlexSection>
             </Card>
           </div>

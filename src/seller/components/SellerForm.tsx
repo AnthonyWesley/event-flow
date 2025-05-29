@@ -36,7 +36,7 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
     if (seller) {
       setName(seller.name);
       setEmail(seller.email);
-      setPhone(seller.phone ?? "");
+      setPhone(fieldFormatter.phone(seller.phone ?? "") ?? "");
     }
   }, [seller]);
 
@@ -67,11 +67,11 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
           s.name.toLowerCase() === fieldFormatter.name(name).toLowerCase(),
       );
 
-      if (sellerAlreadyInEventExists) {
+      if (sellerAlreadyInEventExists && !seller?.id) {
         toast.error("Este vendedor já está cadastrado para este evento.");
         return;
       }
-      if (sellerAlreadyExists) {
+      if (sellerAlreadyExists && !seller?.id) {
         toast.error("Este vendedor já está cadastrado.");
         return;
       }

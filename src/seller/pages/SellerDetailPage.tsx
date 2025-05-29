@@ -13,6 +13,7 @@ import { EventOutputDto } from "../../event/services/eventService";
 import { SellerOutputDto } from "../services/sellerService";
 import Accordion from "../../components/Accordion";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 export default function SellerDetailPage() {
   const navigate = useNavigate();
@@ -59,7 +60,11 @@ export default function SellerDetailPage() {
               <FlexSection className="items-start">
                 <InfoLine value={seller?.name} size="base" />
                 <InfoLine label="E-mail:" value={seller?.email} size="sm" />
-                <InfoLine label="Telefone:" value={seller?.phone} size="sm" />
+                <InfoLine
+                  label="Telefone:"
+                  value={fieldFormatter.phone(seller.phone ?? "")}
+                  size="sm"
+                />
               </FlexSection>
             </>
           }
