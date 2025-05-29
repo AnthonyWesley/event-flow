@@ -26,7 +26,7 @@ export default function SellerPage() {
         <span className="ml-4 flex w-full items-center justify-between p-1">
           <h1>VENDEDORES</h1>
           <Modal
-            id="EventsPageEventForm"
+            id="SellerPageSellerForm"
             className="bg-slate-900"
             icon={<Icon icon="ic:baseline-plus" width="25" />}
           >

@@ -5,6 +5,8 @@ import { FormValidator } from "../../helpers/FormValidator";
 import { useProductMutations } from "../hooks/useProductMutations";
 import { ProductOutputDto } from "../services/productService";
 import Card from "../../components/Card";
+import useProduct from "../hooks/useProduct";
+import { toast } from "react-toastify";
 
 export type ProductProps = {
   product?: ProductOutputDto;
@@ -14,6 +16,9 @@ export default function ProductForm({ product }: ProductProps) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const { createOrUpdate } = useProductMutations();
+  const {
+    queryProducts: { data: products },
+  } = useProduct();
 
   useEffect(() => {
     if (product) {
@@ -32,6 +37,15 @@ export default function ProductForm({ product }: ProductProps) {
     e.preventDefault();
     const isValid = FormValidator.validateAll({ name, price });
     if (isValid) {
+      const productAlreadyInExists = products?.some(
+        (s: ProductOutputDto) =>
+          s.name.toLowerCase() === fieldFormatter.name(name).toLowerCase(),
+      );
+
+      if (productAlreadyInExists) {
+        toast.error("Produto com o mesmo nome já está cadastrado.");
+        return;
+      }
       createOrUpdate.mutate(
         {
           id: product?.id,

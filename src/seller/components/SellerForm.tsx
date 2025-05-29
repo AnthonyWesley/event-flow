@@ -6,7 +6,9 @@ import { SellerOutputDto } from "../services/sellerService";
 import Card from "../../components/Card";
 import MultiSelectCombobox from "../../components/MultiSelectCombobox";
 import { formatPhoneNumber } from "../../auth/components/authForm";
-// import { useEvent } from "../../event/hooks/useEvent";
+import { useEvent } from "../../event/hooks/useEvent";
+import { toast } from "react-toastify";
+import useSeller from "../hooks/useSeller";
 // import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 
 type SellerFormProps = {
@@ -22,9 +24,13 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
   const [isCreateButton, setIsCreateButton] = useState(true);
   // const { sendEmail } = useGuestMutations();
   const { createOrUpdate } = useSellerMutations();
-  // const {
-  //   querySellersByEvents: { data: sellersByEvent },
-  // } = useEvent(eventId);
+  const {
+    querySellersByEvents: { data: sellersByEvent },
+  } = useEvent(eventId);
+
+  const {
+    querySellers: { data: sellers },
+  } = useSeller();
 
   useEffect(() => {
     if (seller) {
@@ -49,6 +55,26 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
     if (isCreateButton) {
       const isValid = FormValidator.validateAll({ name, email, phone });
       if (!isValid) return;
+
+      const sellerAlreadyExists = sellers?.some(
+        (s: SellerOutputDto) =>
+          s.email === email ||
+          s.name.toLowerCase() === fieldFormatter.name(name).toLowerCase(),
+      );
+      const sellerAlreadyInEventExists = sellersByEvent?.some(
+        (s: SellerOutputDto) =>
+          s.email === email ||
+          s.name.toLowerCase() === fieldFormatter.name(name).toLowerCase(),
+      );
+
+      if (sellerAlreadyInEventExists) {
+        toast.error("Este vendedor já está cadastrado para este evento.");
+        return;
+      }
+      if (sellerAlreadyExists) {
+        toast.error("Este vendedor já está cadastrado.");
+        return;
+      }
 
       createOrUpdate.mutate(
         {

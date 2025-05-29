@@ -6,10 +6,11 @@ import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { useProductMutations } from "../hooks/useProductMutations";
 import Dialog from "../../components/Dialog";
 import Card from "../../components/Card";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
 
 export default function ProductDetailPage() {
+  const navigate = useNavigate();
   const { productId } = useParams<{ productId: string }>();
   const {
     queryProduct: { isPending, error, data: product },
@@ -36,7 +37,10 @@ export default function ProductDetailPage() {
               <Modal id="ProductDetailPageDeleteForm" icon="carbon:trash-can">
                 <Dialog
                   message="Deseja excluir o produto?"
-                  onClick={() => deleteProduct.mutate(product.id)}
+                  onClick={() => {
+                    deleteProduct.mutate(product.id);
+                    navigate(-1);
+                  }}
                 />
               </Modal>
             </>

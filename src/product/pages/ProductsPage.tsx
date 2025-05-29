@@ -27,7 +27,7 @@ export default function ProductPage() {
         <span className="ml-4 flex w-full items-center justify-between p-1">
           <h1>PRODUTOS</h1>
           <Modal
-            id="EventsPageEventForm"
+            id="ProductPageProductForm"
             className="bg-slate-900"
             icon={<Icon icon="ic:baseline-plus" width="25" />}
           >
