@@ -5,6 +5,7 @@ import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Card from "../../components/Card";
 import { EventOutputDto } from "../services/eventService";
+import { toast } from "react-toastify";
 
 export type EventProps = {
   event?: EventOutputDto;
@@ -40,12 +41,12 @@ export default function EventForm({ event }: EventProps) {
     e.preventDefault();
 
     if (!name || !goal || !goalType) {
-      alert("Preencha todos os dados!");
+      toast.error("Preencha todos os dados!");
       return;
     }
 
     if (currencyFormatter.ToNumber(goal) == 0) {
-      alert("Meta tem que ser maior que 0");
+      toast.error("Meta tem que ser maior que 0");
       return;
     }
 
