@@ -23,7 +23,7 @@ export type SelectProps = {
   selectList: SelectList[];
   label?: string;
   onChange?: (value: SelectList) => void;
-  selected?: SelectList; // <-- adicionado
+  selected?: SelectList;
 };
 
 export default function Select({

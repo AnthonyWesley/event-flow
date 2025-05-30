@@ -12,7 +12,6 @@ export default function AuthPage() {
       login.mutate({ email: data.email, password: data.password });
     } else {
       if (data.password !== data.confirmPassword) {
-        // return alert("As senhas não coincidem");
         toast.warning("As senhas não coincidem");
         return;
       }

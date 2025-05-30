@@ -11,6 +11,8 @@ export type PartnerOutputDto = {
   email: string;
   phone: string;
   plan: PlanType;
+  maxConcurrentEvents: number;
+  createdAt: Date;
 };
 export const partnerService = {
   findPartner: async () => {
@@ -31,6 +33,11 @@ export const partnerService = {
       approveOrReject,
     );
     return response.data;
+  },
+
+  list: async () => {
+    const response = await partnerApi.get(`/partners`);
+    return response.data.partners;
   },
 
   update: async (partnerId: string, data: any) => {

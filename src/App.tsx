@@ -19,6 +19,7 @@ import PendingModal from "./components/PendingModal";
 import { PRIVATE_ROUTES } from "./constants/privateRoutes";
 import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 import ErrorPage from "./auth/pages/ErrorPage";
+// import AdmPage from "./administrator/pages/AdmPage";
 screen;
 export default function App() {
   const location = useLocation();
@@ -86,6 +87,7 @@ export default function App() {
           <Route path="/unauthorized" element={<ErrorPage code={401} />} />
           <Route path="/not-found" element={<ErrorPage code={403} />} />
           <Route path="*" element={<ErrorPage code={404} />} />
+          {/* <Route path="/adm" element={<AdmPage />} /> */}
         </Routes>
         {/* <Footer /> */}
       </main>

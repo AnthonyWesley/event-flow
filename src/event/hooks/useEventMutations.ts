@@ -2,10 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { eventService } from "../services/eventService";
 import { useModalStore } from "../../store/useModalStore";
+import usePartner from "../../partner/hooks/usePartner";
 
 export function useEventMutations() {
   const queryClient = useQueryClient();
   const { closeModal } = useModalStore();
+  const {
+    queryPartner: { data: partner },
+  } = usePartner();
 
   const toggleStatus = useMutation({
     mutationFn: eventService.switchStatus,
@@ -15,8 +19,16 @@ export function useEventMutations() {
       closeModal("EventsPageEventToggleForm");
     },
 
-    onError: (err: any) =>
-      toast.error(err.response?.data?.message || "Erro ao atualizar status"),
+    onError: (error: any) => {
+      if (error.response.status === 409) {
+        toast.error(
+          `Seu plano somente pode ter ${partner?.maxConcurrentEvents} evento ativo por vez.`,
+        );
+      } else
+        toast.error(
+          error.response?.data?.message || "Erro ao atualizar status",
+        );
+    },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
       queryClient.invalidateQueries({ queryKey: ["eventData"] });

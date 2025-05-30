@@ -30,7 +30,7 @@ export default function RankingDisplay({
   mode = "NORMAL",
   disable = false,
 }: PodiumProps) {
-  const [selectedSeller, setSelectedSeller] = useState<any | null>(null);
+  const [selectedSellerId, setSelectedSellerId] = useState<string | null>(null);
   const { openModal } = useModalStore();
 
   const reorderedTopThree = (() => {
@@ -49,53 +49,35 @@ export default function RankingDisplay({
   };
 
   const isValueGoal = event.goalType === "VALUE";
+  const sellerGoal = goalUtils?.calculateSellerGoal(
+    event.allSellers,
+    event.goal,
+  );
+
+  const handleClick = (id: string) => {
+    setSelectedSellerId(id);
+    openModal(id);
+  };
+
   return (
     <>
       {ranking[mode]?.map((seller: SellersType, index: number) => {
-        const sellerGoal = goalUtils?.calculateSellerGoal(
-          event.allSellers,
-          event.goal,
-        );
         const currentProgress = isValueGoal
-          ? seller?.totalSalesValue
-          : seller?.totalSalesCount;
+          ? seller.totalSalesValue
+          : seller.totalSalesCount;
         const goalLabel = isValueGoal
           ? currencyFormatter.ToBRL(sellerGoal)
           : `${sellerGoal}`;
 
-        const handleClick = () => {
-          setSelectedSeller({
-            ...seller,
-            index,
-            sellerGoal,
-            currentProgress,
-            goalLabel,
-          });
-          openModal(seller.id);
-        };
+        const getId = !disable ? () => handleClick(seller.id) : () => {};
 
-        if (mode === "OTHERS") {
+        if (mode === "OTHERS" || mode === "NORMAL") {
           return (
             <OtherList
-              key={seller?.email}
+              key={seller.email}
               other={seller}
-              index={index + 3}
-              getId={!disable ? handleClick : () => {}}
-              sellerGoal={sellerGoal}
-              currentProgress={currentProgress}
-              isValueGoal={isValueGoal}
-              goalLabel={goalLabel}
-            />
-          );
-        }
-
-        if (mode === "NORMAL") {
-          return (
-            <OtherList
-              key={seller?.email}
-              other={seller}
-              index={index}
-              getId={!disable ? handleClick : () => {}}
+              index={mode === "OTHERS" ? index + 3 : index}
+              getId={getId}
               sellerGoal={sellerGoal}
               currentProgress={currentProgress}
               isValueGoal={isValueGoal}
@@ -107,11 +89,11 @@ export default function RankingDisplay({
         if (mode === "PODIUM" && event?.sales.length > 0) {
           return (
             <TopList
-              key={index}
+              key={seller.id}
               topThree={seller}
               index={index}
-              total={reorderedTopThree?.length}
-              getId={!disable ? handleClick : () => {}}
+              total={reorderedTopThree.length}
+              getId={getId}
               sellerGoal={sellerGoal}
               currentProgress={currentProgress}
               isValueGoal={isValueGoal}
@@ -121,23 +103,39 @@ export default function RankingDisplay({
         }
       })}
 
-      <Modal id={selectedSeller?.id} info={selectedSeller?.name}>
-        {selectedSeller && (
-          <SellerDetailByEvent
-            key={selectedSeller.email}
-            index={
-              event.allSellers.findIndex(
-                (s) => s.name === selectedSeller.name,
-              ) + 1
-            }
-            seller={selectedSeller}
-            event={event}
-            sellerGoal={selectedSeller.sellerGoal}
-            currentProgress={selectedSeller.currentProgress}
-            isValueGoal={isValueGoal}
-            goalLabel={selectedSeller.goalLabel}
-          />
-        )}
+      <Modal
+        id={selectedSellerId ?? ""}
+        info={event.allSellers.find((s) => s.id === selectedSellerId)?.name}
+      >
+        {selectedSellerId &&
+          (() => {
+            const seller = event.allSellers.find(
+              (s) => s.id === selectedSellerId,
+            );
+            if (!seller) return null;
+
+            const currentProgress = isValueGoal
+              ? seller.totalSalesValue
+              : seller.totalSalesCount;
+            const goalLabel = isValueGoal
+              ? currencyFormatter.ToBRL(sellerGoal)
+              : `${sellerGoal}`;
+            const index =
+              event.allSellers.findIndex((s) => s.id === seller.id) + 1;
+
+            return (
+              <SellerDetailByEvent
+                key={seller.email}
+                index={index}
+                seller={seller}
+                event={event}
+                sellerGoal={sellerGoal}
+                currentProgress={currentProgress}
+                isValueGoal={isValueGoal}
+                goalLabel={goalLabel}
+              />
+            );
+          })()}
       </Modal>
     </>
   );

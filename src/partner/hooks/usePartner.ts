@@ -10,6 +10,12 @@ export default function usePartner() {
     enabled: isAuthenticated,
   });
 
+  const queryPartners = useQuery({
+    queryKey: ["partnersData"],
+    queryFn: partnerService.list,
+    enabled: isAuthenticated,
+  });
+
   const queryPartnerNotifications = useQuery({
     queryKey: ["notificationsData"],
     queryFn: partnerService.getNotification,
@@ -17,5 +23,5 @@ export default function usePartner() {
     refetchInterval: 5000,
   });
 
-  return { queryPartner, queryPartnerNotifications };
+  return { queryPartner, queryPartners, queryPartnerNotifications };
 }

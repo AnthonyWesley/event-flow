@@ -49,6 +49,8 @@ partnerApi.interceptors.response.use(
       [401, 404, 500].includes(error.response.status) &&
       !originalRequest._retry
     ) {
+      localStorage.removeItem("accessToken");
+
       originalRequest._retry = true;
 
       if (isRefreshing) {

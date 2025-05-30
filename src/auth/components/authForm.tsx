@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 export function formatPhoneNumber(value: string): string {
   const cleaned = value.replace(/\D/g, "").slice(0, 11);
@@ -69,7 +70,7 @@ export default function AuthForm({ isLogin, onSubmit, isLoading }: Props) {
           placeholder="Telefone"
           required
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(fieldFormatter.phone(e.target.value ?? ""))}
           className="w-full rounded-sm border border-gray-500 p-2"
         />
       )}

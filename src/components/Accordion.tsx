@@ -6,6 +6,7 @@ interface AccordionProps {
   content: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
+  startOpen?: boolean; // nova prop
 }
 
 export default function Accordion({
@@ -13,23 +14,35 @@ export default function Accordion({
   content,
   icon,
   disabled,
+  startOpen = false,
 }: AccordionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(startOpen);
+  const [height, setHeight] = useState<number | "auto">(0);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (disabled) setIsOpen(false);
+    if (disabled) {
+      setIsOpen(false);
+      setHeight(0);
+    }
   }, [disabled]);
 
-  const height =
-    isOpen && contentRef.current ? contentRef.current.scrollHeight : 0;
+  useEffect(() => {
+    if (isOpen && contentRef.current) {
+      setHeight(contentRef.current.scrollHeight);
+    } else {
+      setHeight(0);
+    }
+  }, [isOpen, content]);
 
   return (
     <div
-      className={` ${disabled ? "pointer-events-none" : "pointer-events-auto"} w-full overflow-hidden rounded-sm bg-transparent`}
+      className={`${
+        disabled ? "pointer-events-none" : "pointer-events-auto"
+      } w-full overflow-hidden rounded-sm`}
     >
-      <div className="mb-1 flex w-full items-center justify-between gap-1 rounded-md pl-1 text-white focus:outline-none">
-        {title ? title : ""}
+      <div className="flex w-full items-center justify-between rounded-md text-white focus:outline-none">
+        {title ?? ""}
 
         {!icon && (
           <Icon
@@ -37,23 +50,23 @@ export default function Accordion({
             className="cursor-pointer rounded-sm transition-transform duration-500"
             style={{ transform: isOpen ? "rotate(270deg)" : "rotate(0deg)" }}
             width={30}
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen((prev) => !prev)}
           />
         )}
         {icon && (
           <div
             className="flex cursor-pointer items-center"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen((prev) => !prev)}
           >
             {icon}
           </div>
         )}
       </div>
       <div
-        className={`overflow-hidden transition-all duration-500`}
+        className="overflow-hidden transition-all duration-500"
         style={{ maxHeight: height }}
       >
-        <div className="px-2" ref={contentRef}>
+        <div className="p-1" ref={contentRef}>
           {content}
         </div>
       </div>

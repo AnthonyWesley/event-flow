@@ -72,20 +72,20 @@ export default function EventsPageDetailPage() {
               </Modal>
               <Modal
                 id="EventsPageEventToggleForm"
-                info={event?.endDate ? "Ativar evento" : "Desativar evento"}
+                info={!event?.isActive ? "Ativar evento" : "Desativar evento"}
                 icon={
                   <Icon
                     icon="lets-icons:on-button"
                     width="20"
                     className={
-                      event?.endDate ? "text-gray-400" : "text-green-500"
+                      !event?.isActive ? "text-gray-400" : "text-green-500"
                     }
                   />
                 }
               >
                 <Dialog
                   message={
-                    event?.endDate ? "Reativar evento?" : "Encerrar evento?"
+                    event?.isActive ? "Reativar evento?" : "Encerrar evento?"
                   }
                   onClick={() => toggleStatus.mutate(event.id)}
                   color="bg-green"
@@ -100,7 +100,13 @@ export default function EventsPageDetailPage() {
               <InfoLine label="Inicio:" value={formatDate(event?.createdAt)} />
               <InfoLine
                 label="Fim:"
-                value={event?.endDate ? formatDate(event?.endDate) : "Ativo"}
+                value={
+                  event.endDate
+                    ? formatDate(event.endDate)
+                    : event.isActive
+                      ? "Ativo"
+                      : "Não iniciado"
+                }
               />
             </div>
             {/* <div className="my-2 w-full">
