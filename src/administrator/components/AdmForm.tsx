@@ -2,9 +2,10 @@ import Card from "../../components/Card";
 import { useEffect, useState } from "react";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { FormValidator } from "../../helpers/FormValidator";
-import { PartnerOutputDto } from "../services/partnerService";
-import { usePartnerMutations } from "../hooks/usePartnerMutations";
+
 import { formatPhoneNumber } from "../../auth/components/authForm";
+import { usePartnerMutations } from "../../partner/hooks/usePartnerMutations";
+import { PartnerOutputDto } from "../../partner/services/partnerService";
 
 export type PartnerProps = {
   partner?: PartnerOutputDto;
