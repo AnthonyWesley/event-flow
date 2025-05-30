@@ -11,6 +11,10 @@ export function useEvent(eventId?: string) {
     refetchInterval: 5000,
   });
 
+  const currentEvent = queryEvents.data?.find(
+    (event: EventOutputDto) => event.isActive,
+  );
+
   const queryEvent = useQuery({
     queryKey: ["eventData", eventId],
     queryFn: () => eventService.findOne(eventId ?? ""),
@@ -18,14 +22,11 @@ export function useEvent(eventId?: string) {
   });
 
   const querySellersByEvents = useQuery({
-    queryKey: ["sellersByEvents", eventId],
+    queryKey: ["sellersByEvents", eventId, currentEvent],
     queryFn: () => eventService.listSellerByEvent(eventId ?? ""),
-    enabled: isAuthenticated && !!eventId,
+    enabled:
+      isAuthenticated && !!eventId && currentEvent?.allSellers.length > 0,
   });
-
-  const currentEvent = queryEvents.data?.find(
-    (event: EventOutputDto) => event.isActive,
-  );
 
   return { queryEvents, queryEvent, currentEvent, querySellersByEvents };
 }
