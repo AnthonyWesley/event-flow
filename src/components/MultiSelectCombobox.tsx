@@ -20,13 +20,13 @@ export default function MultiSelectCombobox({
   const {
     querySellers: { data: sellers },
   } = useSeller();
-  const { currentEvent } = useEvent();
+  const {
+    queryEvent: { data: event },
+  } = useEvent();
 
   const uniqueSellers = sellers.filter(
     (seller: SellerOutputDto) =>
-      !currentEvent.allSellers.some(
-        (all: SellerOutputDto) => seller.id === all.id,
-      ),
+      !event?.allSellers?.some((all: SellerOutputDto) => seller.id === all.id),
   );
 
   const removePerson = (person: SellerOutputDto) => {
@@ -45,21 +45,22 @@ export default function MultiSelectCombobox({
       <Combobox value={selectedPeople} onChange={setSelectedPeople} multiple>
         <div className="relative w-full cursor-default overflow-hidden rounded-sm border border-cyan-800 bg-white/5 text-left shadow-md focus:outline-none sm:text-sm">
           <div className="flex flex-wrap gap-1 p-1">
-            {selectedPeople.map((person) => (
-              <span
-                key={person.id}
-                className="flex items-center gap-1 rounded bg-blue-50 px-2 py-1 text-sm text-blue-800"
-              >
-                {person.name}
-                <button
-                  type="button"
-                  onClick={() => removePerson(person)}
-                  className="hover:text-rose-600"
+            {selectedPeople &&
+              selectedPeople.map((person) => (
+                <span
+                  key={person.id}
+                  className="flex items-center gap-1 rounded bg-blue-50 px-2 py-1 text-sm text-blue-800"
                 >
-                  <Icon icon="mdi:close" className="h-4 w-4" />
-                </button>
-              </span>
-            ))}
+                  {person.name}
+                  <button
+                    type="button"
+                    onClick={() => removePerson(person)}
+                    className="hover:text-rose-600"
+                  >
+                    <Icon icon="mdi:close" className="h-4 w-4" />
+                  </button>
+                </span>
+              ))}
             <Combobox.Input
               className="flex-1 border-none p-1 text-sm text-gray-700 placeholder-gray-400 outline-0 focus:ring-0"
               onChange={(event) => setQuery(event.target.value)}

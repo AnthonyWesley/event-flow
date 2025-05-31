@@ -11,21 +11,23 @@ export function useEvent(eventId?: string) {
     refetchInterval: 5000,
   });
 
+  const currentEvent = queryEvents.data?.find(
+    (event: EventOutputDto) => event.isActive,
+  );
+
   const queryEvent = useQuery({
     queryKey: ["eventData", eventId],
     queryFn: () => eventService.findOne(eventId ?? ""),
     enabled: isAuthenticated && !!eventId,
+    refetchInterval: 5000,
   });
 
   const querySellersByEvents = useQuery({
-    queryKey: ["sellersByEvents", eventId],
+    queryKey: ["sellersByEvents", eventId, queryEvent.data],
     queryFn: () => eventService.listSellerByEvent(eventId ?? ""),
-    enabled: isAuthenticated && !!eventId,
+    enabled:
+      isAuthenticated && !!eventId && queryEvent.data?.allSellers.length > 0,
   });
-
-  const currentEvent = queryEvents.data?.find(
-    (event: EventOutputDto) => event.isActive,
-  );
 
   return { queryEvents, queryEvent, currentEvent, querySellersByEvents };
 }

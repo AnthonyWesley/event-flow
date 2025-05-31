@@ -20,7 +20,6 @@ import { PRIVATE_ROUTES } from "./constants/privateRoutes";
 import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 import ErrorPage from "./auth/pages/ErrorPage";
 // import AdmPage from "./administrator/pages/AdmPage";
-screen;
 export default function App() {
   const location = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
@@ -68,6 +67,7 @@ export default function App() {
             <Route index element={<RankingPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="events/:eventId" element={<EventsPageDetailPage />} />
+            {/* <Route path="events/:eventId" element={<ActiveEventPage />} /> */}
             <Route path="user" element={<User />} />
             <Route path="sellers" element={<SellersPage />} />
             {/* <Route path="sellers/:sellerId" element={<SellerDetailPage />} /> */}

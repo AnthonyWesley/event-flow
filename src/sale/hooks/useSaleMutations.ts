@@ -22,6 +22,7 @@ export function useSaleMutations() {
       queryClient.invalidateQueries({ queryKey: ["salesData"] });
       queryClient.invalidateQueries({ queryKey: ["guestData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["eventData"] });
     },
   });
 
@@ -58,6 +59,7 @@ export function useSaleMutations() {
       queryClient.invalidateQueries({ queryKey: ["sellerData"] });
       queryClient.invalidateQueries({ queryKey: ["guestData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["eventData"] });
       queryClient.invalidateQueries({ queryKey: ["notificationsData"] });
     },
     onError: (err: any) =>

@@ -44,8 +44,10 @@ export function useEventMutations() {
     },
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao excluir evento"),
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ["eventsData"] }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["eventData"] });
+    },
   });
 
   const createOrUpdate = useMutation({
@@ -67,6 +69,7 @@ export function useEventMutations() {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["eventData"] });
       queryClient.invalidateQueries({ queryKey: ["notificationsData"] });
     },
   });

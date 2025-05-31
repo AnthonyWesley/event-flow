@@ -12,10 +12,16 @@ import { formatDate } from "../../helpers/formatDate";
 import Card from "../../components/Card";
 import Modal from "../../components/Modal";
 import Tooltip from "../../components/Tooltip";
+import useProduct from "../../product/hooks/useProduct";
+import RankingDisplay from "../../ranking/components/RankingDisplay";
+import SaleList from "../../sale/components/SaleList";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
+  const {
+    queryProducts: { data: products = [] },
+  } = useProduct();
 
   const {
     queryEvent: { isPending, error, data: event },
@@ -43,7 +49,7 @@ export default function EventsPageDetailPage() {
             <>
               <Tooltip info="Voltar">
                 <div
-                  className="cursor-pointer self-end rounded-full border border-gray-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                  className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
                   onClick={() => navigate(-1)}
                 >
                   <Icon icon="hugeicons:link-backward" width="20" />
@@ -78,7 +84,7 @@ export default function EventsPageDetailPage() {
                     icon="lets-icons:on-button"
                     width="20"
                     className={
-                      !event?.isActive ? "text-gray-400" : "text-green-500"
+                      !event?.isActive ? "text-slate-400" : "text-green-500"
                     }
                   />
                 }
@@ -94,9 +100,9 @@ export default function EventsPageDetailPage() {
             </>
           }
         >
-          <FlexSection>
+          <FlexSection className="px-0">
             <HeaderRanking event={event} />
-            <div className="flex w-full justify-between gap-2 text-gray-50">
+            <div className="my-5 flex w-full justify-between gap-2 text-slate-50">
               <InfoLine label="Inicio:" value={formatDate(event?.createdAt)} />
               <InfoLine
                 label="Fim:"
@@ -113,6 +119,34 @@ export default function EventsPageDetailPage() {
                                 <RankingDisplay event={event} mode="WINNER" />
                               </div> */}
           </FlexSection>
+          <div className={`w-full gap-2 bg-slate-900 lg:flex`}>
+            <div className="pointer-events-none w-full rounded-sm border-t-4 border-b-4 border-slate-800 bg-slate-900/50">
+              <div className="flex justify-between bg-slate-800 p-1">
+                <h1 className="">Rankig</h1>
+                <Icon icon="game-icons:podium-winner" width="20" />
+                <span>({event?.allSellers?.length})</span>
+              </div>
+              {event && (
+                <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                  <RankingDisplay event={event} disable />
+                </div>
+              )}
+            </div>
+            <div className="w-full rounded-sm border-t-4 border-b-4 border-slate-800 bg-slate-900/50">
+              <div className="flex justify-between bg-slate-800 p-1">
+                <h1 className="">Vendas</h1>
+                <Icon icon="mi:shopping-cart" width="20" />
+                <span>({event?.sales?.length})</span>
+              </div>
+              <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                <SaleList
+                  sales={event?.sales}
+                  sellers={event?.allSellers}
+                  products={products}
+                />
+              </div>
+            </div>
+          </div>
         </Card>
       </div>
     </>

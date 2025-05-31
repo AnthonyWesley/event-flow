@@ -21,7 +21,9 @@ export type SaleProps = {
 };
 
 export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
-  const { currentEvent } = useEvent();
+  const {
+    queryEvent: { data: event },
+  } = useEvent(eventId);
 
   const [product, setProduct] = useState<SelectList>();
   const [quantity, setQuantity] = useState<number>();
@@ -40,7 +42,7 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
     name: product.name,
   }));
 
-  const isGuestSeller = currentEvent?.allSellers.filter(
+  const isGuestSeller = event?.allSellers.filter(
     (se: SellerOutputDto) => se.id === guestId,
   );
 
@@ -63,7 +65,12 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
       });
     }
 
-    if (!guestId) {
+    console.log(event?.isActive);
+
+    if (!event?.isActive) {
+      toast.error("Para realizar vendas, o evento precisa está ativo.");
+      return;
+    } else if (!guestId) {
       createOrUpdate.mutate({
         eventId,
         data: {
@@ -77,16 +84,14 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
   };
 
   useEffect(() => {
-    if (currentEvent) {
-      const defaultSeller = isGuest
-        ? isGuestSeller[0]
-        : currentEvent.allSellers[0];
+    if (event) {
+      const defaultSeller = isGuest ? isGuestSeller[0] : event.allSellers[0];
 
       if (!seller && defaultSeller) {
         setSeller(defaultSeller);
       }
     }
-  }, [currentEvent, isGuest]);
+  }, [event, isGuest]);
 
   useEffect(() => {
     if (!product && productOptions.length > 0) {
@@ -94,7 +99,7 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
     }
   }, [productOptions]);
 
-  if (!currentEvent || productPending) return <Spin />;
+  if (!event || productPending) return <Spin />;
   return (
     <Card key={eventId ?? ""} color="rose">
       <form
@@ -104,7 +109,7 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
         <h1 className="rounded text-xl font-bold">Registro de Venda</h1>
         <Select
           label="Vendedor"
-          selectList={isGuest ? isGuestSeller : currentEvent.allSellers}
+          selectList={isGuest ? isGuestSeller : event.allSellers}
           onChange={setSeller}
           selected={seller}
         />

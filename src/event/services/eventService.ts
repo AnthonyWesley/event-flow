@@ -39,14 +39,14 @@ export const eventService = {
     const response = await partnerApi.get(
       `/events/${eventId}/sellers/${sellerId}/sellerEvents`,
     );
-
     return response.data.events;
   },
 
   listSellerByEvent: async (eventId: string) => {
-    const response = await partnerApi.get(`/events/${eventId}/sellers`);
-
-    return response.data.SellerWithStats;
+    if (eventId) {
+      const response = await partnerApi.get(`/events/${eventId}/sellers`);
+      return response.data.SellerWithStats;
+    }
   },
 
   create: async (data: EventInputDto) => {

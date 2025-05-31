@@ -27,6 +27,7 @@ export function useSellerMutations() {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["sellersData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["eventData"] });
       queryClient.invalidateQueries({ queryKey: ["guestData"] });
     },
     onError: (err: any) =>
@@ -59,6 +60,7 @@ export function useSellerMutations() {
       queryClient.invalidateQueries({ queryKey: ["sellersData"] });
       queryClient.invalidateQueries({ queryKey: ["sellerData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["eventData"] });
     },
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao salvar vendedor"),

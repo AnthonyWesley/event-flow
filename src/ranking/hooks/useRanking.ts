@@ -10,7 +10,8 @@ export default function useRanking(event?: EventOutputDto) {
     if (!event?.id) return;
     toggleStatus.mutate(event.id, {
       onSuccess: () => {
-        event?.endDate ? navigate("/") : navigate("/events");
+        event?.isActive && navigate("/events");
+        // event?.isActive ? navigate(`/events/${event.id}`) : navigate("/events");
       },
     });
   };

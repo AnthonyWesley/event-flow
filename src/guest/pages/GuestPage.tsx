@@ -27,9 +27,8 @@ export default function GuestPage() {
     queryGuest: { data: seller, isLoading: isSellerLoading, error },
   } = useGuest(eventId ?? "", sellerId ?? "");
   const {
-    currentEvent,
-    queryEvents: { isLoading: isEventLoading },
-  } = useEvent();
+    queryEvent: { data: event, isLoading: isEventLoading },
+  } = useEvent(eventId);
 
   const {
     queryProducts: { data: products, isLoading: isProductLoading },
@@ -47,18 +46,16 @@ export default function GuestPage() {
   if (isProductLoading) return <Spin />;
   if (isSellerLoading) return <Spin />;
   // if (error) return "An error has occurred: " + error.message;
-  const currentIndex = Array.isArray(currentEvent?.allSellers)
-    ? currentEvent.allSellers.findIndex(
-        (s: any) => s.name === seller?.guest?.name,
-      ) + 1
+  const currentIndex = Array.isArray(event?.allSellers)
+    ? event.allSellers.findIndex((s: any) => s.name === seller?.guest?.name) + 1
     : "-";
 
-  const isValueGoal = currentEvent?.goalType === "VALUE";
+  const isValueGoal = event?.goalType === "VALUE";
   const currentProgress =
     seller?.guest?.[isValueGoal ? "totalSalesValue" : "totalSalesCount"];
   const goal = goalUtils.calculateSellerGoal(
-    currentEvent?.allSellers,
-    currentEvent?.goal ?? 0,
+    event?.allSellers,
+    event?.goal ?? 0,
   );
   const goalLabel = isValueGoal ? currencyFormatter.ToBRL(goal) : `${goal}`;
   const goalColor = goalUtils.handleGoalAchieved(currentProgress, goal);
@@ -114,12 +111,7 @@ export default function GuestPage() {
         </Modal>
       </FlexSection>
       <FlexSection className="flex-row bg-slate-900">
-        <InfoLine
-          label="Evento"
-          value={currentEvent?.name}
-          size="lg"
-          line="col"
-        />
+        <InfoLine label="Evento" value={event?.name} size="lg" line="col" />
 
         <div className="flex w-20 items-start justify-center border-gray-500/25 pl-2 text-4xl">
           <h1 className={`${goalUtils.podiumColor(currentIndex)}`}>
@@ -156,7 +148,7 @@ export default function GuestPage() {
           />
         </FlexSection>
         <Modal id="GuestPageSaleForm" icon="carbon:shopping-cart-plus">
-          <SaleForm eventId={currentEvent?.id} guestId={sellerId} isGuest />
+          <SaleForm eventId={event?.id} guestId={sellerId} isGuest />
         </Modal>
       </FlexSection>
 
@@ -167,7 +159,7 @@ export default function GuestPage() {
             <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
               <SaleList
                 sales={seller?.guest?.sales}
-                sellers={currentEvent?.allSellers}
+                sellers={event?.allSellers}
                 products={products}
                 isGuest
               />
@@ -175,11 +167,11 @@ export default function GuestPage() {
           )}
         </div>
         <span className="p-2"></span>
-        <div className="pointer-events-none w-full rounded-sm border-t-4 border-b-4 border-yellow-400 bg-slate-900/50">
-          <h1 className="bg-yellow-400 p-2">Rankig</h1>
-          {currentEvent && (
+        <div className="pointer-events-none w-full rounded-sm border-t-4 border-b-4 border-slate-700 bg-slate-900/50">
+          <h1 className="bg-slate-700 p-2">Rankig</h1>
+          {event && (
             <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-              <RankingDisplay event={currentEvent} disable />
+              <RankingDisplay event={event} disable />
             </div>
           )}
         </div>

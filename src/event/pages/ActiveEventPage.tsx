@@ -1,48 +1,53 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Spin from "../../components/Spin";
-import EventForm from "../../event/components/EventForm";
-import SaleForm from "../../sale/components/SaleForm";
 import Dialog from "../../components/Dialog";
-import RankingDisplay from "../components/RankingDisplay";
-import Modal from "../../components/Modal";
-import { useEvent } from "../../event/hooks/useEvent";
-import useRanking from "../hooks/useRanking";
-import SellerForm from "../../seller/components/SellerForm";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEvent } from "../hooks/useEvent";
+import EventForm from "../components/EventForm";
 import FlexSection from "../../components/FlexSection";
-import ChangeButton from "../../components/ChangeButton";
-import SaleList from "../../sale/components/SaleList";
-import useProduct from "../../product/hooks/useProduct";
-import { useState } from "react";
-import { SalesOrSellersItem } from "../types/SalesOrSellersItem";
-import { SalesOrSellersKey } from "../types/SalesOrSellersKey";
+import HeaderRanking from "../../ranking/components/HeaderRanking";
+import Modal from "../../components/Modal";
 import Tooltip from "../../components/Tooltip";
+import { useEffect, useState } from "react";
+import ChangeButton from "../../components/ChangeButton";
 import EventIcon from "../../icons/eventIcon";
-import HeaderRanking from "../components/HeaderRanking";
+import useProduct from "../../product/hooks/useProduct";
+import RankingDisplay from "../../ranking/components/RankingDisplay";
+import useRanking from "../../ranking/hooks/useRanking";
+import { SalesOrSellersItem } from "../../ranking/types/SalesOrSellersItem";
+import { SalesOrSellersKey } from "../../ranking/types/SalesOrSellersKey";
+import SaleForm from "../../sale/components/SaleForm";
+import SaleList from "../../sale/components/SaleList";
+import SellerForm from "../../seller/components/SellerForm";
 
-export const eventsLinks = [
-  {
-    href: "/sellers",
-    text: "Vendedores",
-    icon: "tdesign:user-list-filled",
-  },
-  {
-    href: "/sales",
-    text: "Vendas",
-    icon: "hugeicons:sale-tag-01",
-  },
-];
+export default function ActiveEventPage() {
+  const navigate = useNavigate();
 
-export default function RankingPage() {
+  const { eventId } = useParams<{ eventId: string }>();
   const {
-    queryEvents: { data: events, isPending, error },
-    currentEvent,
-  } = useEvent();
+    queryEvent: { data: event, isPending, error },
+  } = useEvent(eventId);
 
   const {
     queryProducts: { data: products = [] },
   } = useProduct();
 
-  const { toggleEvent, handleDelete } = useRanking(currentEvent);
+  useEffect(() => {
+    if (eventId) {
+      localStorage.setItem("lastEventId", eventId);
+    }
+  }, [eventId]);
+
+  useEffect(() => {
+    if (!eventId) {
+      const last = localStorage.getItem("lastEventId");
+      if (last) {
+        navigate(`/events/${last}`); // redireciona para o evento salvo
+      }
+    }
+  }, [eventId, navigate]);
+
+  const { toggleEvent, handleDelete } = useRanking(event);
   const [list, setList] = useState<SalesOrSellersKey>("SELLERS");
 
   if (isPending) return <Spin />;
@@ -55,23 +60,19 @@ export default function RankingPage() {
   const modalActions = [
     {
       id: "RankingPageEventToggleForm",
-      info: !currentEvent?.endDate ? "Finalizar Evento" : "Ativar Evento",
+      info: !event?.endDate ? "Finalizar Evento" : "Ativar Evento",
       icon: (
         <Icon
           icon="lets-icons:on-button"
           width="20"
           className={
-            currentEvent?.endDate
-              ? "text-gray-400"
-              : "animate-pulse text-green-500"
+            event?.endDate ? "text-gray-400" : "animate-pulse text-green-500"
           }
         />
       ),
       children: (
         <Dialog
-          message={
-            currentEvent?.endDate ? "Reativar evento?" : "Encerrar evento?"
-          }
+          message={event?.endDate ? "Reativar evento?" : "Encerrar evento?"}
           onClick={toggleEvent}
           color="bg-green"
         />
@@ -82,7 +83,7 @@ export default function RankingPage() {
       info: "Editar evento",
       // icon: "mdi:event-edit",
       icon: <EventIcon icon="PEN" />,
-      children: <EventForm event={currentEvent} />,
+      children: <EventForm event={event} />,
     },
 
     {
@@ -106,29 +107,29 @@ export default function RankingPage() {
       id: "RankingPageSaleForm",
       info: "Add venda",
       icon: "mi:shopping-cart-add",
-      children: <SaleForm eventId={currentEvent?.id} />,
+      children: <SaleForm eventId={event?.id} />,
     },
     SELLERS: {
       title: "Vendedores",
       id: "RankingPageSellerForm",
       info: "Add vendedor",
       icon: "material-symbols:person-add",
-      children: <SellerForm eventId={currentEvent?.id} />,
+      children: <SellerForm eventId={event?.id} />,
     },
   };
 
   return (
     <>
-      {currentEvent ? (
+      {event ? (
         <>
-          <HeaderRanking event={currentEvent} />
+          <HeaderRanking event={event} />
           {/* <SendText /> */}
           <FlexSection className="items-start border border-gray-500/15 px-0 py-0 lg:max-h-[65vh] lg:flex-row">
             <div className="bg-dark flex max-h-full w-full flex-[2] overflow-y-auto lg:min-h-[65vh]">
               {/* <div className="absolute lg:hidden">
                 <CircularMenu />
               </div> */}
-              {events && <RankingDisplay event={currentEvent} mode="PODIUM" />}
+              {event && <RankingDisplay event={event} mode="PODIUM" />}
             </div>
 
             <div className="flex h-[65vh] w-full flex-[1] flex-col">
@@ -165,26 +166,26 @@ export default function RankingPage() {
               </div>
               <h1 className="bg-slate-900 p-2 text-center">
                 {list === "SALES"
-                  ? `Vendas (${currentEvent?.sales?.length || 0})`
-                  : `Vendedores (${currentEvent?.allSellers?.length || 0})`}
+                  ? `Vendas (${event?.sales?.length || 0})`
+                  : `Vendedores (${event?.allSellers?.length || 0})`}
               </h1>
               <div
                 className={`h-[35vh] overflow-y-scroll border-t-4 bg-slate-900 lg:h-[65vh] ${list === "SALES" ? "border-rose-500" : "border-cyan-800"}`}
               >
                 {list === "SALES" &&
-                  currentEvent.allSellers &&
-                  currentEvent.allSellers.length > 0 && (
+                  event.allSellers &&
+                  event.allSellers.length > 0 && (
                     <SaleList
-                      sales={currentEvent.sales}
-                      sellers={currentEvent.allSellers}
+                      sales={event.sales}
+                      sellers={event.allSellers}
                       products={products}
                     />
                   )}
 
                 {list === "SELLERS" && (
                   <RankingDisplay
-                    event={currentEvent}
-                    mode={currentEvent.sales <= 0 ? "NORMAL" : "OTHERS"}
+                    event={event}
+                    mode={event.sales <= 0 ? "NORMAL" : "OTHERS"}
                   />
                 )}
               </div>
@@ -200,7 +201,7 @@ export default function RankingPage() {
             id="RankingPageEventForm2"
             icon={<Icon icon="ic:baseline-plus" width="40" />}
           >
-            <EventForm event={currentEvent} />
+            <EventForm event={event} />
           </Modal>
         </div>
       )}

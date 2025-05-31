@@ -195,7 +195,7 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
             </label>
           </>
         )}
-        {!isCreateButton && (
+        {!isCreateButton && selectedPeople && (
           <MultiSelectCombobox
             selectedPeople={selectedPeople}
             setSelectedPeople={setSelectedPeople}
