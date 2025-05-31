@@ -36,9 +36,10 @@ export default function GuestPage() {
 
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token");
+    console.log(token);
 
     if (token) {
-      sessionStorage.setItem("accessToken", token);
+      localStorage.setItem("accessToken", token);
     }
   }, []);
 
