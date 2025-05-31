@@ -7,6 +7,7 @@ interface AccordionProps {
   icon?: React.ReactNode;
   disabled?: boolean;
   startOpen?: boolean; // nova prop
+  className?: string;
 }
 
 export default function Accordion({
@@ -15,6 +16,7 @@ export default function Accordion({
   icon,
   disabled,
   startOpen = false,
+  className,
 }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(startOpen);
   const [height, setHeight] = useState<number | "auto">(0);
@@ -41,7 +43,9 @@ export default function Accordion({
         disabled ? "pointer-events-none" : "pointer-events-auto"
       } w-full overflow-hidden rounded-sm`}
     >
-      <div className="flex w-full items-center justify-between rounded-md text-white focus:outline-none">
+      <div
+        className={`flex w-full items-center justify-between rounded-sm text-white focus:outline-none ${className}`}
+      >
         {title ?? ""}
 
         {!icon && (

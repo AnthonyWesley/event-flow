@@ -154,9 +154,25 @@ export default function GuestPage() {
       </FlexSection>
 
       <div className={`w-full lg:flex`}>
-        <div className="w-full rounded-sm border-t-4 border-b-4 border-cyan-800 bg-slate-900/50">
-          <h1 className="bg-cyan-800 p-2">Minhas vendas</h1>
-          {seller?.guest?.sales.length > 0 && (
+        <div className="w-full rounded-sm border-t-4 border-slate-900 bg-slate-900/50">
+          <Accordion
+            title="Minhas vendas"
+            className="bg-slate-900 p-2"
+            startOpen
+            content={
+              seller?.guest?.sales.length > 0 && (
+                <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                  <SaleList
+                    sales={seller?.guest?.sales}
+                    sellers={event?.allSellers}
+                    products={products}
+                    isGuest
+                  />
+                </div>
+              )
+            }
+          />
+          {/* {seller?.guest?.sales.length > 0 && (
             <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
               <SaleList
                 sales={seller?.guest?.sales}
@@ -165,16 +181,21 @@ export default function GuestPage() {
                 isGuest
               />
             </div>
-          )}
+          )} */}
         </div>
         <span className="p-2"></span>
-        <div className="pointer-events-none w-full rounded-sm border-t-4 border-b-4 border-slate-700 bg-slate-900/50">
-          <h1 className="bg-slate-700 p-2">Rankig</h1>
-          {event && (
-            <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-              <RankingDisplay event={event} disable />
-            </div>
-          )}
+        <div className="pointer-events-none w-full rounded-sm border-t-4 border-slate-900 bg-slate-900/50">
+          <Accordion
+            title="Ranking"
+            className="bg-slate-900 p-2"
+            content={
+              event && (
+                <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                  <RankingDisplay event={event} disable />
+                </div>
+              )
+            }
+          />
         </div>
       </div>
     </div>
