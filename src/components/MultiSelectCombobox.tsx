@@ -3,31 +3,19 @@ import { Combobox, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import { SellerOutputDto } from "../seller/services/sellerService";
 import clsx from "clsx";
-import useSeller from "../seller/hooks/useSeller";
-import { useEvent } from "../event/hooks/useEvent";
 
 type MultiSelectComboboxProps = {
   selectedPeople: SellerOutputDto[];
   setSelectedPeople: (people: SellerOutputDto[]) => void;
-  eventId?: string;
+  uniqueSellers: SellerOutputDto[];
 };
 
 export default function MultiSelectCombobox({
   selectedPeople,
   setSelectedPeople,
+  uniqueSellers,
 }: MultiSelectComboboxProps) {
   const [query, setQuery] = useState("");
-  const {
-    querySellers: { data: sellers },
-  } = useSeller();
-  const {
-    queryEvent: { data: event },
-  } = useEvent();
-
-  const uniqueSellers = sellers.filter(
-    (seller: SellerOutputDto) =>
-      !event?.allSellers?.some((all: SellerOutputDto) => seller.id === all.id),
-  );
 
   const removePerson = (person: SellerOutputDto) => {
     setSelectedPeople(selectedPeople.filter((p) => p.id !== person.id));

@@ -2,6 +2,7 @@ import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import AuthForm from "../components/authForm";
 import { toast } from "react-toastify";
+import { FormValidator } from "../../helpers/FormValidator";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,6 +16,12 @@ export default function AuthPage() {
         toast.warning("As senhas não coincidem");
         return;
       }
+      const isValid = FormValidator.validateAll({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      });
+      if (!isValid) return;
 
       register.mutate(data, {
         onSuccess: () => {

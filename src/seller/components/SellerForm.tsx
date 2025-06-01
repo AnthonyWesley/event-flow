@@ -130,6 +130,17 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
     }
   };
 
+  const sellerIdsInEvent = new Set(sellersByEvent?.map((s: any) => s.sellerId));
+
+  const uniqueSellers = sellers?.filter(
+    (seller: SellerOutputDto) => !sellerIdsInEvent.has(seller.id),
+  );
+
+  const hasChanges =
+    fieldFormatter.name(name) !== fieldFormatter.name(seller?.name ?? "") ||
+    email !== seller?.email ||
+    fieldFormatter.phone(phone) !== fieldFormatter.phone(seller?.phone ?? "");
+
   return (
     <Card key={seller?.id ?? ""} color="blue">
       <form
@@ -199,12 +210,12 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
           <MultiSelectCombobox
             selectedPeople={selectedPeople}
             setSelectedPeople={setSelectedPeople}
-            eventId={eventId}
+            uniqueSellers={uniqueSellers}
           />
         )}
         <button
           type="submit"
-          disabled={createOrUpdate.isPending}
+          disabled={!hasChanges || createOrUpdate.isPending}
           className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
         >
           {createOrUpdate.isPending

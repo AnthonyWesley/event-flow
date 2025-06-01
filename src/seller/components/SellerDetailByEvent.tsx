@@ -90,7 +90,7 @@ export default function SellerDetailByEvent({
           <div className="mr-auto">
             <CopyToClipboard
               // text={`https://event-flow-api.vercel.app/events/${event.id}/guest/${seller.id}`}
-              text={`https://event-flow-awl.netlify.app/events/${event.id}/guest/${seller.id}?token=${token}`}
+              text={`${import.meta.env.VITE_API_URL || "http://localhost:5173"}/events/${event.id}/guest/${seller.id}?token=${token}`}
               label="Copiar Convite"
             />
           </div>

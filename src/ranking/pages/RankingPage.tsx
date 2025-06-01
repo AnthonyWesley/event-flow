@@ -18,6 +18,7 @@ import { SalesOrSellersKey } from "../types/SalesOrSellersKey";
 import Tooltip from "../../components/Tooltip";
 import EventIcon from "../../icons/eventIcon";
 import HeaderRanking from "../components/HeaderRanking";
+import InfoList from "../../components/InfoList";
 
 export const eventsLinks = [
   {
@@ -132,6 +133,20 @@ export default function RankingPage() {
             </div>
 
             <div className="flex h-[65vh] w-full flex-[1] flex-col">
+              {list === "SELLERS" && (
+                <InfoList
+                  tittle="Rankig"
+                  icon="game-icons:podium-winner"
+                  length={currentEvent?.allSellers?.length}
+                />
+              )}
+              {list === "SALES" && (
+                <InfoList
+                  tittle="Vendas"
+                  icon="mi:shopping-cart"
+                  length={currentEvent?.sales?.length}
+                />
+              )}
               <div className="flex items-center justify-between border-b border-gray-500/15 bg-slate-900 p-2">
                 {modalActions.map((modal) => (
                   <Modal
@@ -163,11 +178,7 @@ export default function RankingPage() {
                 {/* {isSalesOrSellers[list].title} */}
                 {/* </p> */}
               </div>
-              <h1 className="bg-slate-900 p-2 text-center">
-                {list === "SALES"
-                  ? `Vendas (${currentEvent?.sales?.length || 0})`
-                  : `Vendedores (${currentEvent?.allSellers?.length || 0})`}
-              </h1>
+
               <div
                 className={`h-[35vh] overflow-y-scroll border-t-4 bg-slate-900 lg:h-[65vh] ${list === "SALES" ? "border-rose-500" : "border-cyan-800"}`}
               >

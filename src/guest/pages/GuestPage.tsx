@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import useGuest from "../hooks/useGuest";
 import { useEffect } from "react";
 import Accordion from "../../components/Accordion";
+import InfoList from "../../components/InfoList";
 
 export default function GuestPage() {
   const { eventId, sellerId } = useParams<{
@@ -156,7 +157,14 @@ export default function GuestPage() {
       <div className={`w-full lg:flex`}>
         <div className="w-full rounded-sm border-t-4 border-slate-900 bg-slate-900/50">
           <Accordion
-            title="Minhas vendas"
+            title={
+              <InfoList
+                tittle="Minhas Vendas"
+                icon="mi:shopping-cart"
+                length={event?.sales?.length}
+                className="w-full"
+              />
+            }
             className="bg-slate-900 p-2"
             startOpen
             content={
@@ -172,21 +180,18 @@ export default function GuestPage() {
               )
             }
           />
-          {/* {seller?.guest?.sales.length > 0 && (
-            <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-              <SaleList
-                sales={seller?.guest?.sales}
-                sellers={event?.allSellers}
-                products={products}
-                isGuest
-              />
-            </div>
-          )} */}
         </div>
         <span className="p-2"></span>
         <div className="pointer-events-none w-full rounded-sm border-t-4 border-slate-900 bg-slate-900/50">
           <Accordion
-            title="Ranking"
+            title={
+              <InfoList
+                tittle="Rankig"
+                icon="game-icons:podium-winner"
+                length={event?.allSellers?.length}
+                className="w-full"
+              />
+            }
             className="bg-slate-900 p-2"
             content={
               event && (

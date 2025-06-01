@@ -5,7 +5,7 @@ import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Card from "../../components/Card";
 import { EventOutputDto } from "../services/eventService";
-import { toast } from "react-toastify";
+import { FormValidator } from "../../helpers/FormValidator";
 
 export type EventProps = {
   event?: EventOutputDto;
@@ -40,16 +40,11 @@ export default function EventForm({ event }: EventProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !goal || !goalType) {
-      toast.error("Preencha todos os dados!");
-      return;
-    }
-
-    if (currencyFormatter.ToNumber(goal) == 0) {
-      toast.error("Meta tem que ser maior que 0");
-      return;
-    }
-
+    const isValid = FormValidator.validateAll({
+      name,
+      goal,
+    });
+    if (!isValid) return;
     createOrUpdate.mutate(
       {
         id: event?.id,
@@ -64,6 +59,11 @@ export default function EventForm({ event }: EventProps) {
       },
     );
   };
+
+  const hasChanges =
+    name !== event?.name ||
+    goalType.id !== event?.goalType ||
+    currencyFormatter.ToNumber(goal) !== event?.goal;
 
   return (
     <Card key={event?.id ?? ""} color="orange">
@@ -96,7 +96,7 @@ export default function EventForm({ event }: EventProps) {
           selected={goalType}
           onChange={(selected) => {
             setGoalType(selected);
-            setGoal(selected.id === "VALUE" ? "R$" : 0);
+            setGoal(selected.id === "VALUE" ? "R$" : 1);
           }}
         />
 
@@ -118,7 +118,7 @@ export default function EventForm({ event }: EventProps) {
         </label>
         <button
           type="submit"
-          disabled={createOrUpdate.isPending}
+          disabled={!hasChanges || createOrUpdate.isPending}
           className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
         >
           {createOrUpdate.isPending ? "Salvando..." : "Salvar"}

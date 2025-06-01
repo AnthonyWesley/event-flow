@@ -42,7 +42,7 @@ export default function ProductForm({ product }: ProductProps) {
           s.name.toLowerCase() === fieldFormatter.name(name).toLowerCase(),
       );
 
-      if (productAlreadyInExists) {
+      if (productAlreadyInExists && !product?.id) {
         toast.error("Produto com o mesmo nome já está cadastrado.");
         return;
       }
@@ -58,6 +58,10 @@ export default function ProductForm({ product }: ProductProps) {
       );
     }
   };
+
+  const hasChanges =
+    name !== product?.name ||
+    currencyFormatter.ToNumber(price) !== product?.price;
   return (
     <Card key={product?.id ?? ""} color="green">
       <form
@@ -92,7 +96,7 @@ export default function ProductForm({ product }: ProductProps) {
 
         <button
           type="submit"
-          disabled={createOrUpdate.isPending}
+          disabled={!hasChanges || createOrUpdate.isPending}
           className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
         >
           {createOrUpdate.isPending ? "Salvando..." : "Salvar"}

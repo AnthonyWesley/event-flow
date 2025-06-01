@@ -15,6 +15,7 @@ import Tooltip from "../../components/Tooltip";
 import useProduct from "../../product/hooks/useProduct";
 import RankingDisplay from "../../ranking/components/RankingDisplay";
 import SaleList from "../../sale/components/SaleList";
+import InfoList from "../../components/InfoList";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -121,11 +122,11 @@ export default function EventsPageDetailPage() {
           </FlexSection>
           <div className={`w-full gap-2 bg-slate-900 lg:flex`}>
             <div className="pointer-events-none w-full rounded-sm border-t-4 border-b-4 border-slate-800 bg-slate-900/50">
-              <div className="flex justify-between bg-slate-800 p-1">
-                <h1 className="">Rankig</h1>
-                <Icon icon="game-icons:podium-winner" width="20" />
-                <span>({event?.allSellers?.length})</span>
-              </div>
+              <InfoList
+                tittle="Rankig"
+                icon="game-icons:podium-winner"
+                length={event?.allSellers?.length}
+              />
               {event && (
                 <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
                   <RankingDisplay event={event} disable />
@@ -133,11 +134,11 @@ export default function EventsPageDetailPage() {
               )}
             </div>
             <div className="w-full rounded-sm border-t-4 border-b-4 border-slate-800 bg-slate-900/50">
-              <div className="flex justify-between bg-slate-800 p-1">
-                <h1 className="">Vendas</h1>
-                <Icon icon="mi:shopping-cart" width="20" />
-                <span>({event?.sales?.length})</span>
-              </div>
+              <InfoList
+                tittle="Vendas"
+                icon="mi:shopping-cart"
+                length={event?.sales?.length}
+              />
               <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
                 <SaleList
                   sales={event?.sales}

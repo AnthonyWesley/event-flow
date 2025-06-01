@@ -27,18 +27,23 @@ export default function PartnerForm({ partner }: PartnerProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const isValid = FormValidator.validateAll({ name, email });
+    const isValid = FormValidator.validateAll({ name, email, phone });
     if (isValid) {
       update.mutate({
         id: partner?.id,
         data: {
           name: fieldFormatter.name(name),
           email,
-          phone,
+          phone: fieldFormatter.phone(phone ?? ""),
         },
       });
     }
   };
+
+  const hasChanges =
+    fieldFormatter.name(name) !== fieldFormatter.name(partner?.name ?? "") ||
+    email !== partner?.email ||
+    fieldFormatter.phone(phone) !== fieldFormatter.phone(partner?.phone ?? "");
 
   return (
     <Card key={partner?.id ?? ""} color="">
@@ -79,7 +84,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
         </label>
         <button
           type="submit"
-          disabled={update.isPending}
+          disabled={!hasChanges || update.isPending}
           className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
         >
           {update.isPending ? "Salvando..." : "Salvar"}
