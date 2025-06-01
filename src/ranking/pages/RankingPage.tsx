@@ -8,7 +8,6 @@ import Modal from "../../components/Modal";
 import { useEvent } from "../../event/hooks/useEvent";
 import useRanking from "../hooks/useRanking";
 import SellerForm from "../../seller/components/SellerForm";
-import FlexSection from "../../components/FlexSection";
 import ChangeButton from "../../components/ChangeButton";
 import SaleList from "../../sale/components/SaleList";
 import useProduct from "../../product/hooks/useProduct";
@@ -122,7 +121,7 @@ export default function RankingPage() {
       {currentEvent ? (
         <>
           <HeaderRanking event={currentEvent} />
-          <FlexSection className="items-start overflow-hidden border-gray-500/15 px-0 py-0 lg:max-h-[65vh] lg:flex-row">
+          <section className="flex flex-col items-start overflow-hidden rounded-2xl border-gray-500/15 px-0 py-0 lg:max-h-[65vh] lg:flex-row">
             <div className="bg-dark flex max-h-full w-full flex-[2] overflow-y-auto lg:h-[65vh]">
               {events && <RankingDisplay event={currentEvent} mode="PODIUM" />}
             </div>
@@ -168,7 +167,7 @@ export default function RankingPage() {
               </div>
             </div>
 
-            <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl border-t border-solid border-gray-100/15 bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:static lg:h-[65vh] lg:w-20 lg:flex-col">
+            <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl border-t border-solid border-gray-100/15 bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:static lg:h-[65vh] lg:w-20 lg:flex-col lg:rounded-l-none lg:rounded-tr-2xl">
               <Tooltip
                 info={`${list === "SALES" ? "Vendas" : "Vendedores"} `}
                 className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
@@ -194,7 +193,7 @@ export default function RankingPage() {
                 </Modal>
               ))}
             </nav>
-          </FlexSection>
+          </section>
         </>
       ) : (
         <div className="shadow-basic mb-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 p-2 italic">

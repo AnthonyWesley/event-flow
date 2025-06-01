@@ -33,7 +33,7 @@ export default function HeaderRanking({
 
   return (
     <header
-      className={`mb-1 flex w-full flex-col items-center gap-1 rounded-sm border border-gray-500/15 bg-slate-900 p-2 ${className}`}
+      className={`my-1 flex w-full flex-col items-center gap-1 rounded-xl border border-gray-500/15 bg-slate-950 p-2 ${className}`}
     >
       {showModal && <GoalAchievedModal onClose={() => setShowModal(false)} />}
       <div className={`flex w-full items-center justify-between gap-1`}>
