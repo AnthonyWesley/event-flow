@@ -77,7 +77,7 @@ export default function SlideBar({
     sliderSide === "left"
       ? ["translate-x-0 left-0", "-translate-x-full left-0"]
       : ["-translate-x-0 right-0", "translate-x-full right-0"];
-  const mobile = typeof window !== "undefined" && window.innerWidth < 768;
+  // const mobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <nav
@@ -97,7 +97,7 @@ export default function SlideBar({
             className={`fixed ${
               sliderSide === "left" ? "-right-14" : "-left-14"
             } hover:bg-appPrimaryColor cursor-pointer rounded-sm p-2 transition duration-300`}
-            style={{ [mobile ? "top" : "bottom"]: verticalPosition }}
+            style={{ bottom: verticalPosition }}
             onClick={toggleMenu}
           >
             {!isOpen && <>{icon}</>}

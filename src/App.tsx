@@ -31,7 +31,8 @@ export default function App() {
   );
   const state = location.state as { backgroundLocation?: Location };
   return (
-    <div className="mb-20 flex lg:mt-20 lg:min-h-[75vh]">
+    // <div className="mb-20 flex lg:mt-20 lg:min-h-[80vh]">
+    <div className="flex min-h-screen flex-col">
       {isAuthenticated && (
         <>
           {!isGuestPage && <Navbar links={PRIVATE_ROUTES} />}

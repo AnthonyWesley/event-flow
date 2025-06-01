@@ -55,6 +55,26 @@ export default function RankingPage() {
 
   const modalActions = [
     {
+      id: "RankingPageEventForm",
+      info: "Editar evento",
+      // icon: "mdi:event-edit",
+      icon: <EventIcon icon="PEN" />,
+      children: <EventForm event={currentEvent} />,
+    },
+    {
+      id: "RankingPageEventDeleteForm",
+      info: "Deletar Evento",
+      icon: "carbon:trash-can",
+
+      children: (
+        <Dialog
+          message="Deseja excluir o evento?"
+          onClick={handleDelete}
+          color="bg-rose"
+        />
+      ),
+    },
+    {
       id: "RankingPageEventToggleForm",
       info: !currentEvent?.endDate ? "Finalizar Evento" : "Ativar Evento",
       icon: (
@@ -75,27 +95,6 @@ export default function RankingPage() {
           }
           onClick={toggleEvent}
           color="bg-green"
-        />
-      ),
-    },
-    {
-      id: "RankingPageEventForm",
-      info: "Editar evento",
-      // icon: "mdi:event-edit",
-      icon: <EventIcon icon="PEN" />,
-      children: <EventForm event={currentEvent} />,
-    },
-
-    {
-      id: "RankingPageEventDeleteForm",
-      info: "Deletar Evento",
-      icon: "carbon:trash-can",
-
-      children: (
-        <Dialog
-          message="Deseja excluir o evento?"
-          onClick={handleDelete}
-          color="bg-rose"
         />
       ),
     },
@@ -123,65 +122,33 @@ export default function RankingPage() {
       {currentEvent ? (
         <>
           <HeaderRanking event={currentEvent} />
-          {/* <SendText /> */}
-          <FlexSection className="items-start border border-gray-500/15 px-0 py-0 lg:max-h-[65vh] lg:flex-row">
-            <div className="bg-dark flex max-h-full w-full flex-[2] overflow-y-auto lg:min-h-[65vh]">
-              {/* <div className="absolute lg:hidden">
-                <CircularMenu />
-              </div> */}
+          <FlexSection className="items-start overflow-hidden border-gray-500/15 px-0 py-0 lg:max-h-[65vh] lg:flex-row">
+            <div className="bg-dark flex max-h-full w-full flex-[2] overflow-y-auto lg:h-[65vh]">
               {events && <RankingDisplay event={currentEvent} mode="PODIUM" />}
             </div>
 
-            <div className="flex h-[65vh] w-full flex-[1] flex-col">
-              {list === "SELLERS" && (
-                <InfoList
-                  tittle="Rankig"
-                  icon="game-icons:podium-winner"
-                  length={currentEvent?.allSellers?.length}
-                />
-              )}
-              {list === "SALES" && (
-                <InfoList
-                  tittle="Vendas"
-                  icon="mi:shopping-cart"
-                  length={currentEvent?.sales?.length}
-                />
-              )}
-              <div className="flex items-center justify-between border-b border-gray-500/15 bg-slate-900 p-2">
-                {modalActions.map((modal) => (
-                  <Modal
-                    info={modal.info}
-                    key={modal.id}
-                    id={modal.id ?? ""}
-                    icon={modal.icon}
-                  >
-                    {modal.children}
-                  </Modal>
-                ))}
-                <span className="h-14 border border-gray-500/15"></span>
-                <Modal
-                  info={isSalesOrSellers[list].info}
-                  id={isSalesOrSellers[list].id}
-                  icon={isSalesOrSellers[list].icon}
-                >
-                  {isSalesOrSellers[list].children}
-                </Modal>
-                <Tooltip
-                  info={`${list === "SALES" ? "Vendas" : "Vendedores"} `}
-                  className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-                >
-                  <ChangeButton onChange={changeList} />
-                </Tooltip>
-                {/* <p className="flex w-full justify-between bg-slate-800 text-lg"> */}
-                {/* <Icon icon={`mdi:users`} width="30" /> */}
-                {/* <Icon icon="carbon:list" width="30" /> */}
-                {/* {isSalesOrSellers[list].title} */}
-                {/* </p> */}
+            <div className="flex max-h-[55vh] w-full flex-[1] flex-col bg-slate-900 lg:h-[65vh] lg:max-h-[65vh]">
+              <div className={``}>
+                {list === "SELLERS" && (
+                  <InfoList
+                    tittle="Rankig"
+                    icon="game-icons:podium-winner"
+                    length={currentEvent?.allSellers?.length}
+                    className="bg-slate-950"
+                  />
+                )}
+
+                {list === "SALES" && (
+                  <InfoList
+                    tittle="Vendas"
+                    icon="mi:shopping-cart"
+                    length={currentEvent?.sales?.length}
+                    className="bg-slate-950"
+                  />
+                )}
               </div>
 
-              <div
-                className={`h-[35vh] overflow-y-scroll border-t-4 bg-slate-900 lg:h-[65vh] ${list === "SALES" ? "border-rose-500" : "border-cyan-800"}`}
-              >
+              <div className="flex-1 overflow-y-scroll bg-slate-900 px-2">
                 {list === "SALES" &&
                   currentEvent.allSellers &&
                   currentEvent.allSellers.length > 0 && (
@@ -200,6 +167,33 @@ export default function RankingPage() {
                 )}
               </div>
             </div>
+
+            <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-2xl border-t border-solid border-gray-100/15 bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:static lg:h-[65vh] lg:w-20 lg:flex-col">
+              <Tooltip
+                info={`${list === "SALES" ? "Vendas" : "Vendedores"} `}
+                className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+              >
+                <ChangeButton onChange={changeList} />
+              </Tooltip>
+              <Modal
+                info={isSalesOrSellers[list].info}
+                id={isSalesOrSellers[list].id}
+                icon={isSalesOrSellers[list].icon}
+              >
+                {isSalesOrSellers[list].children}
+              </Modal>
+
+              {modalActions.map((modal) => (
+                <Modal
+                  info={modal.info}
+                  key={modal.id}
+                  id={modal.id ?? ""}
+                  icon={modal.icon}
+                >
+                  {modal.children}
+                </Modal>
+              ))}
+            </nav>
           </FlexSection>
         </>
       ) : (

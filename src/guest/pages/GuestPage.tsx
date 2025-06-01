@@ -154,54 +154,49 @@ export default function GuestPage() {
         </Modal>
       </FlexSection>
 
-      <div className={`w-full lg:flex`}>
-        <div className="w-full rounded-sm border-t-4 border-slate-900 bg-slate-900/50">
-          <Accordion
-            title={
-              <InfoList
-                tittle="Minhas Vendas"
-                icon="mi:shopping-cart"
-                length={event?.sales?.length}
-                className="w-full"
-              />
-            }
-            className="bg-slate-900 p-2"
-            startOpen
-            content={
-              seller?.guest?.sales.length > 0 && (
-                <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-                  <SaleList
-                    sales={seller?.guest?.sales}
-                    sellers={event?.allSellers}
-                    products={products}
-                    isGuest
-                  />
-                </div>
-              )
-            }
-          />
-        </div>
-        <span className="p-2"></span>
-        <div className="pointer-events-none w-full rounded-sm border-t-4 border-slate-900 bg-slate-900/50">
-          <Accordion
-            title={
-              <InfoList
-                tittle="Rankig"
-                icon="game-icons:podium-winner"
-                length={event?.allSellers?.length}
-                className="w-full"
-              />
-            }
-            className="bg-slate-900 p-2"
-            content={
-              event && (
-                <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-                  <RankingDisplay event={event} disable />
-                </div>
-              )
-            }
-          />
-        </div>
+      <div className="flex max-h-[55vh] w-full flex-col bg-slate-900/50 lg:flex-row">
+        <Accordion
+          title={
+            <InfoList
+              tittle="Minhas Vendas"
+              icon="mi:shopping-cart"
+              length={event?.sales?.length}
+              className="w-full"
+            />
+          }
+          className="bg-slate-900 p-2"
+          startOpen
+          content={
+            seller?.guest?.sales.length > 0 && (
+              <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                <SaleList
+                  sales={seller?.guest?.sales}
+                  sellers={event?.allSellers}
+                  products={products}
+                  isGuest
+                />
+              </div>
+            )
+          }
+        />
+        <Accordion
+          title={
+            <InfoList
+              tittle="Rankig"
+              icon="game-icons:podium-winner"
+              length={event?.allSellers?.length}
+              className="w-full"
+            />
+          }
+          className="bg-slate-900 p-2"
+          content={
+            event && (
+              <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                <RankingDisplay event={event} disable />
+              </div>
+            )
+          }
+        />
       </div>
     </div>
   );
