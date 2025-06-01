@@ -18,7 +18,7 @@ export default function Navbar({ links }: NavProps) {
 
   return (
     <nav
-      className={`bottom-0 z-40 flex w-full items-center justify-center rounded-2xl border-b border-solid border-gray-100/15 bg-slate-950 p-1 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out`}
+      className={`bottom-0 z-40 flex w-full items-center justify-center rounded-b-2xl border-b border-solid border-gray-100/15 bg-slate-950 p-1 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out`}
     >
       {/* <ThemeToggle /> */}
       <div className={`flex w-full duration-500 ease-in-out`}>

@@ -168,7 +168,7 @@ export default function RankingPage() {
               </div>
             </div>
 
-            <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-2xl border-t border-solid border-gray-100/15 bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:static lg:h-[65vh] lg:w-20 lg:flex-col">
+            <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl border-t border-solid border-gray-100/15 bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:static lg:h-[65vh] lg:w-20 lg:flex-col">
               <Tooltip
                 info={`${list === "SALES" ? "Vendas" : "Vendedores"} `}
                 className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
