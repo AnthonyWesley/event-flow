@@ -1,6 +1,22 @@
+type NameFormat = "default" | "first" | "firstTwo";
+
 export const fieldFormatter = {
-  name(value: string): string {
-    return value.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+  name(value: string, format: NameFormat = "default"): string {
+    if (!value) return "";
+
+    const capitalized = value
+      .toLowerCase()
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+
+    const parts = capitalized.trim().split(/\s+/);
+
+    const formatters: Record<NameFormat, () => string> = {
+      default: () => capitalized,
+      first: () => parts[0] ?? "",
+      firstTwo: () => parts.slice(0, 2).join(" "),
+    };
+
+    return formatters[format]();
   },
 
   phone(value: string): string {

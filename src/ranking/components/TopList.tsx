@@ -2,6 +2,7 @@ import Avatar from "../../components/Avatar";
 import { InfoLine } from "../../components/InfoLine";
 import ProgressBar from "../../components/ProgressBar";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { goalUtils } from "../../helpers/goalUtils";
 
 interface TopListProps {
@@ -89,7 +90,7 @@ export default function TopThree({
           src={getMedalImage(index, total)}
           // src={images[index]}
           alt=""
-          className="w-28 drop-shadow-lg md:w-36 lg:w-46"
+          className="w-27 drop-shadow-lg md:w-36 lg:w-46"
         />
 
         <div className="absolute top-0 z-20 mt-5 flex w-full flex-col items-center justify-between gap-1 text-[8px] md:text-sm lg:gap-4 lg:text-sm">
@@ -99,8 +100,8 @@ export default function TopThree({
 
           <Avatar name={topThree?.name} className="lg:size-28" />
 
-          <h1 className="text-center text-[12px] font-bold lg:text-base">
-            {topThree?.name}
+          <h1 className="w-25 text-center text-[12px] font-bold lg:text-base">
+            {fieldFormatter.name(topThree?.name, "firstTwo")}
           </h1>
         </div>
         <div className="mt-1">
