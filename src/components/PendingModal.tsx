@@ -107,7 +107,7 @@ export default function PendingModal() {
         </Tooltip>
       }
       sliderSide="right"
-      verticalPosition={70}
+      verticalPosition={65}
     >
       <ul
         role="list"

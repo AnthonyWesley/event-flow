@@ -41,7 +41,7 @@ export default function App() {
       )}
       {!isAuthenticated && !isGuestPage && <Navbar links={PUBLIC_ROUTES} />}
 
-      <main className="container mx-auto flex flex-1 flex-col px-2">
+      <main className="container mx-auto mb-26 flex flex-1 flex-col px-2 lg:mb-0">
         <ToastContainer />
         <Routes>
           <Route path="/" element={<PrivateRoutes />}>
