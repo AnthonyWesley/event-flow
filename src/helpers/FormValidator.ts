@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { currencyFormatter } from "./currencyFormatter";
 
 export const FormValidator = {
   isValidName(name: string): boolean {
@@ -23,11 +24,8 @@ export const FormValidator = {
       toast.error("Telefone inválido. Use o formato (DD)9 9999 9999.");
     return valid;
   },
-
   isValidGoal(goal: string | number): boolean {
-    const num =
-      typeof goal === "string" ? parseFloat(goal.replace(",", ".")) : goal;
-
+    const num = currencyFormatter.ToNumber(goal);
     const valid = !isNaN(num) && num > 0;
 
     if (!valid) {
