@@ -36,10 +36,12 @@ export default function Tooltip({
         left: coords.left,
       }}
     >
-      <div className="relative rounded-lg bg-gray-900 p-2 text-xs font-medium text-white shadow-lg">
-        {info}
-        <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 transform bg-gray-900" />
-      </div>
+      {info && (
+        <div className="relative rounded-lg bg-gray-900 p-2 text-xs font-medium text-white shadow-lg">
+          {info}
+          <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 transform bg-gray-900" />
+        </div>
+      )}
     </div>,
     document.getElementById("portal-root")!,
   );
