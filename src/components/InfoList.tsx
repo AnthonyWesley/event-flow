@@ -14,7 +14,7 @@ export default function InfoList({
 }: InfoListProps) {
   return (
     <div
-      className={`flex justify-between border-b border-gray-500/15 bg-slate-900 p-2 not-italic ${className}`}
+      className={`flex justify-between bg-slate-900 not-italic ${className}`}
     >
       <Icon icon={icon} width="20" className="basis-[20%] text-left" />
       <h1 className="basis-[60%] text-center">{tittle}</h1>

@@ -111,3 +111,22 @@ body {
   aspect-ratio: cos(50deg);
   clip-path: polygon(-50% 50%, 50% 100%, 150% 50%, 50% 0);
 }
+
+/* styles/global.css ou onde importar Tailwind */
+.scrollbar-transparent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-transparent::-webkit-scrollbar-thumb {
+  background-color: transparent; /* ou rgba(255, 255, 255, 0.1) para um tom leve */
+}
+
+.scrollbar-transparent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox */
+.scrollbar-transparent {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}

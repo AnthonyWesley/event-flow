@@ -78,11 +78,11 @@ export default function App() {
             />
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<Sale />} />
+            <Route
+              path="events/:eventId/guest/:sellerId"
+              element={<GuestPage />}
+            />
           </Route>
-          <Route
-            path="events/:eventId/guest/:sellerId"
-            element={<GuestPage />}
-          />
           <Route path="auth" element={<AuthPage />} />
           <Route path="pricing" element={<Pricing />} />
           <Route path="/unauthorized" element={<ErrorPage code={401} />} />

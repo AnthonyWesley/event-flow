@@ -1,17 +1,51 @@
+import ReactDOM from "react-dom";
+import React, { useRef, useState, useEffect } from "react";
+
 type TooltipProps = {
   children: React.ReactNode;
   info: string;
   alert?: number;
   className?: string;
 };
+
 export default function Tooltip({
   children,
   info,
   alert,
   className,
 }: TooltipProps) {
+  const [hovered, setHovered] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
+
+  useEffect(() => {
+    if (hovered && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setCoords({
+        top: rect.top - 40,
+        left: rect.left + rect.width / 2,
+      });
+    }
+  }, [hovered]);
+
+  const tooltip = ReactDOM.createPortal(
+    <div
+      className={`fixed z-[9999] -translate-x-1/2 transform transition-opacity duration-300 ease-out ${hovered ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0"} `}
+      style={{
+        top: coords.top,
+        left: coords.left,
+      }}
+    >
+      <div className="relative rounded-lg bg-gray-900 p-2 text-xs font-medium text-white shadow-lg">
+        {info}
+        <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 transform bg-gray-900" />
+      </div>
+    </div>,
+    document.getElementById("portal-root")!,
+  );
+
   return (
-    <div className="group relative flex">
+    <div className="relative flex">
       {alert && (
         <div className="absolute -top-1 -right-1 z-80">
           <div className="flex h-6 w-6 items-center justify-center">
@@ -22,16 +56,15 @@ export default function Tooltip({
           </div>
         </div>
       )}
-
-      <button className={`${className}`}>{children}</button>
-      {info && (
-        <div className="absolute -top-14 left-1/2 z-80 min-w-35 -translate-x-1/2 scale-0 transform rounded-lg bg-gray-900 p-2 text-xs font-medium text-white shadow-lg transition-transform duration-300 ease-in-out group-hover:scale-100">
-          <div className="flex justify-center rounded p-1 text-sm text-white shadow-lg">
-            {info}
-          </div>
-          <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 transform bg-slate-900" />
-        </div>
-      )}
+      <button
+        className={className}
+        ref={buttonRef}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {children}
+      </button>
+      {tooltip}
     </div>
   );
 }

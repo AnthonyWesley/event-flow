@@ -16,8 +16,12 @@ import { SalesOrSellersItem } from "../types/SalesOrSellersItem";
 import { SalesOrSellersKey } from "../types/SalesOrSellersKey";
 import Tooltip from "../../components/Tooltip";
 import EventIcon from "../../icons/eventIcon";
-import HeaderRanking from "../components/HeaderRanking";
 import InfoList from "../../components/InfoList";
+import ProgressBar from "../../components/ProgressBar";
+import { goalUtils } from "../../helpers/goalUtils";
+import { InfoLine } from "../../components/InfoLine";
+import { currencyFormatter } from "../../helpers/currencyFormatter";
+import GameDisplay from "../components/GameDisplay";
 
 export const eventsLinks = [
   {
@@ -34,7 +38,7 @@ export const eventsLinks = [
 
 export default function RankingPage() {
   const {
-    queryEvents: { data: events, isPending, error },
+    queryEvents: { isPending, error },
     currentEvent,
   } = useEvent();
 
@@ -48,15 +52,12 @@ export default function RankingPage() {
   if (isPending) return <Spin />;
   if (error) return <div>Ocorreu um erro: {error.message}</div>;
 
-  const changeList = (status: any) => {
-    setList(status);
-  };
+  const changeList = (status: SalesOrSellersKey) => setList(status);
 
   const modalActions = [
     {
       id: "RankingPageEventForm",
       info: "Editar evento",
-      // icon: "mdi:event-edit",
       icon: <EventIcon icon="PEN" />,
       children: <EventForm event={currentEvent} />,
     },
@@ -64,7 +65,6 @@ export default function RankingPage() {
       id: "RankingPageEventDeleteForm",
       info: "Deletar Evento",
       icon: "carbon:trash-can",
-
       children: (
         <Dialog
           message="Deseja excluir o evento?"
@@ -83,7 +83,7 @@ export default function RankingPage() {
           className={
             currentEvent?.endDate
               ? "text-gray-400"
-              : "animate-pulse text-green-500"
+              : "animate-pulse text-green-400"
           }
         />
       ),
@@ -119,44 +119,100 @@ export default function RankingPage() {
   return (
     <>
       {currentEvent ? (
-        <>
-          <HeaderRanking event={currentEvent} />
-          <section className="flex flex-col items-start overflow-hidden rounded-2xl border-gray-500/15 px-0 py-0 lg:max-h-[65vh] lg:flex-row">
-            <div className="bg-dark flex max-h-full w-full flex-[2] overflow-y-auto lg:h-[65vh]">
-              {events && <RankingDisplay event={currentEvent} mode="PODIUM" />}
-            </div>
-
-            <div className="flex max-h-[55vh] w-full flex-[1] flex-col bg-slate-900 lg:h-[65vh] lg:max-h-[65vh]">
-              <div className={``}>
-                {list === "SELLERS" && (
-                  <InfoList
-                    tittle="Rankig"
-                    icon="game-icons:podium-winner"
-                    length={currentEvent?.allSellers?.length}
-                    className="bg-slate-950"
-                  />
-                )}
-
-                {list === "SALES" && (
-                  <InfoList
-                    tittle="Vendas"
-                    icon="mi:shopping-cart"
-                    length={currentEvent?.sales?.length}
-                    className="bg-slate-950"
-                  />
-                )}
-              </div>
-
-              <div className="flex-1 overflow-y-scroll bg-slate-900 px-2">
-                {list === "SALES" &&
-                  currentEvent.allSellers &&
-                  currentEvent.allSellers.length > 0 && (
-                    <SaleList
-                      sales={currentEvent.sales}
-                      sellers={currentEvent.allSellers}
-                      products={products}
-                    />
+        <div className="flex w-full flex-col lg:flex-row">
+          <GameDisplay
+            className="bg-dark mt-2 flex-[2]"
+            infoHeader={
+              <div className="flex w-full justify-between p-2">
+                <InfoLine label="Evento:" value={currentEvent.name} />
+                <InfoLine
+                  label="Meta:"
+                  value={
+                    currentEvent.goalType === "VALUE"
+                      ? currencyFormatter.ToBRL(currentEvent.goal)
+                      : currentEvent.goal + "unid"
+                  }
+                  color={goalUtils.handleGoalAchieved(
+                    goalUtils.getTotalForGoal(
+                      currentEvent.allSellers,
+                      currentEvent.goalType,
+                    ),
+                    currentEvent.goal,
                   )}
+                />
+              </div>
+            }
+            infoFooter={
+              <div className="flex flex-col">
+                <InfoLine
+                  label="Total:"
+                  value={
+                    currentEvent.goalType === "VALUE"
+                      ? currencyFormatter.ToBRL(
+                          goalUtils.getTotalForGoal(
+                            currentEvent.allSellers,
+                            currentEvent.goalType,
+                          ),
+                        )
+                      : goalUtils.getTotalForGoal(
+                          currentEvent.allSellers,
+                          currentEvent.goalType,
+                        )
+                  }
+                  color={goalUtils.handleGoalAchieved(
+                    goalUtils.getTotalForGoal(
+                      currentEvent.allSellers,
+                      currentEvent.goalType,
+                    ),
+                    currentEvent.goal,
+                  )}
+                />
+                <ProgressBar
+                  total={currentEvent.goal}
+                  current={goalUtils.getTotalForGoal(
+                    currentEvent.allSellers,
+                    currentEvent.goalType,
+                  )}
+                />
+              </div>
+            }
+          >
+            <div className="flex w-full">
+              <RankingDisplay event={currentEvent} mode="PODIUM" />
+            </div>
+          </GameDisplay>
+
+          <GameDisplay
+            className="mt-2 flex-[1]"
+            infoHeader={
+              <div className="w-full p-2">
+                <InfoList
+                  tittle={list === "SELLERS" ? "Ranking" : "Vendas"}
+                  icon={
+                    list === "SELLERS"
+                      ? "game-icons:podium-winner"
+                      : "mi:shopping-cart"
+                  }
+                  length={
+                    list === "SELLERS"
+                      ? currentEvent.allSellers?.length
+                      : currentEvent.sales?.length
+                  }
+                  className="bg-slate-950"
+                />
+              </div>
+            }
+            infoFooter={<div className="p-5">{""}</div>}
+          >
+            <div className="scrollbar-transparent flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-full">
+              <div className="flex-1 overflow-y-auto">
+                {list === "SALES" && currentEvent.allSellers?.length > 0 && (
+                  <SaleList
+                    sales={currentEvent.sales}
+                    sellers={currentEvent.allSellers}
+                    products={products}
+                  />
+                )}
 
                 {list === "SELLERS" && (
                   <RankingDisplay
@@ -166,14 +222,17 @@ export default function RankingPage() {
                 )}
               </div>
             </div>
+          </GameDisplay>
 
-            <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:static lg:h-[65vh] lg:w-20 lg:flex-col lg:rounded-l-none lg:rounded-tr-2xl">
+          <GameDisplay className="mt-2">
+            <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:h-full lg:w-20 lg:flex-col lg:rounded-l-none lg:rounded-tr-2xl">
               <Tooltip
-                info={`${list === "SALES" ? "Vendas" : "Vendedores"} `}
+                info={`${list === "SALES" ? "Vendas" : "Vendedores"}`}
                 className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
               >
                 <ChangeButton onChange={changeList} />
               </Tooltip>
+
               <Modal
                 info={isSalesOrSellers[list].info}
                 id={isSalesOrSellers[list].id}
@@ -184,17 +243,17 @@ export default function RankingPage() {
 
               {modalActions.map((modal) => (
                 <Modal
-                  info={modal.info}
                   key={modal.id}
-                  id={modal.id ?? ""}
+                  info={modal.info}
+                  id={modal.id}
                   icon={modal.icon}
                 >
                   {modal.children}
                 </Modal>
               ))}
             </nav>
-          </section>
-        </>
+          </GameDisplay>
+        </div>
       ) : (
         <div className="shadow-basic mb-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 p-2 italic">
           Nenhum evento ativo no momento!
