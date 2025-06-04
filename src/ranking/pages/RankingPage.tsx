@@ -116,6 +116,15 @@ export default function RankingPage() {
     },
   };
 
+  const isValueGoal = currentEvent.goalType === "VALUE";
+
+  const totalGoal = goalUtils.getTotalForGoal(
+    currentEvent.allSellers,
+    currentEvent.goalType,
+  );
+
+  console.log(totalGoal);
+
   return (
     <>
       {currentEvent ? (
@@ -124,49 +133,57 @@ export default function RankingPage() {
             className="bg-dark mt-2 flex-[2]"
             infoHeader={
               <div className="flex w-full justify-between p-2">
-                <InfoLine label="Evento:" value={currentEvent.name} />
+                <InfoLine value={currentEvent.name} />
                 <InfoLine
-                  label="Meta:"
+                  label="Total:"
                   value={
-                    currentEvent.goalType === "VALUE"
-                      ? currencyFormatter.ToBRL(currentEvent.goal)
-                      : currentEvent.goal + "unid"
+                    currentEvent.goalType === "QUANTITY"
+                      ? currencyFormatter.ToBRL(
+                          goalUtils.getTotalForGoal(
+                            currentEvent.allSellers,
+                            "VALUE",
+                          ),
+                        )
+                      : goalUtils.getTotalForGoal(
+                          currentEvent.allSellers,
+                          "QUANTITY",
+                        )
                   }
                   color={goalUtils.handleGoalAchieved(
-                    goalUtils.getTotalForGoal(
-                      currentEvent.allSellers,
-                      currentEvent.goalType,
-                    ),
+                    totalGoal,
                     currentEvent.goal,
                   )}
                 />
               </div>
             }
             infoFooter={
-              <div className="flex flex-col">
-                <InfoLine
-                  label="Total:"
-                  value={
-                    currentEvent.goalType === "VALUE"
-                      ? currencyFormatter.ToBRL(
-                          goalUtils.getTotalForGoal(
-                            currentEvent.allSellers,
-                            currentEvent.goalType,
-                          ),
-                        )
-                      : goalUtils.getTotalForGoal(
-                          currentEvent.allSellers,
-                          currentEvent.goalType,
-                        )
-                  }
-                  color={goalUtils.handleGoalAchieved(
-                    goalUtils.getTotalForGoal(
-                      currentEvent.allSellers,
-                      currentEvent.goalType,
-                    ),
-                    currentEvent.goal,
-                  )}
-                />
+              <div className="flex w-full flex-col">
+                <div className="flex justify-between">
+                  <InfoLine
+                    label="Total:"
+                    value={
+                      isValueGoal
+                        ? currencyFormatter.ToBRL(totalGoal)
+                        : totalGoal
+                    }
+                    color={goalUtils.handleGoalAchieved(
+                      totalGoal,
+                      currentEvent.goal,
+                    )}
+                  />
+                  <InfoLine
+                    label="Meta:"
+                    value={
+                      isValueGoal
+                        ? currencyFormatter.ToBRL(currentEvent.goal)
+                        : currentEvent.goal + "unid"
+                    }
+                    color={goalUtils.handleGoalAchieved(
+                      totalGoal,
+                      currentEvent.goal,
+                    )}
+                  />
+                </div>
                 <ProgressBar
                   total={currentEvent.goal}
                   current={goalUtils.getTotalForGoal(
@@ -204,7 +221,7 @@ export default function RankingPage() {
             }
             infoFooter={<div className="p-5">{""}</div>}
           >
-            <div className="scrollbar-transparent flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-full">
+            <div className="scrollbar-transparent flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
               <div className="flex-1 overflow-y-auto">
                 {list === "SALES" && currentEvent.allSellers?.length > 0 && (
                   <SaleList

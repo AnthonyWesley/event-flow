@@ -53,7 +53,7 @@ export function SaleItem({
       className={`flex h-20 w-full items-center justify-between rounded-sm border-b border-b-gray-500/15 p-2 hover:bg-[rgb(29,37,57)] ${index % 2 === 0 ? "bg-[rgb(15,23,42)]" : "bg-[rgb(10,23,42)]"}`}
     >
       <div className="flex w-full items-center justify-between">
-        <div className="flex min-w-0">
+        <div className="flex w-full min-w-0">
           <div className="min-w-0 flex-auto">
             <p className="mt-1 truncate text-xs/5 text-gray-300">
               {sale.quantity}x {product?.name}
