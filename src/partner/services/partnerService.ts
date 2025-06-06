@@ -35,11 +35,6 @@ export const partnerService = {
     return response.data;
   },
 
-  list: async () => {
-    const response = await partnerApi.get(`/partners`);
-    return response.data.partners;
-  },
-
   update: async (partnerId: string, data: any) => {
     const response = await partnerApi.put(`/partner/${partnerId}`, data);
     return response.data;

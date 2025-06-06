@@ -19,10 +19,13 @@ import PendingModal from "./components/PendingModal";
 import { PRIVATE_ROUTES } from "./constants/privateRoutes";
 import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 import ErrorPage from "./auth/pages/ErrorPage";
+import AdmPage from "./administrator/pages/AdmPage";
+import AdmAuthPage from "./administrator/pages/AdmAuthPage";
 // import AdmPage from "./administrator/pages/AdmPage";
 export default function App() {
   const location = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
+  const isAdmAuthenticated = Boolean(localStorage.getItem("admAccessToken"));
   // const mobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const isGuestPage = matchPath(
@@ -88,7 +91,10 @@ export default function App() {
           <Route path="/unauthorized" element={<ErrorPage code={401} />} />
           <Route path="/not-found" element={<ErrorPage code={403} />} />
           <Route path="*" element={<ErrorPage code={404} />} />
-          {/* <Route path="/adm" element={<AdmPage />} /> */}
+          {isAdmAuthenticated && (
+            <Route path="/adm/dashboard" element={<AdmPage />} />
+          )}
+          <Route path="/adm" element={<AdmAuthPage />} />
         </Routes>
         {/* <Footer /> */}
       </main>

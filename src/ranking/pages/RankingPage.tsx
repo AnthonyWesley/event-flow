@@ -116,14 +116,12 @@ export default function RankingPage() {
     },
   };
 
-  const isValueGoal = currentEvent.goalType === "VALUE";
+  const isValueGoal = currentEvent?.goalType === "VALUE";
 
   const totalGoal = goalUtils.getTotalForGoal(
-    currentEvent.allSellers,
-    currentEvent.goalType,
+    currentEvent?.allSellers,
+    currentEvent?.goalType,
   );
-
-  console.log(totalGoal);
 
   return (
     <>
@@ -133,25 +131,25 @@ export default function RankingPage() {
             className="bg-dark mt-2 flex-[2]"
             infoHeader={
               <div className="flex w-full justify-between p-2">
-                <InfoLine value={currentEvent.name} />
+                <InfoLine value={currentEvent?.name} />
                 <InfoLine
                   label="Total:"
                   value={
-                    currentEvent.goalType === "QUANTITY"
+                    currentEvent?.goalType === "QUANTITY"
                       ? currencyFormatter.ToBRL(
                           goalUtils.getTotalForGoal(
-                            currentEvent.allSellers,
+                            currentEvent?.allSellers,
                             "VALUE",
                           ),
                         )
                       : goalUtils.getTotalForGoal(
-                          currentEvent.allSellers,
+                          currentEvent?.allSellers,
                           "QUANTITY",
                         )
                   }
                   color={goalUtils.handleGoalAchieved(
                     totalGoal,
-                    currentEvent.goal,
+                    currentEvent?.goal,
                   )}
                 />
               </div>
@@ -168,27 +166,27 @@ export default function RankingPage() {
                     }
                     color={goalUtils.handleGoalAchieved(
                       totalGoal,
-                      currentEvent.goal,
+                      currentEvent?.goal,
                     )}
                   />
                   <InfoLine
                     label="Meta:"
                     value={
                       isValueGoal
-                        ? currencyFormatter.ToBRL(currentEvent.goal)
-                        : currentEvent.goal + "unid"
+                        ? currencyFormatter.ToBRL(currentEvent?.goal)
+                        : currentEvent?.goal + "unid"
                     }
                     color={goalUtils.handleGoalAchieved(
                       totalGoal,
-                      currentEvent.goal,
+                      currentEvent?.goal,
                     )}
                   />
                 </div>
                 <ProgressBar
-                  total={currentEvent.goal}
+                  total={currentEvent?.goal}
                   current={goalUtils.getTotalForGoal(
-                    currentEvent.allSellers,
-                    currentEvent.goalType,
+                    currentEvent?.allSellers,
+                    currentEvent?.goalType,
                   )}
                 />
               </div>
@@ -212,8 +210,8 @@ export default function RankingPage() {
                   }
                   length={
                     list === "SELLERS"
-                      ? currentEvent.allSellers?.length
-                      : currentEvent.sales?.length
+                      ? currentEvent?.allSellers?.length
+                      : currentEvent?.sales?.length
                   }
                   className="bg-slate-950"
                 />
@@ -223,10 +221,10 @@ export default function RankingPage() {
           >
             <div className="scrollbar-transparent flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
               <div className="flex-1 overflow-y-auto">
-                {list === "SALES" && currentEvent.allSellers?.length > 0 && (
+                {list === "SALES" && currentEvent?.allSellers?.length > 0 && (
                   <SaleList
-                    sales={currentEvent.sales}
-                    sellers={currentEvent.allSellers}
+                    sales={currentEvent?.sales}
+                    sellers={currentEvent?.allSellers}
                     products={products}
                   />
                 )}
@@ -234,7 +232,7 @@ export default function RankingPage() {
                 {list === "SELLERS" && (
                   <RankingDisplay
                     event={currentEvent}
-                    mode={currentEvent.sales <= 0 ? "NORMAL" : "OTHERS"}
+                    mode={currentEvent?.sales <= 0 ? "NORMAL" : "OTHERS"}
                   />
                 )}
               </div>
