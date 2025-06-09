@@ -76,18 +76,32 @@ export default function GuestPage() {
   }
 
   return (
-    <div className="flex flex-col">
-      <FlexSection className="flex-row gap-2 bg-slate-900">
+    <div className="flex flex-col gap-2">
+      <FlexSection className="flex-row gap-2 rounded-2xl bg-slate-900">
         <Avatar name={seller?.guest?.name} />
+
         <div className="flex w-full flex-col items-start justify-evenly lg:flex-row">
           <Accordion
             title={
-              <InfoLine
-                label="Convidado:"
-                value={seller?.guest?.name?.split(" ").slice(0, 2).join(" ")}
-                size="base"
-                line="col"
-              />
+              <div className="flex w-full">
+                <InfoLine
+                  label="Convidado:"
+                  value={seller?.guest?.name?.split(" ").slice(0, 2).join(" ")}
+                  size="base"
+                  line="col"
+                />
+                <div className="ml-auto flex w-20 items-start justify-center border-gray-500/25 pl-2 text-4xl">
+                  <h1 className={`${goalUtils.podiumColor(currentIndex)}`}>
+                    {currentIndex}
+                  </h1>
+
+                  <p
+                    className={`text-base ${goalUtils.podiumColor(currentIndex)}`}
+                  >
+                    º
+                  </p>
+                </div>
+              </div>
             }
             // icon="..."
             content={
@@ -108,26 +122,10 @@ export default function GuestPage() {
             }
           />
         </div>
-        <Modal id="GuestPageSellerForm" icon="carbon:edit">
-          <SellerForm seller={seller?.guest} />
-        </Modal>
       </FlexSection>
-      <FlexSection className="flex-row bg-slate-900">
-        <InfoLine label="Evento" value={event?.name} size="lg" line="col" />
 
-        <div className="flex w-20 items-start justify-center border-gray-500/25 pl-2 text-4xl">
-          <h1 className={`${goalUtils.podiumColor(currentIndex)}`}>
-            {currentIndex}
-          </h1>
-
-          <p className={`text-base ${goalUtils.podiumColor(currentIndex)}`}>
-            º
-          </p>
-        </div>
-      </FlexSection>
-      <FlexSection className="my-2 flex-row justify-start border-t border-b border-gray-400/15">
-        <CircularProgress total={goal} current={currentProgress} />
-
+      <InfoLine label="Evento:" value={event?.name} />
+      <FlexSection className="flex-row gap-2 rounded-2xl bg-slate-900">
         <FlexSection className="w-full items-start justify-start">
           <InfoLine
             label="Meta:"
@@ -149,55 +147,64 @@ export default function GuestPage() {
             color={goalColor}
           />
         </FlexSection>
+        <CircularProgress total={goal} current={currentProgress} />
+      </FlexSection>
+
+      <section className="scrollbar-transparent flex w-full flex-col rounded-2xl lg:flex-row">
+        <div className="mb-2 w-full rounded-2xl bg-slate-900 lg:mr-2">
+          <Accordion
+            title={
+              <InfoList
+                tittle="Vendas"
+                icon="mi:shopping-cart"
+                length={event?.sales?.length}
+                className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
+              />
+            }
+            content={
+              event?.sales.length > 0 && (
+                <div className="max-h-[35vh] overflow-y-scroll border-r border-gray-500/15 lg:h-[45vh]">
+                  <SaleList
+                    sales={seller?.guest?.sales}
+                    sellers={event?.allSellers}
+                    products={products}
+                    isGuest
+                  />
+                </div>
+              )
+            }
+          />
+        </div>
+
+        <div className="mb-2 w-full rounded-2xl bg-slate-900">
+          <Accordion
+            title={
+              <InfoList
+                tittle="Rankig"
+                icon="game-icons:podium-winner"
+                length={event?.allSellers?.length}
+                className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
+              />
+            }
+            content={
+              event && (
+                <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                  <RankingDisplay event={event} disable />
+                </div>
+              )
+            }
+          />
+        </div>
+      </section>
+
+      <nav className="fixed bottom-0 left-0 flex w-full items-center justify-evenly rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:w-full lg:rounded-2xl">
+        <Modal id="GuestPageSellerForm" icon="carbon:edit">
+          <SellerForm seller={seller?.guest} />
+        </Modal>
         <Modal id="GuestPageSaleForm" icon="carbon:shopping-cart-plus">
           <SaleForm eventId={event?.id} guestId={sellerId} isGuest />
         </Modal>
-      </FlexSection>
-
-      <div className="flex max-h-[55vh] w-full flex-col bg-slate-900/50 lg:flex-row">
-        <Accordion
-          title={
-            <InfoList
-              tittle="Minhas Vendas"
-              icon="mi:shopping-cart"
-              length={event?.sales?.length}
-              className="w-full"
-            />
-          }
-          className="bg-slate-900 p-2"
-          startOpen
-          content={
-            seller?.guest?.sales.length > 0 && (
-              <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-                <SaleList
-                  sales={seller?.guest?.sales}
-                  sellers={event?.allSellers}
-                  products={products}
-                  isGuest
-                />
-              </div>
-            )
-          }
-        />
-        <Accordion
-          title={
-            <InfoList
-              tittle="Rankig"
-              icon="game-icons:podium-winner"
-              length={event?.allSellers?.length}
-              className="w-full"
-            />
-          }
-          className="bg-slate-900 p-2"
-          content={
-            event && (
-              <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-                <RankingDisplay event={event} disable />
-              </div>
-            )
-          }
-        />
-      </div>
+      </nav>
     </div>
   );
 }

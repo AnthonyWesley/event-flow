@@ -41,9 +41,9 @@ export default function Accordion({
   }, [isOpen, content]);
 
   return (
-    <div className={`w-full overflow-hidden rounded-sm`}>
+    <div className={`w-full overflow-hidden rounded-b-2xl`}>
       <div
-        className={`flex w-full items-center justify-between rounded-sm text-white focus:outline-none ${className}`}
+        className={`flex w-full items-center justify-between rounded-b-2xl text-white focus:outline-none ${className}`}
       >
         {title ?? ""}
 
@@ -69,7 +69,7 @@ export default function Accordion({
         className="overflow-hidden transition-all duration-500"
         style={{ maxHeight: height }}
       >
-        <div className="p-1" ref={contentRef}>
+        <div className="" ref={contentRef}>
           {content}
         </div>
       </div>

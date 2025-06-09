@@ -41,7 +41,7 @@ export default function EventsPageDetailPage() {
   return (
     <>
       <section className="w-full">
-        <div className="rounded-2xl p-2">
+        <div className="flex w-full justify-between rounded-2xl p-2">
           <InfoLine label="Evento:" value={event?.name} />
         </div>
         <header className="flex w-full items-center justify-between rounded-2xl bg-slate-900 p-2">
@@ -53,12 +53,14 @@ export default function EventsPageDetailPage() {
               value={
                 event.goalType == "VALUE"
                   ? currencyFormatter.ToBRL(event.goal)
-                  : event.goal + "unid"
+                  : event.goal + " unid."
               }
               color={goalUtils.handleGoalAchieved(
                 goalUtils.getTotalForGoal(event.allSellers, event.goalType),
                 event?.goal,
               )}
+              line="col"
+              size="base"
             />
             <InfoLine
               label="Total:"
@@ -70,12 +72,17 @@ export default function EventsPageDetailPage() {
                         event.goalType,
                       ),
                     )
-                  : goalUtils.getTotalForGoal(event.allSellers, event.goalType)
+                  : goalUtils.getTotalForGoal(
+                      event.allSellers,
+                      event.goalType,
+                    ) + " unid."
               }
               color={goalUtils.handleGoalAchieved(
                 goalUtils.getTotalForGoal(event.allSellers, event.goalType),
                 event?.goal,
               )}
+              line="col"
+              size="base"
             />
           </div>
           <CircularProgress
@@ -100,100 +107,103 @@ export default function EventsPageDetailPage() {
           />
         </div>
 
-        <div className="scrollbar-transparent flex w-full flex-col rounded-2xl bg-slate-900/50 lg:max-h-[55vh] lg:flex-row">
-          <Accordion
-            title={
-              <InfoList
-                tittle="Minhas Vendas"
-                icon="mi:shopping-cart"
-                length={event?.sales?.length}
-                className="w-full"
-              />
-            }
-            className="bg-slate-900 p-2"
-            content={
-              event?.sales.length > 0 && (
-                <div className="max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-                  <SaleList
-                    sales={event?.sales}
-                    sellers={event?.allSellers}
-                    products={products}
-                  />
-                </div>
-              )
-            }
-          />
-          <Accordion
-            title={
-              <InfoList
-                tittle="Rankig"
-                icon="game-icons:podium-winner"
-                length={event?.allSellers?.length}
-                className="w-full"
-              />
-            }
-            className="bg-slate-900 p-2"
-            content={
-              event && (
-                <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
-                  <RankingDisplay event={event} disable />
-                </div>
-              )
-            }
-          />
-          <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:h-[45vh] lg:w-20 lg:flex-col lg:rounded-l-none lg:rounded-tr-2xl">
-            <Tooltip info="Voltar">
-              <div
-                className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-                onClick={() => navigate(-1)}
-              >
-                <Icon icon="hugeicons:link-backward" width="20" />
-              </div>
-            </Tooltip>
-
-            <Modal
-              id="EventsPageDetailPageEventForm"
-              icon="carbon:edit"
-              info="Editar"
-            >
-              <EventForm event={event} />
-            </Modal>
-            <Modal
-              id="EventsPageEventDeleteForm"
-              icon="carbon:trash-can"
-              info="Deletar"
-            >
-              <Dialog
-                message="Deseja excluir o evento?"
-                onClick={() => {
-                  deleteEvent.mutate(event.id);
-                  navigate(-1);
-                }}
-              />
-            </Modal>
-            <Modal
-              id="EventsPageEventToggleForm"
-              info={!event?.isActive ? "Ativar evento" : "Desativar evento"}
-              icon={
-                <Icon
-                  icon="lets-icons:on-button"
-                  width="20"
-                  className={
-                    !event?.isActive ? "text-slate-400" : "text-green-500"
-                  }
+        <section className="scrollbar-transparent flex w-full flex-col rounded-2xl lg:flex-row">
+          <div className="mb-2 w-full rounded-2xl bg-slate-900 lg:mr-2">
+            <Accordion
+              title={
+                <InfoList
+                  tittle="Vendas"
+                  icon="mi:shopping-cart"
+                  length={event?.sales?.length}
+                  className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
                 />
               }
+              content={
+                event?.sales.length > 0 && (
+                  <div className="max-h-[35vh] overflow-y-scroll border-r border-gray-500/15 lg:h-[45vh]">
+                    <SaleList
+                      sales={event?.sales}
+                      sellers={event?.allSellers}
+                      products={products}
+                    />
+                  </div>
+                )
+              }
+            />
+          </div>
+
+          <div className="mb-2 w-full rounded-2xl bg-slate-900">
+            <Accordion
+              title={
+                <InfoList
+                  tittle="Rankig"
+                  icon="game-icons:podium-winner"
+                  length={event?.allSellers?.length}
+                  className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
+                />
+              }
+              content={
+                event && (
+                  <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                    <RankingDisplay event={event} disable />
+                  </div>
+                )
+              }
+            />
+          </div>
+        </section>
+        <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:w-full lg:rounded-2xl">
+          <Tooltip info="Voltar">
+            <div
+              className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+              onClick={() => navigate(-1)}
             >
-              <Dialog
-                message={
-                  event?.isActive ? "Reativar evento?" : "Encerrar evento?"
+              <Icon icon="hugeicons:link-backward" width="20" />
+            </div>
+          </Tooltip>
+
+          <Modal
+            id="EventsPageDetailPageEventForm"
+            icon="carbon:edit"
+            info="Editar"
+          >
+            <EventForm event={event} />
+          </Modal>
+          <Modal
+            id="EventsPageEventDeleteForm"
+            icon="carbon:trash-can"
+            info="Deletar"
+          >
+            <Dialog
+              message="Deseja excluir o evento?"
+              onClick={() => {
+                deleteEvent.mutate(event.id);
+                navigate(-1);
+              }}
+            />
+          </Modal>
+          <Modal
+            id="EventsPageEventToggleForm"
+            info={!event?.isActive ? "Ativar evento" : "Desativar evento"}
+            icon={
+              <Icon
+                icon="lets-icons:on-button"
+                width="20"
+                className={
+                  !event?.isActive ? "text-slate-400" : "text-green-500"
                 }
-                onClick={() => toggleStatus.mutate(event.id)}
-                color="bg-green"
               />
-            </Modal>
-          </nav>
-        </div>
+            }
+          >
+            <Dialog
+              message={
+                event?.isActive ? "Reativar evento?" : "Encerrar evento?"
+              }
+              onClick={() => toggleStatus.mutate(event.id)}
+              color="bg-green"
+            />
+          </Modal>
+        </nav>
       </section>
     </>
   );
