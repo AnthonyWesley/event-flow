@@ -1,4 +1,3 @@
-import ProgressBar from "../../components/ProgressBar";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { InfoLine } from "../../components/InfoLine";
 import { goalUtils } from "../../helpers/goalUtils";
