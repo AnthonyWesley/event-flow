@@ -51,7 +51,7 @@ export default function HeaderRanking({
           )}
         />
         <InfoLine
-          label="Total:"
+          label="Total: "
           value={
             event.goalType == "VALUE"
               ? currencyFormatter.ToBRL(
