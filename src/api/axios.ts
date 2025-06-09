@@ -8,8 +8,6 @@ const partnerApi = axios.create({
 partnerApi.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("accessToken");
-    // sessionStorage.getItem("accessToken");
-
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -38,9 +36,7 @@ partnerApi.interceptors.response.use(
     const isGuest = window.location.pathname.includes("/guest/");
 
     if (error.response?.status === 401 && isGuest) {
-      // await partnerApi.post("/auth/logout");
       localStorage.removeItem("accessToken");
-      // sessionStorage.removeItem("accessToken");
       window.location.href = "/unauthorized";
       return Promise.reject(error);
     }
@@ -70,7 +66,6 @@ partnerApi.interceptors.response.use(
         const response = await partnerApi.post("/auth/refresh");
         const newAccessToken = response.data.accessToken;
         localStorage.setItem("accessToken", newAccessToken);
-        // sessionStorage.setItem("accessToken", newAccessToken);
         partnerApi.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
 
         processQueue(null, newAccessToken);
@@ -78,7 +73,6 @@ partnerApi.interceptors.response.use(
       } catch (err) {
         processQueue(err, null);
         await partnerApi.post("/auth/logout");
-        // sessionStorage.removeItem("accessToken");
         localStorage.removeItem("accessToken");
 
         window.location.href = "/auth";

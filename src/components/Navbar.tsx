@@ -14,7 +14,6 @@ export type NavProps = {
 export default function Navbar({ links }: NavProps) {
   const pathname = useLocation();
   // const mobile = typeof window !== "undefined" && window.innerWidth < 768;
-  // console.log(mobile);
 
   return (
     <nav
@@ -27,10 +26,15 @@ export default function Navbar({ links }: NavProps) {
             key={link.text}
             to={link.href}
             aria-label={link.text}
-            className={`group relative flex h-16 w-full flex-row items-center justify-center gap-3 rounded-xl border-solid border-gray-100/5 p-4 duration-300 ease-in-out hover:border hover:shadow-lg ${pathname.pathname == link.href ? "text-cyan-400" : ""} `}
+            className={`group relative flex h-16 w-full flex-row items-center justify-center gap-3 rounded-xl border-solid border-gray-100/5 p-4 duration-300 ease-in-out hover:border hover:shadow-lg ${
+              pathname.pathname === link.href ||
+              (link.href !== "/" && pathname.pathname.startsWith(link.href))
+                ? "text-cyan-400"
+                : ""
+            }`}
           >
             <Icon icon={link.icon} width="30" />
-            <p className="hidden lg:flex"> {link.text}</p>
+            <p className="hidden lg:flex">{link.text}</p>
           </Link>
         ))}
       </div>

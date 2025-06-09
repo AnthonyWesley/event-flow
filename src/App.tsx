@@ -9,8 +9,6 @@ import RankingPage from "./ranking/pages/RankingPage";
 import PrivateRoutes from "./auth/pages/PrivateRoutes";
 import ProductsPage from "./product/pages/ProductsPage";
 import SellersPage from "./seller/pages/SellersPage";
-import SellerDetailPage from "./seller/pages/SellerDetailPage";
-import ModalInterceptor from "./components/ModalInterceptor";
 import ProductDetailPage from "./product/pages/ProductDetailPage";
 import EventsPage from "./event/pages/EventsPage";
 import EventsPageDetailPage from "./event/pages/EventsPageDetailPage";
@@ -21,7 +19,7 @@ import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 import ErrorPage from "./auth/pages/ErrorPage";
 import AdmPage from "./administrator/pages/AdmPage";
 import AdmAuthPage from "./administrator/pages/AdmAuthPage";
-// import AdmPage from "./administrator/pages/AdmPage";
+import SellerDetailPage from "./seller/pages/SellerDetailPage";
 export default function App() {
   const location = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
@@ -32,9 +30,7 @@ export default function App() {
     "events/:eventId/guest/:sellerId",
     location.pathname,
   );
-  const state = location.state as { backgroundLocation?: Location };
   return (
-    // <div className="mb-20 flex lg:mt-20 lg:min-h-[80vh]">
     <div className="flex min-h-screen flex-col">
       {isAuthenticated && (
         <>
@@ -48,33 +44,13 @@ export default function App() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<PrivateRoutes />}>
-            {state?.backgroundLocation && (
-              <>
-                <Route
-                  path="/sellers/:sellerId"
-                  element={
-                    <ModalInterceptor>
-                      <SellerDetailPage />
-                    </ModalInterceptor>
-                  }
-                />
-                <Route
-                  path="/products/:productId"
-                  element={
-                    <ModalInterceptor>
-                      <ProductDetailPage />
-                    </ModalInterceptor>
-                  }
-                />
-              </>
-            )}
             <Route index element={<RankingPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="events/:eventId" element={<EventsPageDetailPage />} />
             {/* <Route path="events/:eventId" element={<ActiveEventPage />} /> */}
             <Route path="user" element={<User />} />
             <Route path="sellers" element={<SellersPage />} />
-            {/* <Route path="sellers/:sellerId" element={<SellerDetailPage />} /> */}
+            <Route path="sellers/:sellerId" element={<SellerDetailPage />} />
             <Route
               path="/products/:productId"
               element={<ProductDetailPage />}

@@ -6,7 +6,7 @@ import { useEvent } from "../hooks/useEvent";
 import { EventOutputDto } from "../services/eventService";
 import HeaderRanking from "../../ranking/components/HeaderRanking";
 import { formatDate } from "../../helpers/formatDate";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EventForm from "../components/EventForm";
 import Modal from "../../components/Modal";
 import Card from "../../components/Card";
@@ -19,7 +19,6 @@ type StatusEvent = {
 };
 export default function EventsPage() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const {
     queryEvents: { data: events, isPending, error },
@@ -85,11 +84,7 @@ export default function EventsPage() {
                         className={`w-full cursor-pointer transition-opacity duration-200 hover:opacity-90 ${
                           event.isActive ? "opacity-100" : "opacity-80"
                         }`}
-                        onClick={() =>
-                          navigate(`/events/${event.id}`, {
-                            state: { backgroundLocation: location },
-                          })
-                        }
+                        onClick={() => navigate(`/events/${event.id}`)}
                       >
                         <Card icon="carbon:event" color={color}>
                           <HeaderRanking event={event} />

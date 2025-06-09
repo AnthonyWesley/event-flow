@@ -7,12 +7,11 @@ import { InfoLine } from "../../components/InfoLine";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import Card from "../../components/Card";
 import FlexSection from "../../components/FlexSection";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function ProductPage() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const {
     queryProducts: { isPending, error, data: products },
@@ -41,11 +40,7 @@ export default function ProductPage() {
           <div
             key={product.id}
             className="w-full"
-            onClick={() =>
-              navigate(`/products/${product.id}`, {
-                state: { backgroundLocation: location },
-              })
-            }
+            onClick={() => navigate(`/products/${product.id}`)}
           >
             <Card key={product.id} icon={"iconoir:box-iso"} color={"green"}>
               <FlexSection className="items-start">

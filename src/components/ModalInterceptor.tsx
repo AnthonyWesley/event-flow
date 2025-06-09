@@ -11,13 +11,6 @@ export default function ModalInterceptor({
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50">
       <div className="relative w-full max-w-lg rounded-lg p-4">
-        {/* <button
-          className="absolute top-2 right-2 text-gray-600 hover:text-black"
-          onClick={() => navigate(-1)}
-        >
-          ✕
-        </button> */}
-
         <Icon
           onClick={() => navigate(-1)}
           className="absolute top-6 right-4 transition-all hover:text-red-600"

@@ -4,7 +4,7 @@ import { InfoLine } from "../../components/InfoLine";
 import useSeller from "../hooks/useSeller";
 import { SellerOutputDto } from "../services/sellerService";
 import Card from "../../components/Card";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal";
 import SellerForm from "../components/SellerForm";
 import { Icon } from "@iconify/react/dist/iconify.js";
@@ -16,7 +16,6 @@ export default function SellerPage() {
   } = useSeller();
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   if (isLoading) return <Spin />;
   if (error) return "An error has occurred: " + error.message;
@@ -40,11 +39,7 @@ export default function SellerPage() {
           <div
             key={seller.id}
             className="w-full"
-            onClick={() =>
-              navigate(`/sellers/${seller.id}`, {
-                state: { backgroundLocation: location },
-              })
-            }
+            onClick={() => navigate(`/sellers/${seller.id}`)}
           >
             <Card key={seller.id} icon="bxs:user" color={"blue"}>
               <FlexSection className="items-start border-t border-t-gray-500/15">

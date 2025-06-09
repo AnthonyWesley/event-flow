@@ -6,7 +6,7 @@ import SellerForm from "../components/SellerForm";
 import Dialog from "../../components/Dialog";
 import { useSellerMutations } from "../hooks/useSellerMutations";
 import Card from "../../components/Card";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
 import { useEvent } from "../../event/hooks/useEvent";
 import { EventOutputDto } from "../../event/services/eventService";
@@ -14,10 +14,10 @@ import { SellerOutputDto } from "../services/sellerService";
 import Accordion from "../../components/Accordion";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
+import Tooltip from "../../components/Tooltip";
 
 export default function SellerDetailPage() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const { sellerId } = useParams<{ sellerId: string }>();
   const {
@@ -70,6 +70,14 @@ export default function SellerDetailPage() {
           }
           footer={
             <>
+              <Tooltip info="Voltar">
+                <div
+                  className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                  onClick={() => navigate(-1)}
+                >
+                  <Icon icon="hugeicons:link-backward" width="20" />
+                </div>
+              </Tooltip>
               <Modal id="SellerDetailPageSellerForm" icon="carbon:edit">
                 <SellerForm seller={seller} />
               </Modal>
@@ -98,11 +106,7 @@ export default function SellerDetailPage() {
                 <Icon
                   icon="hugeicons:link-forward"
                   width="30"
-                  onClick={() =>
-                    navigate(`/events/${ev.id}`, {
-                      state: { backgroundLocation: location },
-                    })
-                  }
+                  onClick={() => navigate(`/events/${ev.id}`)}
                   className="hover:text-cyan-400"
                 />
               </div>
