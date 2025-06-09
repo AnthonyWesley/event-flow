@@ -5,6 +5,7 @@ import { goalUtils } from "../../helpers/goalUtils";
 
 import { useEffect, useState } from "react";
 import GoalAchievedModal from "../../components/GoalAchievedModal";
+import { CircularProgress } from "../../components/CircularProgress";
 export type HeaderRankingProps = {
   event: any;
   className?: string;
@@ -33,10 +34,10 @@ export default function HeaderRanking({
 
   return (
     <header
-      className={`my-1 flex w-full flex-col items-center gap-1 rounded-xl border border-gray-500/15 p-4 ${className}`}
+      className={`my-1 flex w-full items-center justify-between gap-1 rounded-xl${className}`}
     >
       {showModal && <GoalAchievedModal onClose={() => setShowModal(false)} />}
-      <div className={`flex w-full items-center justify-between gap-1`}>
+      <div className={`flex w-full flex-col items-start justify-start gap-1`}>
         <InfoLine label="Evento:" value={event?.name} />
         <InfoLine
           label="Meta:"
@@ -50,14 +51,6 @@ export default function HeaderRanking({
             event?.goal,
           )}
         />
-      </div>
-
-      <ProgressBar
-        total={event?.goal}
-        current={goalUtils.getTotalForGoal(event.allSellers, event.goalType)}
-      />
-
-      <div className="flex w-full justify-between gap-2 font-semibold text-gray-50">
         <InfoLine
           label="Total:"
           value={
@@ -71,6 +64,13 @@ export default function HeaderRanking({
             goalUtils.getTotalForGoal(event.allSellers, event.goalType),
             event?.goal,
           )}
+        />
+      </div>
+
+      <div className="flex w-full justify-between gap-2 font-semibold text-gray-50">
+        <CircularProgress
+          total={event?.goal}
+          current={goalUtils.getTotalForGoal(event.allSellers, event.goalType)}
         />
       </div>
     </header>

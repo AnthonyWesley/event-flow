@@ -14,18 +14,21 @@ export default function Accordion({
   title,
   content,
   icon,
-  disabled,
-  startOpen = false,
+  disabled = false,
+  // startOpen = true,
   className,
 }: AccordionProps) {
-  const [isOpen, setIsOpen] = useState(startOpen);
+  const mobile =
+    typeof window !== "undefined" && window.innerWidth < 768 ? false : true;
+
+  const [isOpen, setIsOpen] = useState(mobile);
   const [height, setHeight] = useState<number | "auto">(0);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (disabled) {
-      setIsOpen(false);
-      setHeight(0);
+      setIsOpen(true);
+      setHeight("auto");
     }
   }, [disabled]);
 
@@ -38,11 +41,7 @@ export default function Accordion({
   }, [isOpen, content]);
 
   return (
-    <div
-      className={`${
-        disabled ? "pointer-events-none" : "pointer-events-auto"
-      } w-full overflow-hidden rounded-sm`}
-    >
+    <div className={`w-full overflow-hidden rounded-sm`}>
       <div
         className={`flex w-full items-center justify-between rounded-sm text-white focus:outline-none ${className}`}
       >
@@ -51,7 +50,7 @@ export default function Accordion({
         {!icon && (
           <Icon
             icon="line-md:chevron-small-left"
-            className="cursor-pointer rounded-sm transition-transform duration-500"
+            className="cursor-pointer rounded-sm transition-transform duration-500 lg:hidden"
             style={{ transform: isOpen ? "rotate(270deg)" : "rotate(0deg)" }}
             width={30}
             onClick={() => setIsOpen((prev) => !prev)}
