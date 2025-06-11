@@ -20,6 +20,7 @@ import Accordion from "../../components/Accordion";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
+
   const navigate = useNavigate();
   const {
     queryProducts: { data: products = [] },

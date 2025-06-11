@@ -20,6 +20,7 @@ import ErrorPage from "./auth/pages/ErrorPage";
 import AdmPage from "./administrator/pages/AdmPage";
 import AdmAuthPage from "./administrator/pages/AdmAuthPage";
 import SellerDetailPage from "./seller/pages/SellerDetailPage";
+import LeadPage from "./lead/pages/LeadPage";
 export default function App() {
   const location = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
@@ -57,6 +58,7 @@ export default function App() {
             />
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<Sale />} />
+            <Route path="lead" element={<LeadPage />} />
             <Route
               path="events/:eventId/guest/:sellerId"
               element={<GuestPage />}

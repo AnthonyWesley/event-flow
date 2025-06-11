@@ -1,40 +1,38 @@
 import { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
-import { SellerOutputDto } from "../seller/services/sellerService";
 import clsx from "clsx";
 
 type MultiSelectComboboxProps = {
-  selectedPeople: SellerOutputDto[];
-  setSelectedPeople: (people: SellerOutputDto[]) => void;
-  uniqueSellers: SellerOutputDto[];
+  selectedItem: any[];
+  setSelectedItem: (item: any[]) => void;
+  uniqueItem: any[];
 };
 
 export default function MultiSelectCombobox({
-  selectedPeople,
-  setSelectedPeople,
-  uniqueSellers,
+  selectedItem,
+  setSelectedItem,
+  uniqueItem,
 }: MultiSelectComboboxProps) {
   const [query, setQuery] = useState("");
-
-  const removePerson = (person: SellerOutputDto) => {
-    setSelectedPeople(selectedPeople.filter((p) => p.id !== person.id));
+  const removePerson = (item: any) => {
+    setSelectedItem(selectedItem.filter((p) => p.id !== item.id));
   };
 
   const filteredPeople =
     query === ""
-      ? uniqueSellers
-      : uniqueSellers?.filter((person: SellerOutputDto) =>
-          person.name.toLowerCase().includes(query.toLowerCase()),
+      ? uniqueItem
+      : uniqueItem?.filter((item: any) =>
+          item.name.toLowerCase().includes(query.toLowerCase()),
         );
 
   return (
-    <div className="relative h-50 w-full">
-      <Combobox value={selectedPeople} onChange={setSelectedPeople} multiple>
+    <div className="relative max-h-50 w-full">
+      <Combobox value={selectedItem} onChange={setSelectedItem} multiple>
         <div className="relative w-full cursor-default overflow-hidden rounded-sm border border-cyan-800 bg-white/5 text-left shadow-md focus:outline-none sm:text-sm">
           <div className="flex flex-wrap gap-1 p-1">
-            {selectedPeople &&
-              selectedPeople.map((person) => (
+            {selectedItem &&
+              selectedItem.map((person) => (
                 <span
                   key={person.id}
                   className="flex items-center gap-1 rounded bg-blue-50 px-2 py-1 text-sm text-blue-800"
@@ -73,7 +71,7 @@ export default function MultiSelectCombobox({
                 Sem vendedor para selecionar.
               </div>
             ) : (
-              filteredPeople?.map((person: SellerOutputDto) => (
+              filteredPeople?.map((person: any) => (
                 <Combobox.Option
                   key={person.id}
                   className={({ active }) =>
