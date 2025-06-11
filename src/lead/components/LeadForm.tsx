@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatPhoneNumber } from "../../auth/components/authForm";
 import Card from "../../components/Card";
 import MultiSelectCombobox from "../../components/MultiSelectCombobox";
@@ -7,6 +7,7 @@ import { useLeadMutations } from "../hooks/useLeadMutations";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { ProductOutputDto } from "../../product/services/productService";
 import useProduct from "../../product/hooks/useProduct";
+import useLead from "../hooks/useLead";
 
 type LeadFormProps = {
   eventId?: string;
@@ -18,14 +19,37 @@ export default function LeadForm({ eventId, leadId }: LeadFormProps) {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [source, setSource] = useState("");
-  const [notes, setNotes] = useState("");
+  // const [notes, setNotes] = useState("");
   //   const [products, setProducts] = useState([]);
   const [selectedItem, setSelectedItem] = useState<ProductOutputDto[]>([]);
+
+  const {
+    queryLead: { data: lead },
+  } = useLead(leadId);
 
   const { createOrUpdate } = useLeadMutations();
   const {
     queryProducts: { data: allProducts },
   } = useProduct();
+
+  useEffect(() => {
+    if (lead) {
+      setName(lead.name);
+      setEmail(lead.email);
+      setPhone(fieldFormatter.phone(lead.phone ?? "") ?? "");
+      setSource(lead.source);
+      setSelectedItem(lead.products);
+    }
+  }, [lead]);
+
+  // const clearForm = () => {
+  //   if (!lead) {
+  //     setName("");
+  //     setEmail("");
+  //     setPhone("");
+  //   }
+  //   setSelectedPeople([]);
+  // };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +66,7 @@ export default function LeadForm({ eventId, leadId }: LeadFormProps) {
         eventId: eventId ?? "",
         source,
         products: selectedItem,
-        notes,
+        // notes,
       },
     });
   };
@@ -104,11 +128,12 @@ export default function LeadForm({ eventId, leadId }: LeadFormProps) {
               selectedItem={selectedItem}
               setSelectedItem={setSelectedItem}
               uniqueItem={allProducts}
+              placeholder="Produto de interesse..."
             />
           </div>
         </>
 
-        <label className="flex flex-col">
+        {/* <label className="flex flex-col">
           Nota:
           <textarea
             name="Note"
@@ -117,7 +142,7 @@ export default function LeadForm({ eventId, leadId }: LeadFormProps) {
             className="rounded bg-white/5 p-2"
             // required
           />
-        </label>
+        </label> */}
 
         <button
           type="submit"

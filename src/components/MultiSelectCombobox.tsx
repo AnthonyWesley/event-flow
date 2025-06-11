@@ -7,12 +7,14 @@ type MultiSelectComboboxProps = {
   selectedItem: any[];
   setSelectedItem: (item: any[]) => void;
   uniqueItem: any[];
+  placeholder?: string;
 };
 
 export default function MultiSelectCombobox({
   selectedItem,
   setSelectedItem,
   uniqueItem,
+  placeholder,
 }: MultiSelectComboboxProps) {
   const [query, setQuery] = useState("");
   const removePerson = (item: any) => {
@@ -50,7 +52,7 @@ export default function MultiSelectCombobox({
             <Combobox.Input
               className="flex-1 border-none p-1 text-sm text-gray-700 placeholder-gray-400 outline-0 focus:ring-0"
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Vendedores..."
+              placeholder={placeholder}
             />
           </div>
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">

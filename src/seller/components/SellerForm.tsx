@@ -211,6 +211,7 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
             selectedItem={selectedPeople}
             setSelectedItem={setSelectedPeople}
             uniqueItem={uniqueSellers}
+            placeholder="Vendedores..."
           />
         )}
         <button

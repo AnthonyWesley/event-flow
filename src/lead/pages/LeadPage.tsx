@@ -5,6 +5,7 @@ import useLead from "../hooks/useLead";
 import { ProductOutputDto } from "../../product/services/productService";
 import { LeadOutputDto } from "../services/leadService";
 import { useParams } from "react-router-dom";
+// import Dialog from "../../components/Dialog";
 
 export default function LeadPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -13,27 +14,29 @@ export default function LeadPage() {
     queryLeads: { data: leads },
   } = useLead();
 
+  // const { createOrUpdate } = useLeadMutations();
+
   // useEffect(() => {
   //   setLeads(mockLeads);
   // }, []);
 
-  const handleEdit = (id: string) => {
-    alert(`Editar lead ${id}`);
-  };
+  // const handleEdit = (id: string) => {
+  //   alert(`Editar lead ${id}`);
+  // };
 
   // const handleDelete = (id: string) => {
   //   const confirm = window.confirm("Tem certeza que deseja deletar?");
   // };
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="mx-auto w-full">
       <h1 className="mb-4 text-2xl font-bold">Leads</h1>
       <Modal
         id="LeadPageSellerForm"
         className="bg-slate-900"
         icon={<Icon icon="ic:baseline-plus" width="25" />}
       >
-        <LeadForm eventId={eventId} />
+        <LeadForm eventId={eventId} leadId="" />
       </Modal>
       {leads?.length === 0 ? (
         <p className="text-gray-600">Nenhum lead encontrado.</p>
@@ -76,18 +79,22 @@ export default function LeadPage() {
                     {new Date(lead.createdAt).toLocaleDateString()}
                   </td>
                   <td className="flex gap-2 p-2">
-                    <button
-                      onClick={() => handleEdit(lead.id)}
-                      className="rounded bg-blue-600 px-2 py-1 text-xs text-white hover:bg-blue-700"
+                    <Modal id="LeadPageForm" icon="carbon:edit" info="Editar">
+                      <LeadForm leadId={lead.id} />
+                    </Modal>
+                    <Modal
+                      id="LeadPageDeleteForm"
+                      icon="carbon:trash-can"
+                      info="Deletar"
                     >
-                      Editar
-                    </button>
-                    <button
-                      // onClick={() => handleDelete(lead.id)}
-                      className="rounded bg-red-600 px-2 py-1 text-xs text-white hover:bg-red-700"
-                    >
-                      Deletar
-                    </button>
+                      {/* <Dialog
+                        message="Deseja excluir o lead?"
+                         onClick={() => {
+                           deleteEvent.mutate(event.id);
+                           navigate(-1);
+                         }}
+                      /> */}
+                    </Modal>
                   </td>
                 </tr>
               ))}

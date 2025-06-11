@@ -17,10 +17,11 @@ export function useLeadMutations() {
       closeModal("GuestPageDeleteForm");
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["sellersData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
       queryClient.invalidateQueries({ queryKey: ["eventData"] });
-      queryClient.invalidateQueries({ queryKey: ["guestData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadsData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadsByEventData"] });
     },
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao excluir vendedor"),
@@ -41,18 +42,17 @@ export function useLeadMutations() {
         : leadService.create(eventId ?? "", data),
     onSuccess: () => {
       toast.success("Vendedor salvo com sucesso!");
-      closeModal("SellerPageSellerForm");
-      closeModal("RankingPageSellerForm");
-      closeModal("SellerDetailPageSellerForm");
-      closeModal("SellerDetailByEventSellerForm");
-      closeModal("GuestPageSellerForm");
+
+      closeModal("LeadPageSellerForm");
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["sellersData"] });
-      queryClient.invalidateQueries({ queryKey: ["sellerData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadsData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadsByEventData"] });
+      queryClient.invalidateQueries({ queryKey: ["productsData"] });
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
-      queryClient.invalidateQueries({ queryKey: ["eventData"] });
+      // queryClient.invalidateQueries({ queryKey: ["eventData"] });
     },
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao salvar vendedor"),
