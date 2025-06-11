@@ -58,7 +58,7 @@ export default function App() {
             />
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<Sale />} />
-            <Route path="lead" element={<LeadPage />} />
+            <Route path="events/:eventId/leads" element={<LeadPage />} />
             <Route
               path="events/:eventId/guest/:sellerId"
               element={<GuestPage />}

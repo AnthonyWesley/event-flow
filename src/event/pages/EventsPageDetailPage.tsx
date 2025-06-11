@@ -162,6 +162,14 @@ export default function EventsPageDetailPage() {
               <Icon icon="hugeicons:link-backward" width="20" />
             </div>
           </Tooltip>
+          <Tooltip info="Leads">
+            <div
+              className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+              onClick={() => navigate(`/events/${eventId}/leads`)}
+            >
+              <Icon icon="material-symbols:patient-list" width="20" />
+            </div>
+          </Tooltip>
 
           <Modal
             id="EventsPageDetailPageEventForm"

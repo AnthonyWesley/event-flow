@@ -13,10 +13,7 @@ type LeadFormProps = {
   leadId?: string;
 };
 
-export default function LeadForm({
-  eventId = "01JXF5XVQMPM70FXF7VX74G76X",
-  leadId,
-}: LeadFormProps) {
+export default function LeadForm({ eventId, leadId }: LeadFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");

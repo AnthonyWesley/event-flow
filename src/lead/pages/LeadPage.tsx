@@ -4,9 +4,11 @@ import LeadForm from "../components/LeadForm";
 import useLead from "../hooks/useLead";
 import { ProductOutputDto } from "../../product/services/productService";
 import { LeadOutputDto } from "../services/leadService";
+import { useParams } from "react-router-dom";
 
 export default function LeadPage() {
-  // const [leads, setLeads] = useState<Lead[]>([]);
+  const { eventId } = useParams<{ eventId: string }>();
+
   const {
     queryLeads: { data: leads },
   } = useLead();
@@ -31,7 +33,7 @@ export default function LeadPage() {
         className="bg-slate-900"
         icon={<Icon icon="ic:baseline-plus" width="25" />}
       >
-        <LeadForm />
+        <LeadForm eventId={eventId} />
       </Modal>
       {leads?.length === 0 ? (
         <p className="text-gray-600">Nenhum lead encontrado.</p>
