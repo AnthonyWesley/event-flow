@@ -12,9 +12,7 @@ export function useLeadMutations() {
       leadService.delete(eventId, leadId),
     onSuccess: () => {
       toast.success("Vendedor excluido com sucesso!");
-      closeModal("SellerDetailPageDeleteSellerForm");
-      closeModal("SellerDetailByEventDeleteForm");
-      closeModal("GuestPageDeleteForm");
+      closeModal("LeadPageDeleteForm");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["eventsData"] });
@@ -40,10 +38,10 @@ export function useLeadMutations() {
       leadId
         ? leadService.update(eventId, leadId ?? "", data)
         : leadService.create(eventId ?? "", data),
-    onSuccess: () => {
-      toast.success("Vendedor salvo com sucesso!");
-
+    onSuccess: (_data, variables) => {
+      toast.success("Lead salvo com sucesso!");
       closeModal("LeadPageSellerForm");
+      closeModal(`${variables.leadId}`);
     },
 
     onSettled: () => {

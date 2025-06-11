@@ -7,14 +7,13 @@ import { useLeadMutations } from "../hooks/useLeadMutations";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { ProductOutputDto } from "../../product/services/productService";
 import useProduct from "../../product/hooks/useProduct";
-import useLead from "../hooks/useLead";
 
 type LeadFormProps = {
   eventId?: string;
-  leadId?: string;
+  lead?: any;
 };
 
-export default function LeadForm({ eventId, leadId }: LeadFormProps) {
+export default function LeadForm({ eventId, lead }: LeadFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -22,10 +21,6 @@ export default function LeadForm({ eventId, leadId }: LeadFormProps) {
   // const [notes, setNotes] = useState("");
   //   const [products, setProducts] = useState([]);
   const [selectedItem, setSelectedItem] = useState<ProductOutputDto[]>([]);
-
-  const {
-    queryLead: { data: lead },
-  } = useLead(leadId);
 
   const { createOrUpdate } = useLeadMutations();
   const {
@@ -58,7 +53,7 @@ export default function LeadForm({ eventId, leadId }: LeadFormProps) {
 
     createOrUpdate.mutate({
       eventId: eventId ?? "",
-      leadId,
+      leadId: lead?.id,
       data: {
         name: fieldFormatter.name(name),
         email,

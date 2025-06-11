@@ -33,18 +33,18 @@ export const leadService = {
 
   listAll: async () => {
     const response = await partnerApi.get(`/leads/`);
-    console.log(response.data);
 
     return response.data;
   },
 
-  listByEvent: async (eventId: string) => {
-    const response = await partnerApi.get(`events/${eventId}/leads/${eventId}`);
+  listByEvent: async (eventId: string, leadId: string) => {
+    const response = await partnerApi.get(`events/${eventId}/leads/${leadId}`);
     return response.data;
   },
 
-  findOne: async (eventId: string) => {
-    const response = await partnerApi.get(`events/${eventId}/leads/${eventId}`);
+  findOne: async (eventId: string, leadId: string) => {
+    const response = await partnerApi.get(`events/${eventId}/leads/${leadId}`);
+
     return response.data;
   },
 
