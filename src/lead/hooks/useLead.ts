@@ -13,8 +13,8 @@ export default function useLead(eventId?: string, leadId?: string) {
 
   const queryLeadByEvent = useQuery({
     queryKey: ["leadsByEventData", eventId],
-    queryFn: () => leadService.listByEvent(eventId ?? "", leadId ?? ""),
-    enabled: isAuthenticated && !!eventId && !!leadId,
+    queryFn: () => leadService.listByEvent(eventId ?? ""),
+    enabled: isAuthenticated && !!eventId,
   });
 
   const queryLead = useQuery({

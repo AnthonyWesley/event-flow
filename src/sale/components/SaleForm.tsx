@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { ProductOutputDto } from "../../product/services/productService";
 import Spin from "../../components/Spin";
 import Select, { SelectList } from "../../components/Select";
 import { useEvent } from "../../event/hooks/useEvent";
@@ -32,11 +31,6 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
   const {
     queryProducts: { data: products },
   } = useProduct();
-
-  const productOptions = products.map((product: ProductOutputDto) => ({
-    id: product.id,
-    name: product.name,
-  }));
 
   const isGuestSeller = event?.allSellers.filter(
     (se: SellerOutputDto) => se.id === guestId,
@@ -88,12 +82,12 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
   }, [event, isGuest]);
 
   useEffect(() => {
-    if (!product && productOptions.length > 0) {
-      setProduct(productOptions[0]);
+    if (!product && products.length > 0) {
+      setProduct(products[0]);
     }
-  }, [productOptions]);
+  }, [products]);
 
-  if (!event || product) return <Spin />;
+  if (!event || !product) return <Spin />;
   return (
     <Card key={eventId ?? ""} color="rose">
       <form
@@ -109,7 +103,7 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
         />
         <Select
           label="Produto"
-          selectList={productOptions}
+          selectList={products}
           onChange={setProduct}
           selected={product}
         />

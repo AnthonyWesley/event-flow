@@ -15,9 +15,14 @@ export default function LeadPage() {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
 
+  // const {
+  //   queryLeads: { data: leads },
+  // } = useLead();
+
   const {
-    queryLeads: { data: leads },
-  } = useLead();
+    queryLeadByEvent: { data: leads },
+  } = useLead(eventId);
+  console.log(eventId);
 
   const {
     queryEvent: { data: event },

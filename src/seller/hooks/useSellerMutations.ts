@@ -49,7 +49,7 @@ export function useSellerMutations() {
         : sellerService.createOrAttachToEvent(eventId ?? "", data),
     onSuccess: () => {
       toast.success("Vendedor salvo com sucesso!");
-      closeModal("SellerPageSellerForm");
+      closeModal("VENDEDORESForm");
       closeModal("RankingPageSellerForm");
       closeModal("SellerDetailPageSellerForm");
       closeModal("SellerDetailByEventSellerForm");

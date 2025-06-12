@@ -22,9 +22,10 @@ export function useProductMutations() {
   const createOrUpdate = useMutation({
     mutationFn: ({ id, data }: { id?: string; data: ProductInputDto }) =>
       id ? productService.update(id, data) : productService.create(data),
+
     onSuccess: () => {
       toast.success("Produto salvo com sucesso!");
-      closeModal("ProductPageProductForm");
+      closeModal("PRODUTOSForm");
       closeModal("ProductDetailPageProductForm");
     },
     onError: (err: any) =>

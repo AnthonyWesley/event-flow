@@ -3,6 +3,8 @@ import Spin from "../../components/Spin";
 import { PartnerOutputDto } from "../../partner/services/partnerService";
 import useAdm from "../hooks/useAdm";
 import useAdmMutate from "../hooks/useAdmMutate";
+import Modal from "../../components/Modal";
+import PartnerForm from "../components/AdmForm";
 
 export default function AdmPage() {
   const {
@@ -10,6 +12,7 @@ export default function AdmPage() {
   } = useAdm();
   // const navigate = useNavigate();
   const { accessPartner } = useAdmMutate();
+
   if (isPending) return <Spin />;
   if (error) return "An error has occurred: " + error.message;
 
@@ -46,18 +49,24 @@ export default function AdmPage() {
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td className="flex gap-4 p-4">
-                  <button
-                    className="text-blue-500 hover:underline"
-                    // onClick={() => onEdit(user)}
+                  <Modal id={user.id} icon="carbon:edit" info="Editar">
+                    <PartnerForm partner={user} />
+                  </Modal>
+                  <Modal
+                    id="AdmPageDeleteForm"
+                    icon="carbon:trash-can"
+                    info="Deletar"
                   >
-                    Editar
-                  </button>
-                  <button
-                    className="text-red-500 hover:underline"
-                    // onClick={() => onDelete(user.id)}
-                  >
-                    Deletar
-                  </button>
+                    {/* <Dialog
+                      message="Deseja excluir o lead?"
+                      onClick={() =>
+                        deleteSeller.mutate({
+                          eventId: eventId ?? "",
+                          leadId: lead.id,
+                        })
+                      }
+                    /> */}
+                  </Modal>
                   <Icon
                     icon="material-symbols:switch-access-2-rounded"
                     width="24"

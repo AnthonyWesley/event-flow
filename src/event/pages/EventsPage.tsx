@@ -58,36 +58,37 @@ export default function EventsPage() {
 
   return (
     <>
-      <header className="flex items-center justify-between text-xl font-bold">
-        <NavAction>
-          <InputSearch
-            ref={inputRef}
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar... Vendedres"
-            onOpenChange={setIsSearchOpen}
-          />
+      <section className="flex flex-col gap-2 px-4 font-bold sm:flex-row sm:items-center sm:justify-between">
+        <header className="mt-1 flex w-full">
+          <NavAction>
+            <InputSearch
+              ref={inputRef}
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Buscar... Vendedres"
+              onOpenChange={setIsSearchOpen}
+            />
 
-          <div
-            className={`flex items-center gap-4 transition-all duration-900 ${
-              isSearchOpen
-                ? "pointer-events-none hidden -translate-x-10"
-                : "translate-x-0 opacity-100"
-            }`}
-          >
-            <h1 className="text-xl font-semibold text-white">EVENTOS</h1>
-          </div>
-          <Modal
-            id="EventsPageEventForm"
-            className="bg-slate-900"
-            icon={<Icon icon="ic:baseline-plus" width="25" />}
-          >
-            <EventForm />
-          </Modal>
-        </NavAction>
-      </header>
-
+            <div
+              className={`flex items-center gap-4 transition-all duration-900 ${
+                isSearchOpen
+                  ? "pointer-events-none hidden -translate-x-10"
+                  : "translate-x-0 opacity-100"
+              }`}
+            >
+              <h1 className="text-xl font-semibold text-white">EVENTOS</h1>
+            </div>
+            <Modal
+              id="EventsPageEventForm"
+              className="bg-slate-900"
+              icon={<Icon icon="ic:baseline-plus" width="20" />}
+            >
+              <EventForm />
+            </Modal>
+          </NavAction>
+        </header>
+      </section>
       {sections?.map(({ title, key, color }) => {
         const list = statusEvents[key as keyof typeof statusEvents];
 
