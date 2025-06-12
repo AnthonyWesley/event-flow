@@ -2,12 +2,14 @@ import React from "react";
 
 type NavActionProps = {
   children: React.ReactNode;
-  position?: "vertical" | "horizontal"; // default: vertical
+  position?: "vertical" | "horizontal";
+  className?: string;
 };
 
 export default function NavAction({
   children,
   position = "horizontal",
+  className,
 }: NavActionProps) {
   const baseClasses =
     "fixed z-50 bg-slate-950 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out";
@@ -25,7 +27,7 @@ export default function NavAction({
     <nav
       className={`${baseClasses} ${mobileTabletStyles} ${
         desktopPositionStyles[position]
-      }`}
+      } ${className} `}
     >
       {children}
     </nav>

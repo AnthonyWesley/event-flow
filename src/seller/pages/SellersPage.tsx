@@ -31,18 +31,34 @@ export default function SellerPage() {
     return () => clearTimeout(handler);
   }, [search]);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  // useEffect(() => {
+  //   inputRef.current?.focus();
+  // }, []);
 
   if (error)
     return <p className="text-red-500">Ocorreu um erro: {error.message}</p>;
 
   return (
     <>
-      <section className="flex flex-col gap-2 px-4 text-xl font-bold sm:flex-row sm:items-center sm:justify-between">
-        <header className="flex w-full">
-          <h1>VENDEDORES</h1>
+      <section className="flex flex-col gap-2 px-4 font-bold sm:flex-row sm:items-center sm:justify-between">
+        <header className="mt-1 flex w-full">
+          <NavAction className="bg-slate-950/25">
+            <InputSearch
+              ref={inputRef}
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Buscar..."
+            />
+            <h1>VENDEDORES</h1>{" "}
+            <Modal
+              id="SellerPageSellerForm"
+              className="bg-slate-900"
+              icon={<Icon icon="ic:baseline-plus" width="25" />}
+            >
+              <SellerForm />
+            </Modal>
+          </NavAction>
         </header>
       </section>
 
@@ -78,22 +94,6 @@ export default function SellerPage() {
           </p>
         )}
       </section>
-      <NavAction>
-        <InputSearch
-          ref={inputRef}
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar por nome ou email"
-        />
-        <Modal
-          id="SellerPageSellerForm"
-          className="bg-slate-900"
-          icon={<Icon icon="ic:baseline-plus" width="25" />}
-        >
-          <SellerForm />
-        </Modal>
-      </NavAction>
     </>
   );
 }
