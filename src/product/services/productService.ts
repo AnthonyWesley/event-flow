@@ -16,8 +16,8 @@ export const productService = {
     return response.data;
   },
 
-  list: async () => {
-    const response = await partnerApi.get(`/products/`);
+  list: async (search?: string) => {
+    const response = await partnerApi.get(`/products/`, { params: { search } });
     return response.data.products;
   },
 

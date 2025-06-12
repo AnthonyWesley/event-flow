@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import FlexSection from "../../components/FlexSection";
 import { InfoLine } from "../../components/InfoLine";
-import Spin from "../../components/Spin";
 import { useEvent } from "../hooks/useEvent";
 import { EventOutputDto } from "../services/eventService";
 import HeaderRanking from "../../ranking/components/HeaderRanking";
@@ -11,6 +10,9 @@ import EventForm from "../components/EventForm";
 import Modal from "../../components/Modal";
 import Card from "../../components/Card";
 import Accordion from "../../components/Accordion";
+import { useEffect, useRef, useState } from "react";
+import NavAction from "../../components/NavAction";
+import InputSearch from "../../components/InputSearch";
 
 type StatusEvent = {
   CREATED: EventOutputDto[];
@@ -18,21 +20,32 @@ type StatusEvent = {
   FINISH: EventOutputDto[];
 };
 export default function EventsPage() {
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
+
+    return () => clearTimeout(handler);
+  }, [search]);
   const {
-    queryEvents: { data: events, isPending, error },
-  } = useEvent();
+    queryEvents: { data: events, error },
+  } = useEvent(undefined, debouncedSearch);
 
-  if (isPending) return <Spin />;
-  if (error) return "Erro ao carregar evento.";
+  if (error)
+    return <p className="text-red-500">Ocorreu um erro: {error.message}</p>;
 
   const statusEvents: StatusEvent = {
-    ACTIVE: events.filter((event: EventOutputDto) => event.isActive),
-    CREATED: events.filter(
+    ACTIVE: events?.filter((event: EventOutputDto) => event.isActive),
+    CREATED: events?.filter(
       (event: EventOutputDto) => !event.isActive && !event.endDate,
     ),
-    FINISH: events.filter(
+    FINISH: events?.filter(
       (event: EventOutputDto) => !event.isActive && event.endDate,
     ),
   };
@@ -46,8 +59,25 @@ export default function EventsPage() {
   return (
     <>
       <header className="flex items-center justify-between text-xl font-bold">
-        <span className="ml-4 flex w-full items-center justify-between p-1">
-          <h1>EVENTOS</h1>
+        <NavAction>
+          <InputSearch
+            ref={inputRef}
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar... Vendedres"
+            onOpenChange={setIsSearchOpen}
+          />
+
+          <div
+            className={`flex items-center gap-4 transition-all duration-900 ${
+              isSearchOpen
+                ? "pointer-events-none hidden -translate-x-10"
+                : "translate-x-0 opacity-100"
+            }`}
+          >
+            <h1 className="text-xl font-semibold text-white">EVENTOS</h1>
+          </div>
           <Modal
             id="EventsPageEventForm"
             className="bg-slate-900"
@@ -55,7 +85,7 @@ export default function EventsPage() {
           >
             <EventForm />
           </Modal>
-        </span>
+        </NavAction>
       </header>
 
       {sections?.map(({ title, key, color }) => {

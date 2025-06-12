@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { productService } from "../services/productService";
 
-export default function useProduct(productId?: string) {
+export default function useProduct(productId?: string, search?: string) {
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
 
-  useProduct;
   const queryProducts = useQuery({
-    queryKey: ["productsData"],
-    queryFn: productService.list,
+    queryKey: ["productsData", search],
+    queryFn: () => productService.list(search),
     enabled: isAuthenticated,
     refetchInterval: 5000,
   });

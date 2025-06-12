@@ -30,8 +30,10 @@ export const eventService = {
     return response.data;
   },
 
-  list: async () => {
-    const response = await partnerApi.get("/events");
+  list: async (search?: string) => {
+    const response = await partnerApi.get("/events", {
+      params: { search },
+    });
     return response.data.events;
   },
 

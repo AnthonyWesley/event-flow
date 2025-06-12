@@ -49,7 +49,7 @@ export default function SellerPage() {
     <>
       <section className="flex flex-col gap-2 px-4 font-bold sm:flex-row sm:items-center sm:justify-between">
         <header className="mt-1 flex w-full">
-          <NavAction className="flex items-center gap-4 overflow-hidden bg-slate-950/25 transition-all duration-300">
+          <NavAction>
             <InputSearch
               ref={inputRef}
               type="text"
@@ -82,7 +82,6 @@ export default function SellerPage() {
       <section className="grid min-h-[200px] w-full place-items-center gap-4 p-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           <div className="col-span-full flex items-center justify-center">
-            {/* Spinner menor apenas para a lista */}
             <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
           </div>
         ) : sellers && sellers.length > 0 ? (
