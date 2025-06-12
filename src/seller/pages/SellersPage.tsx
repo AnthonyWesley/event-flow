@@ -15,6 +15,7 @@ import NavAction from "../../components/NavAction";
 export default function SellerPage() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(search);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     querySellers: { data: sellers, isLoading, error },
@@ -42,15 +43,26 @@ export default function SellerPage() {
     <>
       <section className="flex flex-col gap-2 px-4 font-bold sm:flex-row sm:items-center sm:justify-between">
         <header className="mt-1 flex w-full">
-          <NavAction className="bg-slate-950/25">
+          <NavAction className="flex items-center gap-4 overflow-hidden bg-slate-950/25 transition-all duration-300">
             <InputSearch
               ref={inputRef}
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar..."
+              placeholder="Buscar... Vendedres"
+              onOpenChange={setIsSearchOpen}
             />
-            <h1>VENDEDORES</h1>{" "}
+
+            {/* Título e botão somem com transição */}
+            <div
+              className={`flex items-center gap-4 transition-all duration-900 ${
+                isSearchOpen
+                  ? "pointer-events-none hidden -translate-x-10"
+                  : "translate-x-0 opacity-100"
+              }`}
+            >
+              <h1 className="text-xl font-semibold text-white">VENDEDORES</h1>
+            </div>
             <Modal
               id="SellerPageSellerForm"
               className="bg-slate-900"
