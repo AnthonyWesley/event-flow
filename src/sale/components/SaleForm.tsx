@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import {
-  ProductOutputDto,
-  productService,
-} from "../../product/services/productService";
+import { ProductOutputDto } from "../../product/services/productService";
 import Spin from "../../components/Spin";
 import Select, { SelectList } from "../../components/Select";
 import { useEvent } from "../../event/hooks/useEvent";
@@ -13,6 +9,7 @@ import Card from "../../components/Card";
 import { useSaleMutations } from "../hooks/useSaleMutations";
 import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 import { SellerOutputDto } from "../../seller/services/sellerService";
+import useProduct from "../../product/hooks/useProduct";
 
 export type SaleProps = {
   eventId?: string;
@@ -32,12 +29,11 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
   const { createOrUpdate } = useSaleMutations();
   const { createOrUpdate: createOrUpdateGuest } = useGuestMutations();
 
-  const { data: productQuery = [], isPending: productPending } = useQuery({
-    queryKey: ["productsData"],
-    queryFn: productService.list,
-  });
+  const {
+    queryProducts: { data: products },
+  } = useProduct();
 
-  const productOptions = productQuery.map((product: ProductOutputDto) => ({
+  const productOptions = products.map((product: ProductOutputDto) => ({
     id: product.id,
     name: product.name,
   }));
@@ -64,8 +60,6 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
         },
       });
     }
-
-    console.log(event?.isActive);
 
     if (!event?.isActive) {
       toast.error("Para realizar vendas, o evento precisa está ativo.");
@@ -99,7 +93,7 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
     }
   }, [productOptions]);
 
-  if (!event || productPending) return <Spin />;
+  if (!event || product) return <Spin />;
   return (
     <Card key={eventId ?? ""} color="rose">
       <form
