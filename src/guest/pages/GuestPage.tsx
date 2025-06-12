@@ -77,7 +77,7 @@ export default function GuestPage() {
 
   return (
     <div className="flex flex-col gap-2">
-      <FlexSection className="flex-row gap-2 rounded-2xl bg-slate-900">
+      <FlexSection className="flex-row gap-2 rounded-lg bg-slate-900">
         <Avatar name={seller?.guest?.name} />
 
         <div className="flex w-full flex-col items-start justify-evenly lg:flex-row">
@@ -125,7 +125,7 @@ export default function GuestPage() {
       </FlexSection>
 
       <InfoLine label="Evento:" value={event?.name} />
-      <FlexSection className="flex-row gap-2 rounded-2xl bg-slate-900">
+      <FlexSection className="flex-row gap-2 rounded-lg bg-slate-900">
         <FlexSection className="w-full items-start justify-start">
           <InfoLine
             label="Meta:"
@@ -150,8 +150,8 @@ export default function GuestPage() {
         <CircularProgress total={goal} current={currentProgress} />
       </FlexSection>
 
-      <section className="scrollbar-transparent flex w-full flex-col rounded-2xl lg:flex-row">
-        <div className="mb-2 w-full rounded-2xl bg-slate-900 lg:mr-2">
+      <section className="scrollbar-transparent flex w-full flex-col rounded-lg lg:flex-row">
+        <div className="mb-2 w-full rounded-lg bg-slate-900 lg:mr-2">
           <Accordion
             title={
               <InfoList
@@ -176,7 +176,7 @@ export default function GuestPage() {
           />
         </div>
 
-        <div className="mb-2 w-full rounded-2xl bg-slate-900">
+        <div className="mb-2 w-full rounded-lg bg-slate-900">
           <Accordion
             title={
               <InfoList
@@ -197,7 +197,7 @@ export default function GuestPage() {
         </div>
       </section>
 
-      <nav className="fixed bottom-0 left-0 flex w-full items-center justify-evenly rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:w-full lg:rounded-2xl">
+      <nav className="fixed bottom-0 left-0 flex w-full items-center justify-evenly rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:w-full lg:rounded-lg">
         <Modal id="GuestPageSellerForm" icon="carbon:edit">
           <SellerForm seller={seller?.guest} />
         </Modal>

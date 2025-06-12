@@ -30,7 +30,7 @@ export function SlideBarWrapper() {
         <Link
           key={link.text}
           to={link.href}
-          className={`group relative flex h-16 w-full flex-row items-center justify-center gap-3 rounded-xl border-solid border-gray-100/5 p-4 duration-300 ease-in-out hover:border hover:shadow-lg`}
+          className={`group relative flex h-16 w-full flex-row items-center justify-center gap-3 rounded-lg border-solid border-gray-100/5 p-4 duration-300 ease-in-out hover:border hover:shadow-lg`}
         >
           <Icon icon={link.icon} width="50" className="hover:text-cyan-400" />
           {/* <p className="hidden lg:flex"> {link.text}</p> */}

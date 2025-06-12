@@ -51,8 +51,11 @@ export const sellerService = {
     return response.data;
   },
 
-  list: async () => {
-    const response = await partnerApi.get(`/sellers/`);
+  list: async (search?: string) => {
+    const response = await partnerApi.get("/sellers", {
+      params: { search },
+    });
+
     return response.data.sellers;
   },
 

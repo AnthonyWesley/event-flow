@@ -64,7 +64,7 @@ export default function Select({
           anchor="bottom"
           transition
           className={clsx(
-            "z-80 w-[var(--button-width)] rounded-xl border border-white/5 bg-[#101828] p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none",
+            "z-80 w-[var(--button-width)] rounded-lg border border-white/5 bg-[#101828] p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none",
             "transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0",
           )}
         >

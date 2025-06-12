@@ -41,9 +41,9 @@ export default function Accordion({
   }, [isOpen, content]);
 
   return (
-    <div className={`w-full overflow-hidden rounded-b-2xl`}>
+    <div className={`w-full overflow-hidden rounded-b-lg`}>
       <div
-        className={`flex w-full items-center justify-between rounded-b-2xl text-white focus:outline-none ${className}`}
+        className={`flex w-full items-center justify-between rounded-b-lg text-white focus:outline-none ${className}`}
       >
         {title ?? ""}
 

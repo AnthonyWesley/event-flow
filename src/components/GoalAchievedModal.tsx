@@ -18,7 +18,7 @@ export default function GoalAchievedModal({ onClose }: GoalAchievedModalProps) {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         exit={{ scale: 0 }}
-        className="w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-xl"
+        className="w-full max-w-sm rounded-lg bg-white p-8 text-center shadow-xl"
       >
         <h2 className="mb-4 text-2xl font-bold text-teal-600">Parabéns! 🎉</h2>
         <p className="text-gray-700">Você alcançou sua meta com sucesso.</p>

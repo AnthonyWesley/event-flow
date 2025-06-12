@@ -35,6 +35,14 @@ partnerApi.interceptors.response.use(
     const originalRequest = error.config;
     const isGuest = window.location.pathname.includes("/guest/");
 
+    const shouldBypassInterceptor = ["/auth/login", "/auth/register"].some(
+      (path) => error.config?.url?.includes(path),
+    );
+
+    if (shouldBypassInterceptor) {
+      return Promise.reject(error); // 🔥 Deixa o toast funcionar no useMutation
+    }
+
     if (error.response?.status === 401 && isGuest) {
       localStorage.removeItem("accessToken");
       window.location.href = "/unauthorized";
@@ -45,9 +53,8 @@ partnerApi.interceptors.response.use(
       [401, 404, 500].includes(error.response.status) &&
       !originalRequest._retry
     ) {
-      localStorage.removeItem("accessToken");
-
       originalRequest._retry = true;
+      localStorage.removeItem("accessToken");
 
       if (isRefreshing) {
         return new Promise(function (resolve, reject) {

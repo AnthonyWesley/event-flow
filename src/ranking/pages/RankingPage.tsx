@@ -22,6 +22,7 @@ import { goalUtils } from "../../helpers/goalUtils";
 import { InfoLine } from "../../components/InfoLine";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import GameDisplay from "../components/GameDisplay";
+import NavAction from "../../components/NavAction";
 
 export const eventsLinks = [
   {
@@ -240,7 +241,7 @@ export default function RankingPage() {
           </GameDisplay>
 
           <GameDisplay className="mt-2">
-            <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:h-full lg:w-20 lg:flex-col lg:rounded-l-none lg:rounded-tr-2xl">
+            <NavAction position="vertical">
               <Tooltip
                 info={`${list === "SALES" ? "Vendas" : "Vendedores"}`}
                 className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
@@ -266,7 +267,7 @@ export default function RankingPage() {
                   {modal.children}
                 </Modal>
               ))}
-            </nav>
+            </NavAction>
           </GameDisplay>
         </div>
       ) : (

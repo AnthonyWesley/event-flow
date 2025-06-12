@@ -42,10 +42,10 @@ export default function EventsPageDetailPage() {
   return (
     <>
       <section className="w-full">
-        <div className="flex w-full justify-between rounded-2xl p-2">
+        <div className="flex w-full justify-between rounded-lg p-2">
           <InfoLine label="Evento:" value={event?.name} />
         </div>
-        <header className="flex w-full items-center justify-between rounded-2xl bg-slate-900 p-2">
+        <header className="flex w-full items-center justify-between rounded-lg bg-slate-900 p-2">
           <div
             className={`flex w-full flex-col items-start justify-start gap-1`}
           >
@@ -108,8 +108,8 @@ export default function EventsPageDetailPage() {
           />
         </div>
 
-        <section className="scrollbar-transparent flex w-full flex-col rounded-2xl lg:flex-row">
-          <div className="mb-2 w-full rounded-2xl bg-slate-900 lg:mr-2">
+        <section className="scrollbar-transparent flex w-full flex-col rounded-lg lg:flex-row">
+          <div className="mb-2 w-full rounded-lg bg-slate-900 lg:mr-2">
             <Accordion
               title={
                 <InfoList
@@ -133,7 +133,7 @@ export default function EventsPageDetailPage() {
             />
           </div>
 
-          <div className="mb-2 w-full rounded-2xl bg-slate-900">
+          <div className="mb-2 w-full rounded-lg bg-slate-900">
             <Accordion
               title={
                 <InfoList
@@ -153,7 +153,7 @@ export default function EventsPageDetailPage() {
             />
           </div>
         </section>
-        <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:w-full lg:rounded-2xl">
+        <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:w-full lg:rounded-lg">
           <Tooltip info="Voltar">
             <div
               className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
