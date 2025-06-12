@@ -16,14 +16,20 @@ export default function SellerPage() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     querySellers: { data: sellers, isLoading, error },
   } = useSeller(undefined, debouncedSearch);
 
   const navigate = useNavigate();
+  const [visibleCount, setVisibleCount] = useState(6);
+  const hasMore = visibleCount < sellers?.length;
 
-  // Debounce para o valor de busca
+  const handleShowMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
@@ -53,7 +59,6 @@ export default function SellerPage() {
               onOpenChange={setIsSearchOpen}
             />
 
-            {/* Título e botão somem com transição */}
             <div
               className={`flex items-center gap-4 transition-all duration-900 ${
                 isSearchOpen
@@ -66,7 +71,7 @@ export default function SellerPage() {
             <Modal
               id="SellerPageSellerForm"
               className="bg-slate-900"
-              icon={<Icon icon="ic:baseline-plus" width="25" />}
+              icon={<Icon icon="ic:baseline-plus" width="20" />}
             >
               <SellerForm />
             </Modal>
@@ -81,7 +86,7 @@ export default function SellerPage() {
             <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
           </div>
         ) : sellers && sellers.length > 0 ? (
-          sellers.map((seller: SellerOutputDto) => (
+          sellers?.slice(0, visibleCount).map((seller: SellerOutputDto) => (
             <div
               key={seller.id}
               className="w-full cursor-pointer"
@@ -104,6 +109,16 @@ export default function SellerPage() {
           <p className="col-span-full text-center text-gray-400">
             Nenhum vendedor encontrado para a busca.
           </p>
+        )}
+        {hasMore && (
+          <div className="col-span-full mt-4 flex justify-center">
+            <button
+              onClick={handleShowMore}
+              className="rounded-lg bg-cyan-800 px-4 py-2 text-white hover:bg-cyan-700"
+            >
+              Ver mais
+            </button>
+          </div>
         )}
       </section>
     </>
