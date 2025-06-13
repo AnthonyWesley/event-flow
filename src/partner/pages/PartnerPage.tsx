@@ -34,7 +34,7 @@ export default function PartnerPage() {
           footer={
             <>
               <Modal
-                id="PartnerDeleteForm"
+                id="PartnerLogout"
                 icon={
                   <Icon
                     icon="qlementine-icons:log-in-16"
@@ -42,7 +42,7 @@ export default function PartnerPage() {
                     rotate={90}
                   />
                 }
-                info="Deletar"
+                info="Sair do app"
               >
                 <Dialog message="Deseja sair do app?" onClick={logout} />
               </Modal>

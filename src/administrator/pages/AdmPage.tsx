@@ -6,8 +6,13 @@ import useAdmMutate from "../hooks/useAdmMutate";
 import Modal from "../../components/Modal";
 import PartnerForm from "../components/AdmForm";
 import Tooltip from "../../components/Tooltip";
+import NavAction from "../../components/NavAction";
+import Dialog from "../../components/Dialog";
+import { useNavigate } from "react-router-dom";
 
 export default function AdmPage() {
+  const navigate = useNavigate();
+
   const {
     queryPartners: { isPending, error, data },
   } = useAdm();
@@ -25,9 +30,35 @@ export default function AdmPage() {
   //   localStorage.removeItem("accessToken");
   //   navigate("/auth");
   // };
+  const logout = () => {
+    localStorage.removeItem("admAccessToken");
+    navigate("/adm");
+  };
   return (
     <>
       <div className="w-full overflow-x-auto">
+        <header className="my-1 flex w-full">
+          <NavAction>
+            <Modal
+              id="PartnerLogout"
+              icon={
+                <Icon
+                  icon="qlementine-icons:log-in-16"
+                  width="20"
+                  rotate={90}
+                />
+              }
+              info="Sair do app"
+            >
+              <Dialog message="Deseja sair do app?" onClick={logout} />
+            </Modal>
+            <h1 className="test-center text-xl font-semibold text-cyan-400">
+              ADMIN
+            </h1>
+            <span>_</span>
+          </NavAction>
+        </header>
+
         <table className="w-full text-sm">
           <thead className="rounded-sm bg-slate-900">
             <tr className="border-l-8">
