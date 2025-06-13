@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 export default function AdminMenu() {
   const navigate = useNavigate();
-  const [position, setPosition] = useState({ x: 20, y: 20 });
+  const [position, setPosition] = useState({ x: 20, y: 550 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
@@ -21,6 +21,7 @@ export default function AdminMenu() {
 
   const stopDragging = () => setDragging(false);
 
+  // Mouse
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     startDragging(e.clientX, e.clientY);
   };
@@ -29,6 +30,7 @@ export default function AdminMenu() {
     updatePosition(e.clientX, e.clientY);
   };
 
+  // Touch
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     const touch = e.touches[0];
     startDragging(touch.clientX, touch.clientY);
@@ -68,16 +70,15 @@ export default function AdminMenu() {
       style={{ left: position.x, top: position.y }}
     >
       <Icon
-        icon="eos-icons:admin-outlined"
-        width="24"
-        height="24"
-        className="text-cyan-400"
+        icon="fluent:arrow-move-24-regular"
+        width="30"
+        className="animate-pulse text-cyan-400"
       />
       <Tooltip info="Voltar">
         <div
           className="cursor-pointer rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
           onClick={(e) => {
-            e.stopPropagation();
+            e.stopPropagation(); // previne arrasto ao clicar
             navigate(-1);
           }}
         >
