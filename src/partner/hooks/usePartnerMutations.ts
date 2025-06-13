@@ -34,9 +34,11 @@ export function usePartnerMutations() {
     onSuccess: () => {
       toast.success("Minhas informações atualizadas com sucesso!");
       closeModal("PartnerPagePartnerForm");
+      closeModal("AdmPageForm");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["partnerData"] });
+      queryClient.invalidateQueries({ queryKey: ["partnersData"] });
     },
     onError: (err: any) =>
       toast.error(

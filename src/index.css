@@ -33,7 +33,11 @@ body {
 }
 
 .bg-gold {
-  @apply bg-gradient-to-r from-amber-200 to-yellow-500;
+  @apply bg-gradient-to-r from-amber-200 via-yellow-400 to-yellow-500;
+}
+
+.bg-bronze {
+  @apply bg-gradient-to-r from-yellow-800 via-amber-700 to-yellow-600;
 }
 
 .bg-blue {
@@ -45,7 +49,7 @@ body {
 }
 
 .bg-silver {
-  @apply bg-gradient-to-r from-slate-300 to-slate-500;
+  @apply bg-gradient-to-r from-slate-300 via-slate-400 to-slate-500;
 }
 
 .bg-gray {

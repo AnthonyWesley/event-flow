@@ -21,42 +21,45 @@ import AdmPage from "./administrator/pages/AdmPage";
 import AdmAuthPage from "./administrator/pages/AdmAuthPage";
 import SellerDetailPage from "./seller/pages/SellerDetailPage";
 import LeadPage from "./lead/pages/LeadPage";
+import AdminMenu from "./components/AdminMenu";
+
 export default function App() {
   const location = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
   const isAdmAuthenticated = Boolean(localStorage.getItem("admAccessToken"));
-  // const mobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   const isGuestPage = matchPath(
     "events/:eventId/guest/:sellerId",
     location.pathname,
   );
+
+  const isAdminRoute = location.pathname.startsWith("/adm");
+
+  const shouldShowNavbar = isAuthenticated && !isGuestPage && !isAdminRoute;
+  const shouldShowPendingModal =
+    isAuthenticated && !isGuestPage && !isAdminRoute;
+  const shouldShowPublicNavbar =
+    !isAuthenticated && !isGuestPage && !isAdminRoute;
+
   return (
     <div className="flex min-h-screen flex-col">
-      {isAuthenticated && (
-        <>
-          {!isGuestPage && <Navbar links={PRIVATE_ROUTES} />}
-          {!isGuestPage && <PendingModal />}
-        </>
-      )}
-      {!isAuthenticated && !isGuestPage && <Navbar links={PUBLIC_ROUTES} />}
+      {shouldShowNavbar && <Navbar links={PRIVATE_ROUTES} />}
+      {shouldShowPendingModal && <PendingModal />}
+      {shouldShowPublicNavbar && <Navbar links={PUBLIC_ROUTES} />}
 
       <main className="container mx-auto mb-26 flex flex-1 flex-col px-2 lg:mb-0">
         <ToastContainer />
         <Routes>
+          {/* Rotas privadas */}
           <Route path="/" element={<PrivateRoutes />}>
             <Route index element={<RankingPage />} />
             <Route path="events" element={<EventsPage />} />
             <Route path="events/:eventId" element={<EventsPageDetailPage />} />
-            {/* <Route path="events/:eventId" element={<ActiveEventPage />} /> */}
             <Route path="user" element={<User />} />
             <Route path="sellers" element={<SellersPage />} />
             <Route path="sellers/:sellerId" element={<SellerDetailPage />} />
-            <Route
-              path="/products/:productId"
-              element={<ProductDetailPage />}
-            />
             <Route path="products" element={<ProductsPage />} />
+            <Route path="products/:productId" element={<ProductDetailPage />} />
             <Route path="sales" element={<Sale />} />
             <Route path="events/:eventId/leads" element={<LeadPage />} />
             <Route
@@ -64,17 +67,23 @@ export default function App() {
               element={<GuestPage />}
             />
           </Route>
-          <Route path="auth" element={<AuthPage />} />
-          <Route path="pricing" element={<Pricing />} />
+
+          {/* Público */}
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/unauthorized" element={<ErrorPage code={401} />} />
           <Route path="/not-found" element={<ErrorPage code={403} />} />
           <Route path="*" element={<ErrorPage code={404} />} />
+
+          {/* Admin */}
           {isAdmAuthenticated && (
             <Route path="/adm/dashboard" element={<AdmPage />} />
           )}
           <Route path="/adm" element={<AdmAuthPage />} />
         </Routes>
-        {/* <Footer /> */}
+
+        {/* Menu flutuante do admin */}
+        {isAdmAuthenticated && <AdminMenu />}
       </main>
     </div>
   );

@@ -2,20 +2,24 @@ import Card from "../../components/Card";
 import { useEffect, useState } from "react";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { FormValidator } from "../../helpers/FormValidator";
-
 import { formatPhoneNumber } from "../../auth/components/authForm";
 import { usePartnerMutations } from "../../partner/hooks/usePartnerMutations";
-import { PartnerOutputDto } from "../../partner/services/partnerService";
+import {
+  PartnerOutputDto,
+  PlanType,
+} from "../../partner/services/partnerService";
+import SelectPlan from "../../components/SelectPlan";
 
 export type PartnerProps = {
   partner?: PartnerOutputDto;
+  isAdmin?: boolean;
 };
 
-export default function PartnerForm({ partner }: PartnerProps) {
+export default function PartnerForm({ partner, isAdmin }: PartnerProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  //   const [plan, setPlan] = useState<PlanType>("FREE");
+  const [plan, setPlan] = useState<PlanType>("FREE");
   const { update } = usePartnerMutations();
 
   useEffect(() => {
@@ -23,12 +27,13 @@ export default function PartnerForm({ partner }: PartnerProps) {
       setName(partner.name);
       setEmail(partner.email);
       setPhone(fieldFormatter.phone(partner.phone ?? ""));
+      setPlan(partner.plan ?? "");
     }
   }, [partner]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const isValid = FormValidator.validateAll({ name, email });
+    const isValid = FormValidator.validateAll({ name, email, phone });
     if (isValid) {
       update.mutate({
         id: partner?.id,
@@ -36,6 +41,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
           name: fieldFormatter.name(name),
           email,
           phone,
+          plan,
         },
       });
     }
@@ -47,7 +53,9 @@ export default function PartnerForm({ partner }: PartnerProps) {
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
       >
-        <h1 className="rounded text-xl font-bold">Editar Minhas informações</h1>
+        <h1 className="rounded text-xl font-bold">
+          {isAdmin ? "Editar parceiro" : "Editar minhas informaçoes"}
+        </h1>
         <label className="flex flex-col">
           Nome:
           <input
@@ -78,6 +86,13 @@ export default function PartnerForm({ partner }: PartnerProps) {
             required
           />
         </label>
+        {isAdmin && (
+          <label className="flex flex-col">
+            Plano:
+            <SelectPlan option={plan ?? ""} onChange={setPlan} />
+          </label>
+        )}
+
         <button
           type="submit"
           disabled={update.isPending}

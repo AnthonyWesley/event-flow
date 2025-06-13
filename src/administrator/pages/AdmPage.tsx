@@ -5,6 +5,7 @@ import useAdm from "../hooks/useAdm";
 import useAdmMutate from "../hooks/useAdmMutate";
 import Modal from "../../components/Modal";
 import PartnerForm from "../components/AdmForm";
+import Tooltip from "../../components/Tooltip";
 
 export default function AdmPage() {
   const {
@@ -27,9 +28,9 @@ export default function AdmPage() {
   return (
     <>
       <div className="w-full overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
+        <table className="w-full text-sm">
           <thead className="rounded-sm bg-slate-900">
-            <tr>
+            <tr className="border-l-8">
               <th className="p-4 text-left">Nome</th>
               <th className="hidden p-4 text-left sm:table-cell">Email</th>
               <th className="hidden p-4 text-left md:table-cell">Telefone</th>
@@ -38,40 +39,41 @@ export default function AdmPage() {
               <th className="p-4 text-left">Ações</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="rounded-lg border-b border-gray-500/15">
             {data.map((user: PartnerOutputDto) => (
-              <tr key={user.id} className="rounded-sm hover:bg-slate-900">
-                <td className="p-4">{user.name}</td>
-                <td className="hidden p-4 sm:table-cell">{user.email}</td>
-                <td className="hidden p-4 md:table-cell">{user.phone}</td>
-                <td className="p-4">{user.plan}</td>
-                <td className="hidden p-4 sm:table-cell">
+              <tr
+                key={user.id}
+                className={`rounded-sm border-l-8 hover:bg-slate-700 ${user.plan === "FREE" ? "border-amber-600" : user.plan === "BASIC" ? "border-slate-300" : "border-amber-300"}`}
+              >
+                <td className="p-2">{user.name}</td>
+                <td className="hidden p-2 sm:table-cell">{user.email}</td>
+                <td className="hidden p-2 md:table-cell">{user.phone}</td>
+                <td
+                  className={`rounded-lg p-2 ${user.plan === "FREE" ? "bg-bronze" : user.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
+                >
+                  {user.plan}
+                </td>
+                <td className="hidden p-2 sm:table-cell">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
-                <td className="flex gap-4 p-4">
-                  <Modal id={user.id} icon="carbon:edit" info="Editar">
-                    <PartnerForm partner={user} />
+                <td className="flex gap-2 p-2">
+                  <Modal id="AdmPageForm" icon="carbon:edit" info="Editar">
+                    <PartnerForm partner={user} isAdmin />
                   </Modal>
                   <Modal
                     id="AdmPageDeleteForm"
                     icon="carbon:trash-can"
                     info="Deletar"
-                  >
-                    {/* <Dialog
-                      message="Deseja excluir o lead?"
-                      onClick={() =>
-                        deleteSeller.mutate({
-                          eventId: eventId ?? "",
-                          leadId: lead.id,
-                        })
-                      }
-                    /> */}
-                  </Modal>
-                  <Icon
-                    icon="material-symbols:switch-access-2-rounded"
-                    width="24"
-                    onClick={() => handleAccessPartner(user)}
-                  />
+                  ></Modal>
+
+                  <Tooltip info="Logar">
+                    <div
+                      className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                      onClick={() => handleAccessPartner(user)}
+                    >
+                      <Icon icon="qlementine-icons:log-in-16" width="20" />
+                    </div>
+                  </Tooltip>
                 </td>
               </tr>
             ))}
