@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 export default function AdminMenu() {
   const navigate = useNavigate();
-  const [position, setPosition] = useState({ x: 20, y: 550 });
+  const [position, setPosition] = useState({ x: 20, y: 500 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 

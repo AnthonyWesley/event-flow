@@ -21,6 +21,7 @@ export default function PartnerPage() {
   if (error) return "An error has occurred: " + error.message;
 
   const logout = () => {
+    localStorage.removeItem("admAccessToken");
     localStorage.removeItem("accessToken");
     navigate("/auth");
   };

@@ -32,6 +32,7 @@ export default function AdmPage() {
   // };
   const logout = () => {
     localStorage.removeItem("admAccessToken");
+    localStorage.removeItem("accessToken");
     navigate("/adm");
   };
   return (
