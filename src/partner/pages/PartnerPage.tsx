@@ -59,7 +59,11 @@ export default function PartnerPage() {
         >
           <FlexSection className="flex-row">
             <InfoLine label="Name:" value={data.name} line="col" />
-            <InfoLine label="Plano:" value={data.plan} line="col" />
+            <div
+              className={`rounded-lg p-2 ${data.plan === "FREE" ? "bg-bronze" : data.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
+            >
+              <InfoLine value={data.plan} />
+            </div>
           </FlexSection>
 
           <FlexSection className="items-start">
