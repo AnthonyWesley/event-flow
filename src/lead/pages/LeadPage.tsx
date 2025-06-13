@@ -4,7 +4,7 @@ import LeadForm from "../components/LeadForm";
 import useLead from "../hooks/useLead";
 import { ProductOutputDto } from "../../product/services/productService";
 import { LeadOutputDto } from "../services/leadService";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Dialog from "../../components/Dialog";
 import { useLeadMutations } from "../hooks/useLeadMutations";
 import Tooltip from "../../components/Tooltip";
@@ -13,9 +13,14 @@ import NavAction from "../../components/NavAction";
 import Spin from "../../components/Spin";
 
 export default function LeadPage() {
-  const { eventId } = useParams<{ eventId: string }>();
+  const { type, eventId } = useParams<{ type: string; eventId: string }>();
+
+  if (type !== "events" && type !== "user") {
+    return <Navigate to="/unauthorized" replace />; // ou alguma página de erro
+  }
+
   const navigate = useNavigate();
-  const partnerLeads = eventId === "user";
+  const partnerLeads = eventId === "partner";
 
   const {
     queryLeadByEvent: {

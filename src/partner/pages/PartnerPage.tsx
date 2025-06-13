@@ -76,7 +76,7 @@ export default function PartnerPage() {
           <Tooltip info="Leads">
             <div
               className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-              onClick={() => navigate(`/events/${"user"}/leads`)}
+              onClick={() => navigate(`/user/${"partner"}/leads`)}
             >
               <Icon icon="fluent:target-arrow-16-regular" width="20" />
             </div>
