@@ -76,7 +76,7 @@ export default function AdminMenu() {
       />
       <Tooltip info="Voltar">
         <div
-          className="cursor-pointer rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+          className="cursor-pointer rounded-full border border-slate-100/15 bg-cyan-800 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
           onClick={(e) => {
             e.stopPropagation(); // previne arrasto ao clicar
             navigate(-1);
