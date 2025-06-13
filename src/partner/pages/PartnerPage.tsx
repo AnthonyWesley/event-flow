@@ -26,6 +26,7 @@ export default function PartnerPage() {
     localStorage.removeItem("accessToken");
     navigate("/auth");
   };
+
   return (
     <section
       className={`my-2 rounded-lg ${data.plan === "FREE" ? "bg-bronze" : data.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
@@ -53,8 +54,8 @@ export default function PartnerPage() {
           <InfoLine label="Status:" value={data.status} line="col" />
 
           <InfoLine
-            label="Trail até:"
-            value={formatDate(data.trialEndsAt)}
+            label="Acesso até:"
+            value={formatDate(data.accessExpiresAt)}
             line="col"
           />
         </FlexSection>
