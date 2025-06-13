@@ -30,7 +30,6 @@ export default function LeadPage() {
     },
     queryLeads: { data: leads, isPending, error },
   } = useLead(partnerLeads ? undefined : eventId);
-  console.log(eventId);
 
   const {
     queryEvent: { data: event },
@@ -132,14 +131,17 @@ export default function LeadPage() {
               <Icon icon="hugeicons:link-backward" width="20" />
             </div>
           </Tooltip>
-          <Modal
-            id="LeadPageSellerForm"
-            className="bg-slate-900"
-            icon={<Icon icon="ic:baseline-plus" width="20" />}
-            info="Add lead"
-          >
-            <LeadForm eventId={eventId} />
-          </Modal>
+          {!partnerLeads && (
+            <Modal
+              id="LeadPageSellerForm"
+              className="bg-slate-900"
+              icon={<Icon icon="ic:baseline-plus" width="20" />}
+              info="Add lead"
+            >
+              <LeadForm eventId={eventId} />
+            </Modal>
+          )}
+
           <Tooltip info="Baixar relatório">
             <div
               className="cursor-pointer rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
