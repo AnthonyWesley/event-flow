@@ -10,49 +10,43 @@ import { useLeadMutations } from "../hooks/useLeadMutations";
 import Tooltip from "../../components/Tooltip";
 import { useEvent } from "../../event/hooks/useEvent";
 import NavAction from "../../components/NavAction";
+import Spin from "../../components/Spin";
 
 export default function LeadPage() {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
-
-  // const {
-  //   queryLeads: { data: leads },
-  // } = useLead();
+  const partnerLeads = eventId === "user";
 
   const {
-    queryLeadByEvent: { data: leads },
-  } = useLead(eventId);
+    queryLeadByEvent: {
+      data: leadsByEvent,
+      isPending: isPendingByEvent,
+      error: errorByEvent,
+    },
+    queryLeads: { data: leads, isPending, error },
+  } = useLead(partnerLeads ? undefined : eventId);
   console.log(eventId);
 
   const {
     queryEvent: { data: event },
-  } = useEvent(eventId);
+  } = useEvent(partnerLeads ? undefined : eventId);
 
   const { deleteSeller } = useLeadMutations();
 
-  // const { createOrUpdate } = useLeadMutations();
+  if (isPending && isPendingByEvent) return <Spin />;
+  if (error && errorByEvent) return "An error has occurred: ";
 
-  // useEffect(() => {
-  //   setLeads(mockLeads);
-  // }, []);
-
-  // const handleEdit = (id: string) => {
-  //   alert(`Editar lead ${id}`);
-  // };
-
-  // const handleDelete = (id: string) => {
-  //   const confirm = window.confirm("Tem certeza que deseja deletar?");
-  // };
+  const filterLeadList = partnerLeads ? leads : leadsByEvent;
 
   return (
     <>
       <div className="mx-auto w-full">
         <header className="mb-4 flex items-center justify-between text-xl font-bold">
-          <h1>Leads ({leads?.length})</h1>
-          <h1>Evento: {event?.name}</h1>
+          <h1>Leads ({filterLeadList?.length})</h1>
+          {!partnerLeads && <h1>Evento: {event?.name}</h1>}
         </header>
 
-        {leads?.length === 0 ? (
+        {leadsByEvent?.length === 0 ? (
           <p className="text-gray-600">Nenhum lead encontrado.</p>
         ) : (
           <div className="overflow-hidden rounded-lg border border-gray-500/15">
@@ -70,7 +64,7 @@ export default function LeadPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leads?.map((lead: LeadOutputDto) => (
+                  {filterLeadList?.map((lead: LeadOutputDto) => (
                     <tr
                       key={lead.id}
                       className="w-full border-t border-gray-500/15 hover:bg-slate-700"

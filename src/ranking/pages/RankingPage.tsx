@@ -220,7 +220,7 @@ export default function RankingPage() {
             }
             infoFooter={<div className="p-5">{""}</div>}
           >
-            <div className="scrollbar-transparent flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
+            <div className="flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
               <div className="flex-1 overflow-y-auto">
                 {list === "SALES" && currentEvent?.allSellers?.length > 0 && (
                   <SaleList

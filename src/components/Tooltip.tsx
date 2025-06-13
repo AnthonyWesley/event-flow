@@ -30,7 +30,7 @@ export default function Tooltip({
 
   const tooltip = ReactDOM.createPortal(
     <div
-      className={`fixed z-[9999] -translate-x-1/2 transform transition-opacity duration-300 ease-out ${hovered ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0"} `}
+      className={`fixed z-80 -translate-x-1/2 transform transition-opacity duration-300 ease-out ${hovered ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0"} `}
       style={{
         top: coords.top,
         left: coords.left,

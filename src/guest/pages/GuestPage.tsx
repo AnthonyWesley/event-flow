@@ -150,7 +150,7 @@ export default function GuestPage() {
         <CircularProgress total={goal} current={currentProgress} />
       </FlexSection>
 
-      <section className="scrollbar-transparent flex w-full flex-col rounded-lg lg:flex-row">
+      <section className="flex w-full flex-col rounded-lg lg:flex-row">
         <div className="mb-2 w-full rounded-lg bg-slate-900 lg:mr-2">
           <Accordion
             title={

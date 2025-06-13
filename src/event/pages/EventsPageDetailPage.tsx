@@ -17,6 +17,7 @@ import { CircularProgress } from "../../components/CircularProgress";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { goalUtils } from "../../helpers/goalUtils";
 import Accordion from "../../components/Accordion";
+import NavAction from "../../components/NavAction";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -108,7 +109,7 @@ export default function EventsPageDetailPage() {
           />
         </div>
 
-        <section className="scrollbar-transparent flex w-full flex-col rounded-lg lg:flex-row">
+        <section className="flex w-full flex-col rounded-lg lg:flex-row">
           <div className="mb-2 w-full rounded-lg bg-slate-900 lg:mr-2">
             <Accordion
               title={
@@ -153,7 +154,7 @@ export default function EventsPageDetailPage() {
             />
           </div>
         </section>
-        <nav className="fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-2xl bg-slate-950 p-2 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out lg:static lg:w-full lg:rounded-lg">
+        <NavAction>
           <Tooltip info="Voltar">
             <div
               className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
@@ -167,7 +168,7 @@ export default function EventsPageDetailPage() {
               className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
               onClick={() => navigate(`/events/${eventId}/leads`)}
             >
-              <Icon icon="material-symbols:patient-list" width="20" />
+              <Icon icon="fluent:target-arrow-16-regular" width="20" />
             </div>
           </Tooltip>
 
@@ -206,13 +207,13 @@ export default function EventsPageDetailPage() {
           >
             <Dialog
               message={
-                event?.isActive ? "Reativar evento?" : "Encerrar evento?"
+                !event?.isActive ? "Reativar evento?" : "Encerrar evento?"
               }
               onClick={() => toggleStatus.mutate(event.id)}
               color="bg-green"
             />
           </Modal>
-        </nav>
+        </NavAction>
       </section>
     </>
   );
