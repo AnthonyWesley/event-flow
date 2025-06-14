@@ -7,16 +7,39 @@ export function useLeadMutations() {
   const queryClient = useQueryClient();
   const { closeModal } = useModalStore();
 
-  const deleteSeller = useMutation({
-    mutationFn: ({ eventId, leadId }: { eventId: string; leadId: string }) =>
-      leadService.delete(eventId, leadId),
-    onSuccess: () => {
-      toast.success("Vendedor excluido com sucesso!");
+  const exportLead = useMutation({
+    mutationFn: leadService.export,
+    onSuccess: ({ blob, fileName }) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Leads exportados com sucesso!");
       closeModal("LeadPageDeleteForm");
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["eventsData"] });
-      queryClient.invalidateQueries({ queryKey: ["eventData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadsData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadsByEventData"] });
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Erro ao exportar leads");
+    },
+  });
+
+  const deleteLead = useMutation({
+    mutationFn: ({ eventId, leadId }: { eventId: string; leadId: string }) =>
+      leadService.delete(eventId, leadId),
+    onSuccess: () => {
+      toast.success("Lead excluido com sucesso!");
+      closeModal("LeadPageDeleteForm");
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["leadsData"] });
       queryClient.invalidateQueries({ queryKey: ["leadData"] });
       queryClient.invalidateQueries({ queryKey: ["leadsByEventData"] });
@@ -48,16 +71,14 @@ export function useLeadMutations() {
       queryClient.invalidateQueries({ queryKey: ["leadsData"] });
       queryClient.invalidateQueries({ queryKey: ["leadData"] });
       queryClient.invalidateQueries({ queryKey: ["leadsByEventData"] });
-      queryClient.invalidateQueries({ queryKey: ["productsData"] });
-      queryClient.invalidateQueries({ queryKey: ["eventsData"] });
-      // queryClient.invalidateQueries({ queryKey: ["eventData"] });
     },
     onError: (err: any) =>
       toast.error(err.response?.data?.message || "Erro ao salvar vendedor"),
   });
 
   return {
-    deleteSeller,
+    deleteLead,
     createOrUpdate,
+    exportLead,
   };
 }

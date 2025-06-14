@@ -8,11 +8,13 @@ function isPremium(plan: string | undefined): boolean {
 type PremiumFeatureProps = {
   children: React.ReactNode;
   onAllowed?: () => void;
+  className?: string;
 };
 
 export default function PremiumFeature({
   children,
   onAllowed,
+  className,
 }: PremiumFeatureProps) {
   const {
     queryPartner: { data: partner, isLoading },
@@ -36,7 +38,7 @@ export default function PremiumFeature({
           isPremium(partner?.plan)
             ? "cursor-pointer opacity-100 select-auto"
             : "pointer-events-none cursor-not-allowed opacity-50 select-none"
-        }`}
+        } ${className}`}
       >
         {children}
       </div>

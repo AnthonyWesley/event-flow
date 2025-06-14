@@ -42,6 +42,23 @@ export const leadService = {
     return response.data;
   },
 
+  export: async (eventId?: string) => {
+    const url = eventId ? `/export/leads/${eventId}` : `/export/leads`;
+
+    const response = await partnerApi.get(url, {
+      responseType: "blob",
+    });
+
+    const contentDisposition = response.headers["content-disposition"];
+    const fileName =
+      contentDisposition?.match(/filename="(.+)"/)?.[1] || "leads.csv";
+
+    return {
+      blob: response.data,
+      fileName,
+    };
+  },
+
   findOne: async (eventId: string, leadId: string) => {
     const response = await partnerApi.get(`events/${eventId}/leads/${leadId}`);
 

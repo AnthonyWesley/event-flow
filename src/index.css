@@ -117,21 +117,22 @@ body {
   clip-path: polygon(-50% 50%, 50% 100%, 150% 50%, 50% 0);
 }
 
-/* styles/global.css ou onde importar Tailwind */
+/* WebKit (Chrome, Edge, Safari) */
 .scrollbar-transparent::-webkit-scrollbar {
   width: 6px;
 }
 
 .scrollbar-transparent::-webkit-scrollbar-thumb {
-  background-color: transparent; /* ou rgba(255, 255, 255, 0.1) para um tom leve */
+  background-color: rgba(255, 255, 255, 0.3); /* bolinha visível */
+  border-radius: 9999px; /* arredondada como uma bolinha */
 }
 
 .scrollbar-transparent::-webkit-scrollbar-track {
-  background: transparent;
+  background: transparent; /* trilha invisível */
 }
 
 /* Firefox */
 .scrollbar-transparent {
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
