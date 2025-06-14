@@ -21,8 +21,8 @@ export function useEventMutations() {
 
     onError: (error: any) => {
       if (error.response.status === 409) {
-        toast.error(
-          `Seu plano somente pode ter ${partner?.maxConcurrentEvents} evento ativo por vez.`,
+        toast.warning(
+          `Seu plano permite ter apenas ${partner?.maxConcurrentEvents} evento ativo por vez.`,
         );
       } else
         toast.error(

@@ -14,6 +14,7 @@ import { useModalStore } from "../../store/useModalStore";
 import CopyToClipboard from "../../components/CopyToClipboard";
 import { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar";
+import PremiumFeature from "../../components/PremiumFeature";
 
 interface SellerDetailByEventProps {
   seller: {
@@ -87,13 +88,15 @@ export default function SellerDetailByEvent({
               </>
             }
           />
-          <div className="mr-auto">
-            <CopyToClipboard
-              // text={`https://event-flow-api.vercel.app/events/${event.id}/guest/${seller.id}`}
-              text={`https://event-flow-awl.netlify.app/events/${event.id}/guest/${seller.id}?token=${token}`}
-              label="Copiar Convite"
-            />
-          </div>
+          <PremiumFeature>
+            <div className="mr-auto">
+              <CopyToClipboard
+                // text={`https://event-flow-api.vercel.app/events/${event.id}/guest/${seller.id}`}
+                text={`https://event-flow-awl.netlify.app/events/${event.id}/guest/${seller.id}?token=${token}`}
+                label="Copiar Convite"
+              />
+            </div>
+          </PremiumFeature>
         </FlexSection>
         <div className="ml-auto flex w-20 items-start justify-center border-l border-l-gray-500/15 pl-2 text-4xl">
           <h1> {index}</h1>

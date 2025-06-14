@@ -8,7 +8,6 @@ import { formatDate } from "../../helpers/formatDate";
 import { useNavigate } from "react-router-dom";
 import EventForm from "../components/EventForm";
 import Modal from "../../components/Modal";
-import Card from "../../components/Card";
 import Accordion from "../../components/Accordion";
 import { useEffect, useRef, useState } from "react";
 import NavAction from "../../components/NavAction";
@@ -89,7 +88,7 @@ export default function EventsPage() {
           </NavAction>
         </header>
       </section>
-      {sections?.map(({ title, key, color }) => {
+      {sections?.map(({ title, key }) => {
         const list = statusEvents[key as keyof typeof statusEvents];
 
         return (
@@ -112,14 +111,14 @@ export default function EventsPage() {
                     {list?.map((event: EventOutputDto) => (
                       <div
                         key={event.id}
-                        className={`w-full cursor-pointer transition-opacity duration-200 hover:opacity-90 ${
+                        className={`transition duration-300 ${key === "ACTIVE" ? "bg-gold" : key === "CREATED" ? "bg-silver" : "bg-slate-900"} w-full cursor-pointer rounded-lg transition-opacity duration-200 hover:opacity-90 ${
                           event.isActive ? "opacity-100" : "opacity-80"
-                        }`}
+                        } hover:shadow-[0_0_10px_#dfb005]`}
                         onClick={() => navigate(`/events/${event.id}`)}
                       >
-                        <Card icon="carbon:event" color={color}>
+                        <div className="mx-auto mt-4 flex min-w-90 flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
                           <HeaderRanking event={event} />
-                          <FlexSection className="flex-row px-0">
+                          <FlexSection className="w-full flex-row justify-between border-t border-gray-500/15">
                             <InfoLine
                               line="col"
                               label="Início:"
@@ -150,7 +149,7 @@ export default function EventsPage() {
                               }
                             />
                           </FlexSection>
-                        </Card>
+                        </div>
                       </div>
                     ))}
                   </div>

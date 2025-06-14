@@ -11,12 +11,13 @@ import Tooltip from "../../components/Tooltip";
 import { useEvent } from "../../event/hooks/useEvent";
 import NavAction from "../../components/NavAction";
 import Spin from "../../components/Spin";
+import PremiumFeature from "../../components/PremiumFeature";
 
 export default function LeadPage() {
   const { type, eventId } = useParams<{ type: string; eventId: string }>();
 
   if (type !== "events" && type !== "user") {
-    return <Navigate to="/unauthorized" replace />; // ou alguma página de erro
+    return <Navigate to="/unauthorized" replace />;
   }
 
   const navigate = useNavigate();
@@ -95,26 +96,28 @@ export default function LeadPage() {
                       <td className="p-2 whitespace-nowrap">
                         {new Date(lead.createdAt).toLocaleDateString()}
                       </td>
-                      <td className="flex gap-2 p-2">
-                        <Modal id={lead.id} icon="carbon:edit" info="Editar">
-                          <LeadForm eventId={eventId} lead={lead} />
-                        </Modal>
-                        <Modal
-                          id="LeadPageDeleteForm"
-                          icon="carbon:trash-can"
-                          info="Deletar"
-                        >
-                          <Dialog
-                            message="Deseja excluir o lead?"
-                            onClick={() =>
-                              deleteSeller.mutate({
-                                eventId: eventId ?? "",
-                                leadId: lead.id,
-                              })
-                            }
-                          />
-                        </Modal>
-                      </td>
+                      <PremiumFeature>
+                        <td className="flex gap-2 p-2">
+                          <Modal id={lead.id} icon="carbon:edit" info="Editar">
+                            <LeadForm eventId={eventId} lead={lead} />
+                          </Modal>
+                          <Modal
+                            id="LeadPageDeleteForm"
+                            icon="carbon:trash-can"
+                            info="Deletar"
+                          >
+                            <Dialog
+                              message="Deseja excluir o lead?"
+                              onClick={() =>
+                                deleteSeller.mutate({
+                                  eventId: eventId ?? "",
+                                  leadId: lead.id,
+                                })
+                              }
+                            />
+                          </Modal>
+                        </td>
+                      </PremiumFeature>
                     </tr>
                   ))}
                 </tbody>
@@ -131,24 +134,27 @@ export default function LeadPage() {
               <Icon icon="hugeicons:link-backward" width="20" />
             </div>
           </Tooltip>
-          {!partnerLeads && (
-            <Modal
-              id="LeadPageSellerForm"
-              className="bg-slate-900"
-              icon={<Icon icon="ic:baseline-plus" width="20" />}
-              info="Add lead"
-            >
-              <LeadForm eventId={eventId} />
-            </Modal>
-          )}
-
+          <PremiumFeature>
+            {!partnerLeads && (
+              <Modal
+                id="LeadPageSellerForm"
+                className="bg-slate-900"
+                icon={<Icon icon="ic:baseline-plus" width="20" />}
+                info="Add lead"
+              >
+                <LeadForm eventId={eventId} />
+              </Modal>
+            )}
+          </PremiumFeature>
           <Tooltip info="Baixar relatório">
-            <div
-              className="cursor-pointer rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-              // onClick={() => navigate(-1)}
-            >
-              <Icon icon="fluent-mdl2:report-document" width="20" />
-            </div>
+            <PremiumFeature>
+              <div
+                className="cursor-pointer rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                // onClick={() => navigate(-1)}
+              >
+                <Icon icon="line-md:file-download" width="30" />
+              </div>
+            </PremiumFeature>
           </Tooltip>
         </NavAction>
       </div>

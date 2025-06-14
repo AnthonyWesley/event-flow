@@ -36,8 +36,8 @@ export default function HeaderRanking({
       className={`my-1 flex w-full items-center justify-between gap-1 rounded-lg${className}`}
     >
       {showModal && <GoalAchievedModal onClose={() => setShowModal(false)} />}
-      <div className={`flex w-full flex-col items-start justify-start gap-1`}>
-        <InfoLine label="Evento:" value={event?.name} />
+      <div className={`flex w-full flex-col items-start justify-between`}>
+        <InfoLine label="Evento:" value={event?.name} line="col" />
         <InfoLine
           label="Meta:"
           value={
@@ -49,6 +49,7 @@ export default function HeaderRanking({
             goalUtils.getTotalForGoal(event.allSellers, event.goalType),
             event?.goal,
           )}
+          line="col"
         />
         <InfoLine
           label="Total: "
@@ -63,15 +64,14 @@ export default function HeaderRanking({
             goalUtils.getTotalForGoal(event.allSellers, event.goalType),
             event?.goal,
           )}
+          line="col"
         />
       </div>
 
-      <div className="flex w-full justify-between gap-2 font-semibold text-gray-50">
-        <CircularProgress
-          total={event?.goal}
-          current={goalUtils.getTotalForGoal(event.allSellers, event.goalType)}
-        />
-      </div>
+      <CircularProgress
+        total={event?.goal}
+        current={goalUtils.getTotalForGoal(event.allSellers, event.goalType)}
+      />
     </header>
   );
 }

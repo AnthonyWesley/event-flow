@@ -36,10 +36,10 @@ export default function PartnerPage() {
       >
         {data.plan}
       </header>
-      <section className="mx-auto mt-4 flex min-w-90 flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
+      <section className="mx-auto flex min-w-90 flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
         <FlexSection className="w-full flex-row gap-2">
-          <Avatar name={data?.name} className="size-30 lg:size-40" />
-          <div className="w-full">
+          <Avatar name={data?.name} className="size-30 md:size-30 lg:size-40" />
+          <div className="w-full border-l border-gray-500/15 px-2">
             <InfoLine label="Name:" value={data.name} line="col" />
             <InfoLine label="email:" value={data.email} line="col" />
             <InfoLine

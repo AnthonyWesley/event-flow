@@ -18,6 +18,7 @@ import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { goalUtils } from "../../helpers/goalUtils";
 import Accordion from "../../components/Accordion";
 import NavAction from "../../components/NavAction";
+import PremiumFeature from "../../components/PremiumFeature";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -165,11 +166,21 @@ export default function EventsPageDetailPage() {
           </Tooltip>
           <Tooltip info="Leads">
             <div
-              className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+              className="cursor-pointer self-end rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
               onClick={() => navigate(`/events/${eventId}/leads`)}
             >
-              <Icon icon="fluent:target-arrow-16-regular" width="20" />
+              <Icon icon="fluent:target-arrow-16-regular" width="30" />
             </div>
+          </Tooltip>
+          <Tooltip info="Baixar relatório">
+            <PremiumFeature>
+              <div
+                className="cursor-pointer rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                // onClick={() => navigate(-1)}
+              >
+                <Icon icon="line-md:file-download" width="30" />
+              </div>
+            </PremiumFeature>
           </Tooltip>
 
           <Modal
