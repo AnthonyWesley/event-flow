@@ -119,11 +119,12 @@ export default function RankingPage() {
   return (
     <>
       {showEvent && (
-        <header className="mt-1">
+        <header className="mt-2">
           <Select
             selectList={activeEvents}
             selected={showEvent}
             onChange={setShowEvent}
+            className="bg-gold text-lg font-bold text-slate-900"
           />
         </header>
       )}

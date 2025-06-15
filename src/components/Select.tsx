@@ -24,6 +24,7 @@ export type SelectProps = {
   label?: string;
   onChange?: (value: any) => void;
   selected?: SelectList;
+  className?: string;
 };
 
 export default function Select({
@@ -31,6 +32,7 @@ export default function Select({
   label,
   onChange,
   selected: externalSelected,
+  className,
 }: SelectProps) {
   const [selected, setSelected] = useState<SelectList>(
     externalSelected || selectList?.[0],
@@ -53,8 +55,7 @@ export default function Select({
         <Label htmlFor={label}>{label}</Label>
         <ListboxButton
           className={clsx(
-            "relative flex w-full justify-between rounded-sm bg-white/5 px-2 py-1.5 text-sm/6 text-white",
-            "focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25",
+            `relative flex w-full justify-between rounded-sm bg-white/5 px-2 py-1.5 ${className} focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25`,
           )}
         >
           {selected?.name}
@@ -64,7 +65,7 @@ export default function Select({
           anchor="bottom"
           transition
           className={clsx(
-            "z-80 max-h-50 w-[var(--button-width)] rounded-lg border border-white/5 bg-[#101828] p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none",
+            "${className} z-80 max-h-50 w-[var(--button-width)] rounded-lg border border-white/5 bg-[#101828] p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none",
             "transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0",
           )}
         >
