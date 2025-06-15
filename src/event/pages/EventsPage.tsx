@@ -58,26 +58,33 @@ export default function EventsPage() {
   return (
     <>
       <section className="flex flex-col gap-2 px-4 font-bold sm:flex-row sm:items-center sm:justify-between">
-        <header className="mt-1 flex w-full">
-          <NavAction>
-            <InputSearch
-              ref={inputRef}
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar... Vendedres"
-              onOpenChange={setIsSearchOpen}
-            />
+        <header className="mt-1 flex w-full justify-between">
+          <InputSearch
+            ref={inputRef}
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar... Vendedres"
+            onOpenChange={setIsSearchOpen}
+          />
 
-            <div
-              className={`flex items-center gap-4 transition-all duration-900 ${
-                isSearchOpen
-                  ? "pointer-events-none hidden -translate-x-10"
-                  : "translate-x-0 opacity-100"
-              }`}
-            >
-              <h1 className="text-xl font-semibold text-white">EVENTOS</h1>
-            </div>
+          <div
+            className={`flex items-center gap-4 transition-all duration-900 ${
+              isSearchOpen
+                ? "pointer-events-none hidden -translate-x-10"
+                : "translate-x-0 opacity-100"
+            }`}
+          >
+            <h1 className="mr-10 text-xl font-semibold text-white">EVENTOS</h1>
+          </div>
+          <Modal
+            id="EventsPageEventForm"
+            className="hidden bg-slate-900 lg:flex"
+            icon={<Icon icon="ic:baseline-plus" width="20" />}
+          >
+            <EventForm />
+          </Modal>
+          <NavAction className="justify-center lg:hidden">
             <Modal
               id="EventsPageEventForm"
               className="bg-slate-900"
@@ -88,77 +95,80 @@ export default function EventsPage() {
           </NavAction>
         </header>
       </section>
-      {sections?.map(({ title, key }) => {
-        const list = statusEvents[key as keyof typeof statusEvents];
 
-        return (
-          <Accordion
-            key={key}
-            startOpen={key === "ACTIVE" ? true : false}
-            title={
-              <h2 className="px-2 text-lg font-semibold text-slate-300">
-                {title} ({list?.length})
-              </h2>
-            }
-            content={
-              <section key={key} className="px-2 pb-2">
-                {list?.length === 0 ? (
-                  <p className="text-sm text-slate-500">
-                    Nenhum evento encontrado.
-                  </p>
-                ) : (
-                  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                    {list?.map((event: EventOutputDto) => (
-                      <div
-                        key={event.id}
-                        className={`transition duration-300 ${key === "ACTIVE" ? "bg-gold" : key === "CREATED" ? "bg-silver" : "bg-slate-900"} w-full cursor-pointer rounded-lg transition-opacity duration-200 hover:opacity-90 ${
-                          event.isActive ? "opacity-100" : "opacity-80"
-                        } hover:shadow-[0_0_10px_#dfb005]`}
-                        onClick={() => navigate(`/events/${event.id}`)}
-                      >
-                        <div className="mx-auto mt-4 flex min-w-90 flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
-                          <HeaderRanking event={event} />
-                          <FlexSection className="w-full flex-row justify-between border-t border-gray-500/15">
-                            <InfoLine
-                              line="col"
-                              label="Início:"
-                              value={formatDate(event.createdAt)}
-                            />
-                            <InfoLine
-                              line="col"
-                              label={
-                                event.endDate
-                                  ? "Finalizado:"
-                                  : event.isActive
-                                    ? "Status:"
-                                    : "Status:"
-                              }
-                              value={
-                                event.endDate
-                                  ? formatDate(event.endDate)
-                                  : event.isActive
-                                    ? "Ativo"
-                                    : "Não iniciado"
-                              }
-                              color={
-                                event.isActive
-                                  ? "green"
-                                  : event.endDate
-                                    ? "gray"
-                                    : "yellow"
-                              }
-                            />
-                          </FlexSection>
+      <section className="px-4">
+        {sections?.map(({ title, key }) => {
+          const list = statusEvents[key as keyof typeof statusEvents];
+
+          return (
+            <Accordion
+              key={key}
+              startOpen={key === "ACTIVE" ? true : false}
+              title={
+                <h2 className="py-2 text-lg font-semibold text-slate-300">
+                  {title} ({list?.length})
+                </h2>
+              }
+              content={
+                <section key={key} className="py-2">
+                  {list?.length === 0 ? (
+                    <p className="text-sm text-slate-500">
+                      Nenhum evento encontrado.
+                    </p>
+                  ) : (
+                    <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                      {list?.map((event: EventOutputDto) => (
+                        <div
+                          key={event.id}
+                          className={`transition duration-300 ${key === "ACTIVE" ? "bg-gold" : key === "CREATED" ? "bg-silver" : "bg-slate-900"} w-full cursor-pointer rounded-lg transition-opacity duration-200 hover:opacity-90 ${
+                            event.isActive ? "opacity-100" : "opacity-80"
+                          } hover:shadow-[0_0_10px_#dfb005]`}
+                          onClick={() => navigate(`/events/${event.id}`)}
+                        >
+                          <div className="mx-auto mt-4 flex min-w-90 flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
+                            <HeaderRanking event={event} />
+                            <FlexSection className="w-full flex-row justify-between border-t border-gray-500/15">
+                              <InfoLine
+                                line="col"
+                                label="Início:"
+                                value={formatDate(event.createdAt)}
+                              />
+                              <InfoLine
+                                line="col"
+                                label={
+                                  event.endDate
+                                    ? "Finalizado:"
+                                    : event.isActive
+                                      ? "Status:"
+                                      : "Status:"
+                                }
+                                value={
+                                  event.endDate
+                                    ? formatDate(event.endDate)
+                                    : event.isActive
+                                      ? "Ativo"
+                                      : "Não iniciado"
+                                }
+                                color={
+                                  event.isActive
+                                    ? "green"
+                                    : event.endDate
+                                      ? "gray"
+                                      : "yellow"
+                                }
+                              />
+                            </FlexSection>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </section>
-            }
-          />
-        );
-      })}
+                      ))}
+                    </div>
+                  )}
+                </section>
+              }
+            />
+          );
+        })}
+      </section>
     </>
   );
 }

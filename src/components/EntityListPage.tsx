@@ -1,6 +1,6 @@
-import { Icon } from "@iconify/react";
 import { useState, useRef, useEffect } from "react";
 import InputSearch from "./InputSearch";
+import { Icon } from "@iconify/react/dist/iconify.js";
 import Modal from "./Modal";
 import NavAction from "./NavAction";
 
@@ -43,25 +43,32 @@ export default function EntityListPage<T>({
   return (
     <>
       <section className="flex flex-col gap-2 px-4 font-bold sm:flex-row sm:items-center sm:justify-between">
-        <header className="mt-1 flex w-full">
-          <NavAction>
-            <InputSearch
-              ref={inputRef}
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder={searchPlaceholder}
-              onOpenChange={setIsSearchOpen}
-            />
-            <div
-              className={`flex items-center gap-4 transition-all duration-900 ${
-                isSearchOpen
-                  ? "pointer-events-none hidden -translate-x-10"
-                  : "translate-x-0 opacity-100"
-              }`}
-            >
-              <h1 className="text-xl font-semibold text-white">{title}</h1>
-            </div>
+        <header className="mt-1 flex w-full justify-between">
+          <InputSearch
+            ref={inputRef}
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={searchPlaceholder}
+            onOpenChange={setIsSearchOpen}
+          />
+          <div
+            className={`flex items-center gap-4 transition-all duration-900 ${
+              isSearchOpen
+                ? "pointer-events-none hidden -translate-x-10"
+                : "translate-x-0 opacity-100"
+            }`}
+          >
+            <h1 className="mr-10 text-xl font-semibold text-white">{title}</h1>
+          </div>
+          <Modal
+            id={`${title}Form`}
+            className="hidden bg-slate-900 lg:flex"
+            icon={<Icon icon="ic:baseline-plus" width="20" />}
+          >
+            {FormModal}
+          </Modal>
+          <NavAction className="justify-center lg:hidden">
             <Modal
               id={`${title}Form`}
               className="bg-slate-900"
