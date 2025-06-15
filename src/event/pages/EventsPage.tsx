@@ -64,7 +64,7 @@ export default function EventsPage() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar... Vendedres"
+            placeholder="Buscar... Eventos"
             onOpenChange={setIsSearchOpen}
           />
 

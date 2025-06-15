@@ -37,20 +37,23 @@ export default function LeadPage() {
   } = useEvent(partnerLeads ? undefined : eventId);
 
   const { deleteLead, exportLead } = useLeadMutations();
+  const filterLeadList = partnerLeads ? leads : leadsByEvent;
 
   if (isPending && isPendingByEvent) return <Spin />;
   if (error && errorByEvent) return "An error has occurred:";
 
-  const filterLeadList = partnerLeads ? leads : leadsByEvent;
-
+  const sortedItems = [...filterLeadList]?.sort(
+    (a, b) =>
+      new Date(b.createdAt)?.getTime() - new Date(a.createdAt)?.getTime(),
+  );
   return (
     <div className="mx-auto w-full">
       <header className="mb-4 flex items-center justify-between text-xl font-bold">
-        <h1>Leads ({filterLeadList?.length})</h1>
+        <h1>Leads ({sortedItems?.length})</h1>
         {!partnerLeads && <h1>Evento: {event?.name}</h1>}
       </header>
 
-      {filterLeadList?.length === 0 ? (
+      {sortedItems?.length === 0 ? (
         <p className="text-gray-600">Nenhum lead encontrado.</p>
       ) : (
         <div className="overflow-hidden rounded-lg border border-gray-500/15 text-sm">
