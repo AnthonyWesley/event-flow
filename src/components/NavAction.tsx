@@ -9,7 +9,7 @@ type NavActionProps = {
 export default function NavAction({
   children,
   position = "horizontal",
-  className,
+  className = "",
 }: NavActionProps) {
   const baseClasses =
     "fixed z-50 bg-slate-950 shadow-lg shadow-black/15 transition-all duration-300 ease-in-out";
@@ -18,16 +18,14 @@ export default function NavAction({
     "bottom-0 left-0 flex w-full items-center justify-between rounded-t-lg p-2";
 
   const desktopPositionStyles = {
-    horizontal: "lg:static lg:h-full lg:w-full  lg:rounded-lg",
-    // horizontal: "static lg:h-full lg:w-20 lg:flex-col lg:rounded-none lg:rounded-r-2xl",
-    vertical: "lg:static lg:h-[75vh] lg:w-20 lg:flex-col  lg:rounded-lg",
+    horizontal:
+      "lg:static lg:flex lg:h-full lg:w-full lg:flex-row lg:rounded-lg",
+    vertical: "lg:static lg:flex lg:h-[75vh] lg:w-20 lg:flex-col lg:rounded-lg",
   };
 
   return (
     <nav
-      className={`${baseClasses} ${mobileTabletStyles} ${
-        desktopPositionStyles[position]
-      } ${className} `}
+      className={` ${baseClasses} ${mobileTabletStyles} ${desktopPositionStyles[position]} ${className} `}
     >
       {children}
     </nav>

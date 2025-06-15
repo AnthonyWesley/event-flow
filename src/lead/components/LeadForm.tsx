@@ -7,6 +7,7 @@ import { useLeadMutations } from "../hooks/useLeadMutations";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { ProductOutputDto } from "../../product/services/productService";
 import useProduct from "../../product/hooks/useProduct";
+import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 
 type LeadFormProps = {
   eventId?: string;
@@ -139,13 +140,15 @@ export default function LeadForm({ eventId, lead }: LeadFormProps) {
           />
         </label> */}
 
-        <button
-          type="submit"
-          //   disabled={!hasChanges || createOrUpdate.isPending}
-          className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
-        >
-          {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
-        </button>
+        <AccessExpiredWrapper>
+          <button
+            type="submit"
+            //   disabled={!hasChanges || createOrUpdate.isPending}
+            className="bg-gray w-full rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
+          </button>
+        </AccessExpiredWrapper>
       </form>
     </Card>
   );

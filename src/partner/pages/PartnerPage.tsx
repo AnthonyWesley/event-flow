@@ -27,6 +27,11 @@ export default function PartnerPage() {
     navigate("/auth");
   };
 
+  // if (isExpired) {
+  //   // Opcional: bloquear componentes de interação
+  //   return AccessModal;
+  // }
+
   return (
     <section
       className={`my-2 rounded-lg ${data.plan === "FREE" ? "bg-bronze" : data.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}

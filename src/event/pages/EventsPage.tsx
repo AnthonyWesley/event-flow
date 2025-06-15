@@ -103,12 +103,12 @@ export default function EventsPage() {
           return (
             <Accordion
               key={key}
-              startOpen={key === "ACTIVE" ? true : false}
               title={
                 <h2 className="py-2 text-lg font-semibold text-slate-300">
                   {title} ({list?.length})
                 </h2>
               }
+              startOpen={list?.length > 0} // autoabre se tiver eventos
               content={
                 <section key={key} className="py-2">
                   {list?.length === 0 ? (
@@ -120,12 +120,18 @@ export default function EventsPage() {
                       {list?.map((event: EventOutputDto) => (
                         <div
                           key={event.id}
-                          className={`transition duration-300 ${key === "ACTIVE" ? "bg-gold" : key === "CREATED" ? "bg-silver" : "bg-slate-900"} w-full cursor-pointer rounded-lg transition-opacity duration-200 hover:opacity-90 ${
+                          className={`transition duration-300 ${
+                            key === "ACTIVE"
+                              ? "bg-gold"
+                              : key === "CREATED"
+                                ? "bg-silver"
+                                : "bg-slate-900"
+                          } w-full cursor-pointer rounded-lg transition-opacity duration-200 hover:opacity-90 ${
                             event.isActive ? "opacity-100" : "opacity-80"
                           } hover:shadow-[0_0_10px_#dfb005]`}
                           onClick={() => navigate(`/events/${event.id}`)}
                         >
-                          <div className="mx-auto mt-4 flex min-w-90 flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
+                          <div className="mx-auto mt-4 flex flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
                             <HeaderRanking event={event} />
                             <FlexSection className="w-full flex-row justify-between border-t border-gray-500/15">
                               <InfoLine

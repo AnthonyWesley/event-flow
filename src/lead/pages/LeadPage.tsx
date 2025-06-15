@@ -12,6 +12,7 @@ import NavAction from "../../components/NavAction";
 import Spin from "../../components/Spin";
 import PremiumFeature from "../../components/PremiumFeature";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
+import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 
 export default function LeadPage() {
   const { type, eventId } = useParams<{ type: string; eventId: string }>();
@@ -37,15 +38,16 @@ export default function LeadPage() {
   } = useEvent(partnerLeads ? undefined : eventId);
 
   const { deleteLead, exportLead } = useLeadMutations();
-  const filterLeadList = partnerLeads ? leads : leadsByEvent;
+  const filterLeadList: LeadOutputDto[] =
+    (partnerLeads ? leads : leadsByEvent) ?? [];
 
   if (isPending && isPendingByEvent) return <Spin />;
   if (error && errorByEvent) return "An error has occurred:";
-
   const sortedItems = [...filterLeadList]?.sort(
     (a, b) =>
       new Date(b.createdAt)?.getTime() - new Date(a.createdAt)?.getTime(),
   );
+
   return (
     <div className="mx-auto w-full">
       <header className="mb-4 flex items-center justify-between text-xl font-bold">
@@ -95,26 +97,28 @@ export default function LeadPage() {
                       {new Date(lead.createdAt).toLocaleDateString()}
                     </td>
                     <td className="shadow-left sticky right-0 z-10 rounded-lg bg-slate-900 p-2">
-                      <PremiumFeature className="flex gap-2">
-                        <Modal id={lead.id} icon="carbon:edit" info="Editar">
-                          <LeadForm eventId={eventId} lead={lead} />
-                        </Modal>
-                        <Modal
-                          id="LeadPageDeleteForm"
-                          icon="carbon:trash-can"
-                          info="Deletar"
-                        >
-                          <Dialog
-                            message="Deseja excluir o lead?"
-                            onClick={() =>
-                              deleteLead.mutate({
-                                eventId: eventId ?? "",
-                                leadId: lead.id,
-                              })
-                            }
-                          />
-                        </Modal>
-                      </PremiumFeature>
+                      <AccessExpiredWrapper>
+                        <PremiumFeature className="flex gap-2">
+                          <Modal id={lead.id} icon="carbon:edit" info="Editar">
+                            <LeadForm eventId={eventId} lead={lead} />
+                          </Modal>
+                          <Modal
+                            id="LeadPageDeleteForm"
+                            icon="carbon:trash-can"
+                            info="Deletar"
+                          >
+                            <Dialog
+                              message="Deseja excluir o lead?"
+                              onClick={() =>
+                                deleteLead.mutate({
+                                  eventId: eventId ?? "",
+                                  leadId: lead.id,
+                                })
+                              }
+                            />
+                          </Modal>
+                        </PremiumFeature>
+                      </AccessExpiredWrapper>
                     </td>
                   </tr>
                 ))}
@@ -146,16 +150,18 @@ export default function LeadPage() {
           )}
         </PremiumFeature>
         <Tooltip info="Baixar relatório">
-          <PremiumFeature>
-            <div
-              className="cursor-pointer rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-              onClick={() =>
-                exportLead.mutate(eventId === "partner" ? undefined : eventId)
-              }
-            >
-              <Icon icon="line-md:file-download" width="30" />
-            </div>
-          </PremiumFeature>
+          <AccessExpiredWrapper>
+            <PremiumFeature>
+              <div
+                className="cursor-pointer rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                onClick={() =>
+                  exportLead.mutate(eventId === "partner" ? undefined : eventId)
+                }
+              >
+                <Icon icon="line-md:file-download" width="30" />
+              </div>
+            </PremiumFeature>
+          </AccessExpiredWrapper>
         </Tooltip>
       </NavAction>
     </div>

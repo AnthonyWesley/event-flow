@@ -7,6 +7,7 @@ import { ProductOutputDto } from "../services/productService";
 import Card from "../../components/Card";
 import useProduct from "../hooks/useProduct";
 import { toast } from "react-toastify";
+import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 
 export type ProductProps = {
   product?: ProductOutputDto;
@@ -93,14 +94,15 @@ export default function ProductForm({ product }: ProductProps) {
             required
           />
         </label>
-
-        <button
-          type="submit"
-          disabled={!hasChanges || createOrUpdate.isPending}
-          className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
-        >
-          {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
-        </button>
+        <AccessExpiredWrapper>
+          <button
+            type="submit"
+            disabled={!hasChanges || createOrUpdate.isPending}
+            className="bg-gray w-full rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
+          </button>
+        </AccessExpiredWrapper>
       </form>
     </Card>
   );

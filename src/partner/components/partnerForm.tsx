@@ -5,6 +5,7 @@ import { FormValidator } from "../../helpers/FormValidator";
 import { PartnerOutputDto } from "../services/partnerService";
 import { usePartnerMutations } from "../hooks/usePartnerMutations";
 import { formatPhoneNumber } from "../../auth/components/authForm";
+import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 
 export type PartnerProps = {
   partner?: PartnerOutputDto;
@@ -82,13 +83,15 @@ export default function PartnerForm({ partner }: PartnerProps) {
             required
           />
         </label>
-        <button
-          type="submit"
-          disabled={!hasChanges || update.isPending}
-          className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
-        >
-          {update.isPending ? "Salvando..." : "Salvar"}
-        </button>
+        <AccessExpiredWrapper>
+          <button
+            type="submit"
+            disabled={!hasChanges || update.isPending}
+            className="bg-gray w-full rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {update.isPending ? "Salvando..." : "Salvar"}
+          </button>
+        </AccessExpiredWrapper>
       </form>
     </Card>
   );

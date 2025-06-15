@@ -7,6 +7,7 @@ import Card from "../../components/Card";
 import { EventOutputDto } from "../services/eventService";
 import { FormValidator } from "../../helpers/FormValidator";
 import { useNavigate } from "react-router-dom";
+import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 
 export type EventProps = {
   event?: EventOutputDto;
@@ -119,13 +120,15 @@ export default function EventForm({ event }: EventProps) {
             required
           />
         </label>
-        <button
-          type="submit"
-          disabled={!hasChanges || createOrUpdate.isPending}
-          className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
-        >
-          {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
-        </button>
+        <AccessExpiredWrapper>
+          <button
+            type="submit"
+            disabled={!hasChanges || createOrUpdate.isPending}
+            className="bg-gray w-full rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
+          </button>
+        </AccessExpiredWrapper>
       </form>
     </Card>
   );

@@ -4,9 +4,6 @@ import usePartner from "../partner/hooks/usePartner";
 function isPremium(plan: string | undefined): boolean {
   return plan === "PREMIUM";
 }
-function expiredDate(date: Date): boolean {
-  return date <= new Date();
-}
 
 type PremiumFeatureProps = {
   children: React.ReactNode;
@@ -24,10 +21,6 @@ export default function PremiumFeature({
   } = usePartner();
 
   function handleClick() {
-    if (!expiredDate(partner?.accessExpiresAt)) {
-      toast.warning("Você não tem mais autorização. Renove seu plano!");
-      return;
-    }
     if (!isPremium(partner?.plan)) {
       toast.warning("Este recurso está disponível apenas no plano PREMIUM.");
       return;

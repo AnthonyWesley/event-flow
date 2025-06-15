@@ -9,6 +9,7 @@ import { useSaleMutations } from "../hooks/useSaleMutations";
 import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 import { SellerOutputDto } from "../../seller/services/sellerService";
 import useProduct from "../../product/hooks/useProduct";
+import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 
 export type SaleProps = {
   eventId?: string;
@@ -108,14 +109,15 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
           selected={product}
         />
         <Counter label="Quantidade:" onChange={setQuantity} />
-
-        <button
-          type="submit"
-          disabled={createOrUpdate.isPending}
-          className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
-        >
-          {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
-        </button>
+        <AccessExpiredWrapper>
+          <button
+            type="submit"
+            disabled={createOrUpdate.isPending}
+            className="bg-gray w-full rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
+          </button>
+        </AccessExpiredWrapper>
       </form>
     </Card>
   );

@@ -9,6 +9,7 @@ import { formatPhoneNumber } from "../../auth/components/authForm";
 import { useEvent } from "../../event/hooks/useEvent";
 import { toast } from "react-toastify";
 import useSeller from "../hooks/useSeller";
+import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 // import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 
 type SellerFormProps = {
@@ -214,17 +215,19 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
             placeholder="Vendedores..."
           />
         )}
-        <button
-          type="submit"
-          disabled={!hasChanges || createOrUpdate.isPending}
-          className="bg-gray rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
-        >
-          {createOrUpdate.isPending
-            ? "Salvando..."
-            : isCreateButton
-              ? "Salvar"
-              : "Adicionar selecionados"}
-        </button>
+        <AccessExpiredWrapper>
+          <button
+            type="submit"
+            disabled={!hasChanges || createOrUpdate.isPending}
+            className="bg-gray w-full rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
+          >
+            {createOrUpdate.isPending
+              ? "Salvando..."
+              : isCreateButton
+                ? "Salvar"
+                : "Adicionar selecionados"}
+          </button>
+        </AccessExpiredWrapper>
       </form>
     </Card>
   );
