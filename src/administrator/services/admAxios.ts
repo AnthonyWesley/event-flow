@@ -20,7 +20,7 @@ admApi.interceptors.request.use(
 admApi.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if ([401, 404, 500].includes(error.response.status)) {
+    if ([401, 404, 403, 500].includes(error.response.status)) {
       localStorage.removeItem("admAccessToken");
       window.location.href = "/adm";
     }
