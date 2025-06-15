@@ -118,13 +118,15 @@ export default function RankingPage() {
 
   return (
     <>
-      <header className="mt-1">
-        <Select
-          selectList={activeEvents}
-          selected={showEvent}
-          onChange={setShowEvent}
-        />
-      </header>
+      {showEvent && (
+        <header className="mt-1">
+          <Select
+            selectList={activeEvents}
+            selected={showEvent}
+            onChange={setShowEvent}
+          />
+        </header>
+      )}
 
       {showEvent ? (
         <div className="flex w-full flex-col lg:flex-row">

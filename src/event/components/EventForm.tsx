@@ -58,8 +58,7 @@ export default function EventForm({ event }: EventProps) {
         },
       },
       {
-        onSuccess: () =>
-          navigate(`${event?.id ? `/events/${event?.id}` : "/events"}`),
+        onSuccess: () => navigate(`${event?.id ? `` : `/events/${event?.id}`}`),
       },
     );
   };
