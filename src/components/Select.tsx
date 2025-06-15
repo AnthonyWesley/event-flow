@@ -22,7 +22,7 @@ export type SelectList = {
 export type SelectProps = {
   selectList: SelectList[];
   label?: string;
-  onChange?: (value: SelectList) => void;
+  onChange?: (value: any) => void;
   selected?: SelectList;
 };
 
@@ -64,7 +64,7 @@ export default function Select({
           anchor="bottom"
           transition
           className={clsx(
-            "z-80 h-50 w-[var(--button-width)] rounded-lg border border-white/5 bg-[#101828] p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none",
+            "z-80 max-h-50 w-[var(--button-width)] rounded-lg border border-white/5 bg-[#101828] p-1 [--anchor-gap:var(--spacing-1)] focus:outline-none",
             "transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0",
           )}
         >

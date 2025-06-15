@@ -16,9 +16,10 @@ export default function InfoList({
     <div
       className={`flex w-full justify-between bg-slate-900 not-italic ${className}`}
     >
-      <Icon icon={icon} width="20" className="basis-[10%] text-left" />
+      {(length && <span className="basis-[10%] text-right">({length})</span>) ||
+        "."}
       <h1 className="basis-[80%] text-center">{tittle}</h1>
-      <span className="basis-[10%] text-right">({length})</span>
+      <Icon icon={icon} width="20" className="basis-[10%] text-left" />
     </div>
   );
 }

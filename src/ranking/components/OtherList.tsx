@@ -32,7 +32,15 @@ export default function OtherList({
   return (
     <ul
       role="list"
-      className={`h-20 w-full rounded-sm border-b border-gray-100/15 ${index % 2 === 0 ? "bg-[rgb(15,23,42)]" : "bg-[rgb(10,23,42)]"}`}
+      className={`h-20 w-full rounded-sm border-l-4 ${
+        index === 0
+          ? "border-yellow-400"
+          : index === 1
+            ? "border-gray-300"
+            : index === 2
+              ? "border-amber-800"
+              : "border-transparent"
+      } ${index % 2 === 0 ? "bg-[rgb(15,23,42)]" : "bg-[rgb(10,23,42)]"}`}
     >
       <li
         key={other.email}

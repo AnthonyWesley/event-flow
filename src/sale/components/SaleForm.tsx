@@ -82,7 +82,7 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
   }, [event, isGuest]);
 
   useEffect(() => {
-    if (!product && products.length > 0) {
+    if (!product && products?.length > 0) {
       setProduct(products[0]);
     }
   }, [products]);

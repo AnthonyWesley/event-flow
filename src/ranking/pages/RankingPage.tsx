@@ -12,7 +12,6 @@ import ChangeButton from "../../components/ChangeButton";
 import SaleList from "../../sale/components/SaleList";
 import useProduct from "../../product/hooks/useProduct";
 import { useState } from "react";
-import { SalesOrSellersItem } from "../types/SalesOrSellersItem";
 import { SalesOrSellersKey } from "../types/SalesOrSellersKey";
 import Tooltip from "../../components/Tooltip";
 import EventIcon from "../../icons/eventIcon";
@@ -23,6 +22,9 @@ import { InfoLine } from "../../components/InfoLine";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import GameDisplay from "../components/GameDisplay";
 import NavAction from "../../components/NavAction";
+import Select from "../../components/Select";
+import { EventOutputDto } from "../../event/services/eventService";
+import { usePersistedEvent } from "../hooks/usePersistedEvent";
 
 export const eventsLinks = [
   {
@@ -39,7 +41,7 @@ export const eventsLinks = [
 
 export default function RankingPage() {
   const {
-    queryEvents: { isPending, error },
+    queryEvents: { data: events = [], isPending, error },
     currentEvent,
   } = useEvent();
 
@@ -47,32 +49,49 @@ export default function RankingPage() {
     queryProducts: { data: products = [] },
   } = useProduct();
 
-  const { toggleEvent, handleDelete } = useRanking(currentEvent);
+  const { toggleEvent } = useRanking(currentEvent);
   const [list, setList] = useState<SalesOrSellersKey>("SELLERS");
+  const activeEvents = events.filter(
+    (event: EventOutputDto) => event?.isActive,
+  );
+  const { selectedEvent: showEvent, changeEvent: setShowEvent } =
+    usePersistedEvent(activeEvents);
+
+  const isValueGoal = showEvent?.goalType === "VALUE";
+  const totalGoal = goalUtils.getTotalForGoal(
+    showEvent?.allSellers ?? [],
+    showEvent?.goalType ?? "VALUE",
+  );
+
+  const totalQuantity =
+    showEvent?.sales?.reduce((acc, sale) => acc + (sale?.quantity ?? 0), 0) ??
+    0;
+
+  const changeList = (status: any) => setList(status);
 
   if (isPending) return <Spin />;
   if (error) return <div>Ocorreu um erro: {error.message}</div>;
 
-  const changeList = (status: SalesOrSellersKey) => setList(status);
-
   const modalActions = [
+    {
+      title: "Vendedores",
+      id: "RankingPageSellerForm",
+      info: "Add vendedor",
+      icon: "material-symbols:person-add",
+      children: <SellerForm eventId={currentEvent?.id} />,
+    },
+    {
+      title: "Vendas",
+      id: "RankingPageSaleForm",
+      info: "Add venda",
+      icon: "mi:shopping-cart-add",
+      children: <SaleForm eventId={currentEvent?.id} />,
+    },
     {
       id: "RankingPageEventForm",
       info: "Editar evento",
       icon: <EventIcon icon="PEN" />,
       children: <EventForm event={currentEvent} />,
-    },
-    {
-      id: "RankingPageEventDeleteForm",
-      info: "Deletar Evento",
-      icon: "carbon:trash-can",
-      children: (
-        <Dialog
-          message="Deseja excluir o evento?"
-          onClick={handleDelete}
-          color="bg-rose"
-        />
-      ),
     },
     {
       id: "RankingPageEventToggleForm",
@@ -100,106 +119,19 @@ export default function RankingPage() {
     },
   ];
 
-  const isSalesOrSellers: Record<SalesOrSellersKey, SalesOrSellersItem> = {
-    SALES: {
-      title: "Vendas",
-      id: "RankingPageSaleForm",
-      info: "Add venda",
-      icon: "mi:shopping-cart-add",
-      children: <SaleForm eventId={currentEvent?.id} />,
-    },
-    SELLERS: {
-      title: "Vendedores",
-      id: "RankingPageSellerForm",
-      info: "Add vendedor",
-      icon: "material-symbols:person-add",
-      children: <SellerForm eventId={currentEvent?.id} />,
-    },
-  };
-
-  const isValueGoal = currentEvent?.goalType === "VALUE";
-
-  const totalGoal = goalUtils.getTotalForGoal(
-    currentEvent?.allSellers,
-    currentEvent?.goalType,
-  );
-
   return (
     <>
-      {currentEvent ? (
+      <Select
+        selectList={activeEvents}
+        selected={showEvent}
+        onChange={setShowEvent}
+      />
+
+      {showEvent ? (
         <div className="flex w-full flex-col lg:flex-row">
+          {/* Principal Display */}
           <GameDisplay
             className="bg-dark mt-2 flex-[2]"
-            infoHeader={
-              <div className="flex w-full justify-between p-2">
-                <InfoLine value={currentEvent?.name} />
-                <InfoLine
-                  label="Total:"
-                  value={
-                    currentEvent?.goalType === "QUANTITY"
-                      ? currencyFormatter.ToBRL(
-                          goalUtils.getTotalForGoal(
-                            currentEvent?.allSellers,
-                            "VALUE",
-                          ),
-                        )
-                      : goalUtils.getTotalForGoal(
-                          currentEvent?.allSellers,
-                          "QUANTITY",
-                        )
-                  }
-                  color={goalUtils.handleGoalAchieved(
-                    totalGoal,
-                    currentEvent?.goal,
-                  )}
-                />
-              </div>
-            }
-            infoFooter={
-              <div className="flex w-full flex-col">
-                <div className="flex justify-between">
-                  <InfoLine
-                    label="Total:"
-                    value={
-                      isValueGoal
-                        ? currencyFormatter.ToBRL(totalGoal)
-                        : totalGoal
-                    }
-                    color={goalUtils.handleGoalAchieved(
-                      totalGoal,
-                      currentEvent?.goal,
-                    )}
-                  />
-                  <InfoLine
-                    label="Meta:"
-                    value={
-                      isValueGoal
-                        ? currencyFormatter.ToBRL(currentEvent?.goal)
-                        : currentEvent?.goal + "unid"
-                    }
-                    color={goalUtils.handleGoalAchieved(
-                      totalGoal,
-                      currentEvent?.goal,
-                    )}
-                  />
-                </div>
-                <ProgressBar
-                  total={currentEvent?.goal}
-                  current={goalUtils.getTotalForGoal(
-                    currentEvent?.allSellers,
-                    currentEvent?.goalType,
-                  )}
-                />
-              </div>
-            }
-          >
-            <div className="flex w-full">
-              <RankingDisplay event={currentEvent} mode="PODIUM" />
-            </div>
-          </GameDisplay>
-
-          <GameDisplay
-            className="mt-2 flex-[1]"
             infoHeader={
               <div className="w-full p-2">
                 <InfoList
@@ -211,52 +143,89 @@ export default function RankingPage() {
                   }
                   length={
                     list === "SELLERS"
-                      ? currentEvent?.allSellers?.length
-                      : currentEvent?.sales?.length
+                      ? showEvent?.allSellers?.length
+                      : totalQuantity
                   }
                   className="bg-slate-950"
                 />
               </div>
             }
-            infoFooter={<div className="p-5">{""}</div>}
+            infoFooter={<div className="py-5"></div>}
           >
-            <div className="flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
-              <div className="flex-1 overflow-y-auto">
-                {list === "SALES" && currentEvent?.allSellers?.length > 0 && (
+            <section className="mb-auto max-h-[55vh] w-full overflow-y-auto lg:max-h-[60vh]">
+              <div className="flex flex-1">
+                {list === "SALES" && (
                   <SaleList
-                    sales={currentEvent?.sales}
-                    sellers={currentEvent?.allSellers}
+                    sales={showEvent?.sales}
+                    sellers={showEvent?.allSellers}
                     products={products}
                   />
                 )}
+                {list === "SELLERS" && (
+                  <RankingDisplay event={showEvent} mode="PODIUM" />
+                )}
+              </div>
+            </section>
+          </GameDisplay>
 
+          {/* Estatísticas */}
+          <GameDisplay
+            className="mt-2 flex-[1]"
+            infoHeader={
+              <div className="flex w-full flex-col">
+                <div className="flex justify-between">
+                  <InfoLine
+                    label="Meta:"
+                    value={
+                      isValueGoal
+                        ? currencyFormatter.ToBRL(showEvent?.goal)
+                        : `${showEvent?.goal} unid`
+                    }
+                    color={goalUtils.handleGoalAchieved(
+                      totalGoal,
+                      showEvent?.goal,
+                    )}
+                  />
+                  <InfoLine
+                    label="Total:"
+                    value={
+                      isValueGoal
+                        ? currencyFormatter.ToBRL(totalGoal)
+                        : totalGoal
+                    }
+                    color={goalUtils.handleGoalAchieved(
+                      totalGoal,
+                      showEvent?.goal,
+                    )}
+                  />
+                </div>
+                <ProgressBar total={showEvent?.goal} current={totalGoal} />
+              </div>
+            }
+            infoFooter={<div className="py-5"></div>}
+          >
+            <div className="flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
+              <div className="flex-1 overflow-y-auto">
                 {list === "SELLERS" && (
                   <RankingDisplay
-                    event={currentEvent}
-                    mode={currentEvent?.sales <= 0 ? "NORMAL" : "OTHERS"}
+                    event={showEvent}
+                    mode={showEvent?.sales.length <= 0 ? "NORMAL" : "OTHERS"}
                   />
                 )}
+                {list === "SALES" && <RankingDisplay event={showEvent} />}
               </div>
             </div>
           </GameDisplay>
 
+          {/* Ações */}
           <GameDisplay className="mt-2">
             <NavAction position="vertical">
               <Tooltip
-                info={`${list === "SALES" ? "Vendas" : "Vendedores"}`}
-                className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                info={list === "SALES" ? "Vendas" : "Vendedores"}
+                className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100"
               >
                 <ChangeButton onChange={changeList} />
               </Tooltip>
-
-              <Modal
-                info={isSalesOrSellers[list].info}
-                id={isSalesOrSellers[list].id}
-                icon={isSalesOrSellers[list].icon}
-              >
-                {isSalesOrSellers[list].children}
-              </Modal>
-
               {modalActions.map((modal) => (
                 <Modal
                   key={modal.id}
@@ -279,7 +248,7 @@ export default function RankingPage() {
             id="RankingPageEventForm2"
             icon={<Icon icon="ic:baseline-plus" width="40" />}
           >
-            <EventForm event={currentEvent} />
+            <EventForm event={showEvent} />
           </Modal>
         </div>
       )}
