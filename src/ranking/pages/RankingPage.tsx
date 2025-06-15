@@ -42,20 +42,19 @@ export const eventsLinks = [
 export default function RankingPage() {
   const {
     queryEvents: { data: events = [], isPending, error },
-    currentEvent,
   } = useEvent();
 
   const {
     queryProducts: { data: products = [] },
   } = useProduct();
 
-  const { toggleEvent } = useRanking(currentEvent);
   const [list, setList] = useState<SalesOrSellersKey>("SELLERS");
   const activeEvents = events.filter(
     (event: EventOutputDto) => event?.isActive,
   );
   const { selectedEvent: showEvent, changeEvent: setShowEvent } =
     usePersistedEvent(activeEvents);
+  const { toggleEvent } = useRanking(showEvent);
 
   const isValueGoal = showEvent?.goalType === "VALUE";
   const totalGoal = goalUtils.getTotalForGoal(
@@ -78,30 +77,30 @@ export default function RankingPage() {
       id: "RankingPageSellerForm",
       info: "Add vendedor",
       icon: "material-symbols:person-add",
-      children: <SellerForm eventId={currentEvent?.id} />,
+      children: <SellerForm eventId={showEvent?.id} />,
     },
     {
       title: "Vendas",
       id: "RankingPageSaleForm",
       info: "Add venda",
       icon: "mi:shopping-cart-add",
-      children: <SaleForm eventId={currentEvent?.id} />,
+      children: <SaleForm eventId={showEvent?.id} />,
     },
     {
       id: "RankingPageEventForm",
       info: "Editar evento",
       icon: <EventIcon icon="PEN" />,
-      children: <EventForm event={currentEvent} />,
+      children: <EventForm event={showEvent} />,
     },
     {
       id: "RankingPageEventToggleForm",
-      info: !currentEvent?.endDate ? "Finalizar Evento" : "Ativar Evento",
+      info: !showEvent?.endDate ? "Finalizar Evento" : "Ativar Evento",
       icon: (
         <Icon
           icon="lets-icons:on-button"
           width="20"
           className={
-            currentEvent?.endDate
+            showEvent?.endDate
               ? "text-gray-400"
               : "animate-pulse text-green-400"
           }
@@ -109,9 +108,7 @@ export default function RankingPage() {
       ),
       children: (
         <Dialog
-          message={
-            currentEvent?.endDate ? "Reativar evento?" : "Encerrar evento?"
-          }
+          message={showEvent?.endDate ? "Reativar evento?" : "Encerrar evento?"}
           onClick={toggleEvent}
           color="bg-green"
         />
@@ -121,11 +118,13 @@ export default function RankingPage() {
 
   return (
     <>
-      <Select
-        selectList={activeEvents}
-        selected={showEvent}
-        onChange={setShowEvent}
-      />
+      <header className="mt-1">
+        <Select
+          selectList={activeEvents}
+          selected={showEvent}
+          onChange={setShowEvent}
+        />
+      </header>
 
       {showEvent ? (
         <div className="flex w-full flex-col lg:flex-row">
