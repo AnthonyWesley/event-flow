@@ -60,6 +60,7 @@ export default function GuestPage() {
   );
   const goalLabel = isValueGoal ? currencyFormatter.ToBRL(goal) : `${goal}`;
   const goalColor = goalUtils.handleGoalAchieved(currentProgress, goal);
+  console.log(event);
 
   if (error) {
     return (
@@ -69,6 +70,17 @@ export default function GuestPage() {
           <p className="text-lg">
             Esse evento pode ter sido removido ou o link está incorreto.
           </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!event?.isActive) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-900 text-white">
+        <div className="space-y-2 text-center">
+          <h1 className="text-2xl font-bold">Evento finalizado</h1>
+          <p className="text-lg">Aguarde até o evento ser ativo.</p>
         </div>
       </div>
     );

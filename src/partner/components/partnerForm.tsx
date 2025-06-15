@@ -2,7 +2,7 @@ import Card from "../../components/Card";
 import { useEffect, useState } from "react";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { FormValidator } from "../../helpers/FormValidator";
-import { PartnerOutputDto } from "../services/partnerService";
+import { PartnerOutputDto, PlanType } from "../services/partnerService";
 import { usePartnerMutations } from "../hooks/usePartnerMutations";
 import { formatPhoneNumber } from "../../auth/components/authForm";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
@@ -15,7 +15,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  //   const [plan, setPlan] = useState<PlanType>("FREE");
+  const [plan, setPlan] = useState<PlanType>("FREE");
   const { update } = usePartnerMutations();
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
       setName(partner.name);
       setEmail(partner.email);
       setPhone(fieldFormatter.phone(partner.phone ?? ""));
+      setPlan(partner.plan);
     }
   }, [partner]);
 
@@ -36,6 +37,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
           name: fieldFormatter.name(name),
           email,
           phone: fieldFormatter.phone(phone ?? ""),
+          plan,
         },
       });
     }
