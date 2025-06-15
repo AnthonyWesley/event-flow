@@ -68,6 +68,7 @@ export const eventService = {
 
   switchStatus: async (eventId: string) => {
     const response = await partnerApi.patch(`/events/${eventId}/toggle-end`);
-    return response.data.events;
+
+    return response.data.isActive;
   },
 };

@@ -3,8 +3,11 @@ import { toast } from "react-toastify";
 import { eventService } from "../services/eventService";
 import { useModalStore } from "../../store/useModalStore";
 import usePartner from "../../partner/hooks/usePartner";
+import { useNavigate } from "react-router-dom";
 
 export function useEventMutations() {
+  const navigate = useNavigate();
+
   const queryClient = useQueryClient();
   const { closeModal } = useModalStore();
   const {
@@ -13,8 +16,9 @@ export function useEventMutations() {
 
   const toggleStatus = useMutation({
     mutationFn: eventService.switchStatus,
-    onSuccess: () => {
-      toast.success("Status do evento atualizado!");
+    onSuccess: (isActive) => {
+      navigate(`${isActive ? `/` : "/events"}`),
+        toast.success("Status do evento atualizado!");
       closeModal("RankingPageEventToggleForm");
       closeModal("EventsPageEventToggleForm");
     },

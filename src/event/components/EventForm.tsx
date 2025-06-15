@@ -6,6 +6,7 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Card from "../../components/Card";
 import { EventOutputDto } from "../services/eventService";
 import { FormValidator } from "../../helpers/FormValidator";
+import { useNavigate } from "react-router-dom";
 
 export type EventProps = {
   event?: EventOutputDto;
@@ -13,6 +14,8 @@ export type EventProps = {
 };
 
 export default function EventForm({ event }: EventProps) {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [goal, setGoal] = useState<string | number>("R$");
   const [goalType, setGoalType] = useState<SelectList>({
@@ -55,7 +58,8 @@ export default function EventForm({ event }: EventProps) {
         },
       },
       {
-        // onSuccess: () => navigate("/"),
+        onSuccess: () =>
+          navigate(`${event?.id ? `/events/${event?.id}` : "/events"}`),
       },
     );
   };
