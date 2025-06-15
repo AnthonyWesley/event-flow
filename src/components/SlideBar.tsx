@@ -10,7 +10,7 @@ type SliderBarProps = {
   children: React.ReactNode | React.ReactNode[];
   icon?: React.ReactNode | React.ReactNode[];
   verticalPosition?: string | number;
-  zIndex?: "z-0" | "z-10" | "z-20" | "z-30" | "z-40" | "z-50";
+  zIndex?: "z-0" | "z-10" | "z-20" | "z-30" | "z-40" | "z-50" | "z-80";
   sliderSide?: "left" | "right";
   className?: string;
   title?: string;
@@ -22,7 +22,7 @@ export default function SlideBar({
   verticalPosition = "0",
   sliderSide = "left",
   className,
-  zIndex = "z-40",
+  zIndex = "z-80",
   title,
 }: SliderBarProps) {
   const [isOpen, setIsOpen] = useState(false);

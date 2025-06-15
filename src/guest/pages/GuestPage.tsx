@@ -47,7 +47,6 @@ export default function GuestPage() {
   if (isEventLoading) return <Spin />;
   if (isProductLoading) return <Spin />;
   if (isSellerLoading) return <Spin />;
-  // if (error) return "An error has occurred: " + error.message;
   const currentIndex = Array.isArray(event?.allSellers)
     ? event.allSellers.findIndex((s: any) => s.name === seller?.guest?.name) + 1
     : "-";
@@ -77,8 +76,8 @@ export default function GuestPage() {
 
   return (
     <div className="flex flex-col gap-2">
-      <FlexSection className="flex-row gap-2 rounded-lg bg-slate-900">
-        <Avatar name={seller?.guest?.name} />
+      <FlexSection className="flex-row gap-2 rounded-lg bg-slate-900 p-2">
+        <Avatar name={seller?.guest?.name} className="size-20 lg:size-30" />
 
         <div className="flex w-full flex-col items-start justify-evenly lg:flex-row">
           <Accordion
@@ -125,7 +124,7 @@ export default function GuestPage() {
       </FlexSection>
 
       <InfoLine label="Evento:" value={event?.name} />
-      <FlexSection className="flex-row gap-2 rounded-lg bg-slate-900">
+      <FlexSection className="flex-row gap-2 rounded-lg bg-slate-900 p-2">
         <FlexSection className="w-full items-start justify-start">
           <InfoLine
             label="Meta:"

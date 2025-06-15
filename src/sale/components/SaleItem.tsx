@@ -3,6 +3,7 @@ import { formatDate } from "../../helpers/formatDate";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useSaleMutations } from "../hooks/useSaleMutations";
 import Tooltip from "../../components/Tooltip";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 type Product = {
   id: string;
@@ -60,7 +61,7 @@ export function SaleItem({
             </p>
             {!isGuest && (
               <p className="text-sm/6 font-semibold">
-                {seller?.name?.split(" ").slice(0, 1).join(" ")}
+                {fieldFormatter.name(seller?.name ?? "", "firstTwo")}
               </p>
             )}
             {isGuest && (
