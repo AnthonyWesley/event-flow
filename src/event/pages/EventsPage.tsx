@@ -108,7 +108,7 @@ export default function EventsPage() {
                   {title} ({list?.length})
                 </h2>
               }
-              startOpen={list?.length > 0} // autoabre se tiver eventos
+              startOpen={list?.length > 0}
               content={
                 <section key={key} className="py-2">
                   {list?.length === 0 ? (

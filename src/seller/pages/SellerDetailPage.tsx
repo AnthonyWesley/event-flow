@@ -5,7 +5,6 @@ import useSeller from "../hooks/useSeller";
 import SellerForm from "../components/SellerForm";
 import Dialog from "../../components/Dialog";
 import { useSellerMutations } from "../hooks/useSellerMutations";
-import Card from "../../components/Card";
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
 import { useEvent } from "../../event/hooks/useEvent";
@@ -15,6 +14,9 @@ import Accordion from "../../components/Accordion";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Tooltip from "../../components/Tooltip";
+import Card2 from "../../components/Card2";
+import NavAction from "../../components/NavAction";
+import Avatar from "../../components/Avatar";
 
 export default function SellerDetailPage() {
   const navigate = useNavigate();
@@ -32,69 +34,27 @@ export default function SellerDetailPage() {
     ev?.allSellers?.filter((se: SellerOutputDto) => se.id === sellerId),
   );
 
-  // const {
-  //   queryProducts: { data: products },
-  // } = useProduct();
-
   const { deleteSeller } = useSellerMutations();
 
-  // const currentSeller =
-  //   currentEvent ??
-  //   currentEvent.allSellers.filter((se: any) => se?.id === sellerId);
-  // const allSalesBySeller = currentEvent?.sales.filter(
-  //   (sa: any) => sa.sellerId === sellerId,
-  // );
   if (isLoading) return <Spin />;
   if (error) return "An error has occurred: " + error.message;
 
   return (
     <>
-      <FlexSection>
-        <Card
-          key={seller?.id}
-          icon="bxs:user"
-          color={"blue"}
-          isSelected
-          header={
-            <>
-              <FlexSection className="items-start">
-                <InfoLine value={seller?.name} size="base" />
-                <InfoLine label="E-mail:" value={seller?.email} size="sm" />
-                <InfoLine
-                  label="Telefone:"
-                  value={fieldFormatter.phone(seller.phone ?? "")}
-                  size="sm"
-                />
-              </FlexSection>
-            </>
-          }
-          footer={
-            <>
-              <Tooltip info="Voltar">
-                <div
-                  className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-                  onClick={() => navigate(-1)}
-                >
-                  <Icon icon="hugeicons:link-backward" width="20" />
-                </div>
-              </Tooltip>
-              <Modal id="SellerDetailPageSellerForm" icon="carbon:edit">
-                <SellerForm seller={seller} />
-              </Modal>
-              <Modal
-                id="SellerDetailPageDeleteSellerForm"
-                icon="carbon:trash-can"
-              >
-                <Dialog
-                  message="Deseja excluir o vendedor?"
-                  onClick={() => {
-                    deleteSeller.mutate({ sellerId: seller?.id }), navigate(-1);
-                  }}
-                />
-              </Modal>
-            </>
-          }
-        >
+      <Card2 className="bg-blue">
+        <section className="p-4">
+          <header className="flex gap-2">
+            <Avatar icon="bxs:user" />
+            <FlexSection className="items-start">
+              <InfoLine value={seller?.name} size="base" />
+              <InfoLine label="E-mail:" value={seller?.email} size="sm" />
+              <InfoLine
+                label="Telefone:"
+                value={fieldFormatter.phone(seller.phone ?? "")}
+                size="sm"
+              />
+            </FlexSection>
+          </header>
           <Accordion
             title={<div>Meus eventos</div>}
             content={sellerEvents?.map((ev: EventOutputDto, index: number) => (
@@ -112,8 +72,29 @@ export default function SellerDetailPage() {
               </div>
             ))}
           />
-        </Card>
-      </FlexSection>
+        </section>
+        <NavAction>
+          <Tooltip info="Voltar">
+            <div
+              className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+              onClick={() => navigate(-1)}
+            >
+              <Icon icon="hugeicons:link-backward" width="20" />
+            </div>
+          </Tooltip>
+          <Modal id="SellerDetailPageSellerForm" icon="carbon:edit">
+            <SellerForm seller={seller} />
+          </Modal>
+          <Modal id="SellerDetailPageDeleteSellerForm" icon="carbon:trash-can">
+            <Dialog
+              message="Deseja excluir o vendedor?"
+              onClick={() => {
+                deleteSeller.mutate({ sellerId: seller?.id }), navigate(-1);
+              }}
+            />
+          </Modal>
+        </NavAction>
+      </Card2>
     </>
   );
 }
