@@ -32,6 +32,11 @@ export default function PartnerPage() {
   //   return AccessModal;
   // }
 
+  const isPartnerSuspended =
+    data?.status === "SUSPENDED"
+      ? { tittle: "SUSPENSO", color: "red" }
+      : { tittle: "ATIVO", color: "green" };
+
   return (
     <section
       className={`my-2 rounded-lg ${data.plan === "FREE" ? "bg-bronze" : data.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
@@ -56,11 +61,17 @@ export default function PartnerPage() {
         </FlexSection>
 
         <FlexSection className="w-full flex-row rounded-lg border border-gray-500/15 p-2">
-          <InfoLine label="Status:" value={data.status} line="col" />
+          <InfoLine
+            label="Status:"
+            value={isPartnerSuspended.tittle}
+            color={isPartnerSuspended.color}
+            line="col"
+          />
 
           <InfoLine
             label="Acesso até:"
             value={formatDate(data.accessExpiresAt)}
+            color={isPartnerSuspended.color}
             line="col"
           />
         </FlexSection>

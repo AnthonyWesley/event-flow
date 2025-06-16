@@ -59,7 +59,7 @@ export function InfoLine({
     >
       {label && (
         <p
-          className={` ${line === "line" ? "mt-1" : "relative top-1"} mr-auto italic opacity-40 ${textSizes[size].label}`}
+          className={` ${line === "line" ? "mt-1" : "relative top-1"} mr-auto italic opacity-70 ${textSizes[size].label}`}
         >
           {label}
         </p>

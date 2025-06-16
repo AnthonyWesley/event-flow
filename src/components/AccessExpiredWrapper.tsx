@@ -1,10 +1,11 @@
 import { useState } from "react";
 import usePartner from "../partner/hooks/usePartner";
 
-function expiredDate(date?: Date | string): boolean {
-  if (!date) return false;
-  return new Date(date) <= new Date();
-}
+const suspendedPartner = (status: "ACTIVE" | "SUSPENDED") => {
+  if (status === "SUSPENDED") return true;
+  if (status === "ACTIVE") return false;
+  return status;
+};
 
 type AccessExpiredWrapperProps = {
   children: React.ReactNode;
@@ -20,8 +21,13 @@ export default function AccessExpiredWrapper({
     queryPartner: { data: partner },
   } = usePartner();
 
+  // const handleClick = () => {
+  //   if (expiredDate(partner?.accessExpiresAt)) {
+  //     setIsOpen(true);
+  //   }
+  // };
   const handleClick = () => {
-    if (expiredDate(partner?.accessExpiresAt)) {
+    if (suspendedPartner(partner?.status)) {
       setIsOpen(true);
     }
   };
@@ -31,7 +37,7 @@ export default function AccessExpiredWrapper({
       <section onClick={handleClick} className="w-full">
         <div
           className={`w-full transition-opacity ${
-            !expiredDate(partner?.accessExpiresAt)
+            !suspendedPartner(partner?.status)
               ? "cursor-pointer opacity-100 select-auto"
               : "pointer-events-none cursor-not-allowed opacity-90 select-none"
           } ${className}`}

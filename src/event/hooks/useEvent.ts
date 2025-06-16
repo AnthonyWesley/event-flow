@@ -29,7 +29,5 @@ export function useEvent(eventId?: string, search?: string) {
       isAuthenticated && !!eventId && queryEvent.data?.allSellers.length > 0,
   });
 
-  console.log(queryEvent?.data);
-
   return { queryEvents, queryEvent, currentEvent, querySellersByEvents };
 }
