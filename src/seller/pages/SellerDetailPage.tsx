@@ -41,7 +41,7 @@ export default function SellerDetailPage() {
 
   return (
     <>
-      <Card2 className="bg-blue">
+      <Card2 className="bg-blue my-2 pl-1">
         <section className="p-4">
           <header className="flex gap-2">
             <Avatar icon="bxs:user" />
@@ -60,7 +60,7 @@ export default function SellerDetailPage() {
             content={sellerEvents?.map((ev: EventOutputDto, index: number) => (
               <div
                 key={index}
-                className="flex items-center justify-between border-b border-gray-500/15 py-2"
+                className="flex items-center justify-between py-2"
               >
                 <InfoLine label="Evento:" value={ev.name} line="col" />
                 <Icon

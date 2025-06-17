@@ -20,7 +20,7 @@ export default function NavAction({
   const desktopPositionStyles = {
     horizontal:
       "lg:static lg:flex lg:h-full lg:w-full lg:flex-row lg:rounded-lg",
-    vertical: "lg:static lg:flex lg:h-[75vh] lg:w-20 lg:flex-col lg:rounded-lg",
+    vertical: "lg:static lg:flex  lg:w-20 lg:flex-col lg:rounded-lg",
   };
 
   return (

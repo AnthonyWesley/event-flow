@@ -15,6 +15,7 @@ import CopyToClipboard from "../../components/CopyToClipboard";
 import { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar";
 import PremiumFeature from "../../components/PremiumFeature";
+import Card2 from "../../components/Card2";
 
 interface SellerDetailByEventProps {
   seller: {
@@ -64,120 +65,119 @@ export default function SellerDetailByEvent({
   }, []);
 
   return (
-    <div className="w-full bg-slate-900 p-2">
-      <FlexSection className="flex-row">
-        <Avatar name={seller?.name} />
-
-        <FlexSection className="items-start">
-          <Accordion
-            title={<InfoLine value={seller?.name} size="base" />}
-            content={
-              <>
-                <InfoLine
-                  label="E-mail:"
-                  value={seller.email}
-                  size="sm"
-                  line="col"
-                />
-                <InfoLine
-                  label="Telefone:"
-                  value={seller.phone}
-                  size="sm"
-                  line="col"
-                />
-              </>
-            }
-          />
-          <PremiumFeature>
+    <Card2 className="bg-blue flex w-full flex-col gap-2 pl-1">
+      <Accordion
+        title={
+          <header className="flex w-full items-center justify-between gap-2">
+            <Avatar name={seller?.name} />
             <div className="mr-auto">
-              <CopyToClipboard
-                // text={`https://event-flow-api.vercel.app/events/${event.id}/guest/${seller.id}`}
-                text={`https://event-flow-awl.netlify.app/events/${event.id}/guest/${seller.id}?token=${token}`}
-                label="Copiar Convite"
-              />
+              <InfoLine value={seller?.name} size="base" />
             </div>
-          </PremiumFeature>
+            <div className="flex w-20 items-start justify-end border-l border-l-gray-500/15 pl-2 text-4xl">
+              <h1> {index}</h1>
+              <p className="text-base">º</p>
+            </div>
+          </header>
+        }
+        content={
+          <section className="p-2">
+            <InfoLine
+              label="E-mail:"
+              value={seller.email}
+              size="sm"
+              line="col"
+            />
+            <InfoLine
+              label="Telefone:"
+              value={seller.phone}
+              size="sm"
+              line="col"
+            />
+            <PremiumFeature>
+              <div className="mr-auto">
+                <CopyToClipboard
+                  // text={`https://event-flow-api.vercel.app/events/${event.id}/guest/${seller.id}`}
+                  text={`https://event-flow-awl.netlify.app/events/${event.id}/guest/${seller.id}?token=${token}`}
+                  label="Copiar Convite"
+                />
+              </div>
+            </PremiumFeature>
+          </section>
+        }
+      />
+
+      {/* <InfoLine label="Vendas:" value={event?.name} /> */}
+      <section className="flex items-center justify-between p-2">
+        <CircularProgress total={sellerGoal} current={currentProgress} />
+        <FlexSection className="items-start">
+          <InfoLine
+            label="Meta:"
+            value={goalLabel}
+            icon={!isValueGoal ? "iconoir:box-iso" : ""}
+            color={goalColor}
+          />
+
+          <InfoLine
+            label="Vendas:"
+            value={seller.totalSalesCount}
+            icon="iconoir:box-iso"
+            color={!isValueGoal ? goalColor : ""}
+          />
+
+          <InfoLine
+            label="Total:"
+            value={currencyFormatter.ToBRL(seller.totalSalesValue)}
+            color={isValueGoal ? goalColor : ""}
+          />
         </FlexSection>
-        <div className="ml-auto flex w-20 items-start justify-center border-l border-l-gray-500/15 pl-2 text-4xl">
-          <h1> {index}</h1>
-          <p className="text-base">º</p>
+        <div className="ml-auto flex flex-col gap-2">
+          <Modal
+            id="SellerDetailByEventSellerForm"
+            info="Editar"
+            icon="carbon:edit"
+          >
+            <SellerForm seller={seller} />
+          </Modal>
+          <Modal
+            id="SellerDetailByEventDeleteForm"
+            info="Deletar"
+            icon="carbon:trash-can"
+          >
+            <Dialog
+              message="Deseja excluir o vendedor?"
+              onClick={() => {
+                deleteSeller.mutate(
+                  {
+                    sellerId: seller.id,
+                    eventId: event.id,
+                  },
+                  { onSuccess: () => closeModal(seller.id) },
+                );
+              }}
+            />
+          </Modal>
         </div>
-      </FlexSection>
-
-      <FlexSection>
-        <FlexSection className="w-full flex-row justify-start border-t border-b border-gray-400/15">
-          {/* <InfoLine label="Vendas:" value={event?.name} /> */}
-          <CircularProgress total={sellerGoal} current={currentProgress} />
-          <FlexSection className="items-start">
-            <InfoLine
-              label="Meta:"
-              value={goalLabel}
-              icon={!isValueGoal ? "iconoir:box-iso" : ""}
-              color={goalColor}
-            />
-
-            <InfoLine
-              label="Vendas:"
-              value={seller.totalSalesCount}
-              icon="iconoir:box-iso"
-              color={!isValueGoal ? goalColor : ""}
-            />
-
-            <InfoLine
-              label="Total:"
-              value={currencyFormatter.ToBRL(seller.totalSalesValue)}
-              color={isValueGoal ? goalColor : ""}
-            />
-          </FlexSection>
-          <div className="ml-auto flex flex-col gap-2">
-            <Modal
-              id="SellerDetailByEventSellerForm"
-              info="Editar"
-              icon="carbon:edit"
-            >
-              <SellerForm seller={seller} />
-            </Modal>
-            <Modal
-              id="SellerDetailByEventDeleteForm"
-              info="Deletar"
-              icon="carbon:trash-can"
-            >
-              <Dialog
-                message="Deseja excluir o vendedor?"
-                onClick={() => {
-                  deleteSeller.mutate(
-                    {
-                      sellerId: seller.id,
-                      eventId: event.id,
-                    },
-                    { onSuccess: () => closeModal(seller.id) },
-                  );
-                }}
-              />
-            </Modal>
-          </div>
-        </FlexSection>
-        <Accordion
-          title={<h1 className="text-gray-400">Vendas</h1>}
-          content={
-            <>
-              <FlexSection className="max-h-[35vh] overflow-y-scroll">
-                {allSalesBySeller && allSalesBySeller.length > 0 ? (
-                  <SaleList
-                    sales={allSalesBySeller}
-                    sellers={[seller]}
-                    products={products}
-                  />
-                ) : (
-                  <p className="text-sm text-gray-500">
-                    Nenhuma venda registrada.
-                  </p>
-                )}
-              </FlexSection>
-            </>
-          }
-        />
-      </FlexSection>
-    </div>
+      </section>
+      <Accordion
+        title={<h1 className="text-gray-400">Vendas</h1>}
+        content={
+          <>
+            <FlexSection className="max-h-[35vh] overflow-y-scroll">
+              {allSalesBySeller && allSalesBySeller.length > 0 ? (
+                <SaleList
+                  sales={allSalesBySeller}
+                  sellers={[seller]}
+                  products={products}
+                />
+              ) : (
+                <p className="text-sm text-gray-500">
+                  Nenhuma venda registrada.
+                </p>
+              )}
+            </FlexSection>
+          </>
+        }
+      />
+    </Card2>
   );
 }

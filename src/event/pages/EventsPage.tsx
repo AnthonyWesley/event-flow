@@ -131,7 +131,7 @@ export default function EventsPage() {
                           } hover:shadow-[0_0_10px_#dfb005]`}
                           onClick={() => navigate(`/events/${event.id}`)}
                         >
-                          <div className="mx-auto mt-4 flex flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
+                          <div className="mx-auto mt-2 flex flex-col place-items-center gap-4 rounded-lg bg-slate-900 p-4">
                             <HeaderRanking event={event} />
                             <FlexSection className="w-full flex-row justify-between border-t border-gray-500/15">
                               <InfoLine

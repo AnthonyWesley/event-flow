@@ -6,7 +6,7 @@ interface AccordionProps {
   content: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
-  startOpen?: boolean; // nova prop
+  startOpen?: boolean;
   className?: string;
 }
 
@@ -41,19 +41,21 @@ export default function Accordion({
   }, [isOpen, content]);
 
   return (
-    <div className={`w-full overflow-hidden rounded-b-lg`}>
+    <div
+      className={`my-1 w-full overflow-hidden rounded-lg border border-gray-500/15 p-2`}
+      onClick={() => setIsOpen((prev) => !prev)}
+    >
       <div
-        className={`flex w-full items-center justify-between rounded-b-lg text-white focus:outline-none ${className}`}
+        className={`flex w-full items-center justify-between text-white focus:outline-none ${className}`}
       >
         {title ?? ""}
 
         {!icon && (
           <Icon
             icon="line-md:chevron-small-left"
-            className="cursor-pointer rounded-sm transition-transform duration-500 lg:hidden"
+            className={`"cursor-pointer rounded-sm transition-transform duration-500 ${isOpen ? "animate-pulse text-cyan-400" : ""}`}
             style={{ transform: isOpen ? "rotate(270deg)" : "rotate(0deg)" }}
             width={30}
-            onClick={() => setIsOpen((prev) => !prev)}
           />
         )}
         {icon && (

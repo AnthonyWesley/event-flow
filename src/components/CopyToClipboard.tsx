@@ -24,7 +24,7 @@ export default function CopyToClipboard({
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-2 text-sm text-blue-600 hover:underline"
+      className="flex items-center gap-2 text-base text-blue-600 hover:underline"
     >
       {copied ? "Copiado!" : label}
     </button>

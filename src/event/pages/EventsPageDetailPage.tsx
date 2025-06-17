@@ -19,6 +19,7 @@ import { goalUtils } from "../../helpers/goalUtils";
 import Accordion from "../../components/Accordion";
 import NavAction from "../../components/NavAction";
 import PremiumFeature from "../../components/PremiumFeature";
+import Card2 from "../../components/Card2";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -43,7 +44,7 @@ export default function EventsPageDetailPage() {
 
   return (
     <>
-      <section className="w-full">
+      <Card2 className="bg-gold my-2 w-full pl-1">
         <div className="flex w-full justify-between rounded-lg p-2">
           <InfoLine label="Evento:" value={event?.name} />
         </div>
@@ -225,7 +226,7 @@ export default function EventsPageDetailPage() {
             />
           </Modal>
         </NavAction>
-      </section>
+      </Card2>
     </>
   );
 }

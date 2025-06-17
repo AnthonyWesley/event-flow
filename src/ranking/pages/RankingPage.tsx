@@ -221,7 +221,7 @@ export default function RankingPage() {
 
           {/* Ações */}
           <GameDisplay className="mt-2">
-            <NavAction position="vertical">
+            <NavAction position="vertical" className="lg:h-[75vh]">
               <Tooltip
                 info={list === "SALES" ? "Vendas" : "Vendedores"}
                 className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100"
