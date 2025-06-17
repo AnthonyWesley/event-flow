@@ -5,12 +5,14 @@ type ApproveOrRejectType = {
   approve: boolean;
 };
 export type PlanType = "FREE" | "BASIC" | "PREMIUM";
+export type PartnerStatus = "ACTIVE" | "SUSPENDED";
 export type PartnerOutputDto = {
   id: string;
   name: string;
   email: string;
   phone: string;
   plan: PlanType;
+  status: PartnerStatus;
   maxConcurrentEvents: number;
   createdAt: Date;
 };

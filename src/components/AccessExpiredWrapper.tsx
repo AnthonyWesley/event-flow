@@ -10,34 +10,34 @@ const suspendedPartner = (status: "ACTIVE" | "SUSPENDED") => {
 type AccessExpiredWrapperProps = {
   children: React.ReactNode;
   className?: string;
+  admin?: boolean;
 };
 
 export default function AccessExpiredWrapper({
   children,
   className,
+  admin = false,
 }: AccessExpiredWrapperProps) {
   const [isOpen, setIsOpen] = useState(false);
   const {
     queryPartner: { data: partner },
   } = usePartner();
 
-  // const handleClick = () => {
-  //   if (expiredDate(partner?.accessExpiresAt)) {
-  //     setIsOpen(true);
-  //   }
-  // };
   const handleClick = () => {
-    if (suspendedPartner(partner?.status)) {
+    if (suspendedPartner(partner?.status) && !admin) {
       setIsOpen(true);
     }
   };
+
+  const isSuspended = suspendedPartner(partner?.status);
+  const isBlocked = isSuspended && !admin;
 
   return (
     <>
       <section onClick={handleClick} className="w-full">
         <div
           className={`w-full transition-opacity ${
-            !suspendedPartner(partner?.status)
+            !isBlocked
               ? "cursor-pointer opacity-100 select-auto"
               : "pointer-events-none cursor-not-allowed opacity-90 select-none"
           } ${className}`}

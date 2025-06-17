@@ -9,6 +9,7 @@ import Tooltip from "../../components/Tooltip";
 import NavAction from "../../components/NavAction";
 import Dialog from "../../components/Dialog";
 import { useNavigate } from "react-router-dom";
+import { usePartnerMutations } from "../../partner/hooks/usePartnerMutations";
 
 export default function AdmPage() {
   const navigate = useNavigate();
@@ -18,12 +19,29 @@ export default function AdmPage() {
   } = useAdm();
   // const navigate = useNavigate();
   const { accessPartner } = useAdmMutate();
+  const { update } = usePartnerMutations();
 
   if (isPending) return <Spin />;
   if (error) return "An error has occurred: " + error.message;
 
   const handleAccessPartner = (partner: PartnerOutputDto) => {
     accessPartner.mutate(partner.id);
+  };
+
+  const handleStatusPartner = (partner: PartnerOutputDto) => {
+    console.log(partner.status);
+
+    if (partner.id)
+      update.mutate({
+        id: partner?.id,
+        data: {
+          name: partner.name,
+          email: partner.email,
+          phone: partner.phone,
+          plan: partner.plan,
+          status: partner.status === "ACTIVE" ? "SUSPENDED" : "ACTIVE",
+        },
+      });
   };
 
   // const logout = () => {
@@ -35,6 +53,7 @@ export default function AdmPage() {
     localStorage.removeItem("accessToken");
     navigate("/adm");
   };
+
   return (
     <>
       <div className="w-full overflow-x-auto">
@@ -89,14 +108,39 @@ export default function AdmPage() {
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td className="flex gap-2 p-2">
+                  <Modal
+                    id="EventsPageEventToggleForm"
+                    info={
+                      user?.status === "ACTIVE"
+                        ? "Ativar evento"
+                        : "Desativar evento"
+                    }
+                    icon={
+                      <Icon
+                        icon="lets-icons:on-button"
+                        width="20"
+                        className={
+                          user?.status === "SUSPENDED"
+                            ? "text-slate-400"
+                            : "text-green-500"
+                        }
+                      />
+                    }
+                  >
+                    <Dialog
+                      message={
+                        user?.status === "ACTIVE"
+                          ? "Reativar parceiro?"
+                          : "Suspender parceiro?"
+                      }
+                      onClick={() => handleStatusPartner(user)}
+                      color="bg-green"
+                      admin
+                    />
+                  </Modal>
                   <Modal id="AdmPageForm" icon="carbon:edit" info="Editar">
                     <PartnerForm partner={user} isAdmin />
                   </Modal>
-                  <Modal
-                    id="AdmPageDeleteForm"
-                    icon="carbon:trash-can"
-                    info="Deletar"
-                  ></Modal>
 
                   <Tooltip info="Logar">
                     <div
