@@ -65,6 +65,18 @@ export const eventService = {
     const response = await partnerApi.delete(`/events/${eventId}`);
     return response.data.events;
   },
+  export: async (eventId: string) => {
+    const response = await partnerApi.get(`/events/${eventId}/export`, {
+      responseType: "blob", // importantíssimo
+    });
+
+    const blob = new Blob([response.data], { type: "application/pdf" });
+
+    return {
+      blob,
+      fileName: `relatorio-evento-${eventId}.pdf`,
+    };
+  },
 
   switchStatus: async (eventId: string) => {
     const response = await partnerApi.patch(`/events/${eventId}/toggle-end`);

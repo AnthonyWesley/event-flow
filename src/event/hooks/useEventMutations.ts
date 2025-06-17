@@ -78,7 +78,33 @@ export function useEventMutations() {
     },
   });
 
+  const exportEvent = useMutation({
+    mutationFn: eventService.export,
+    onSuccess: ({ blob, fileName }) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Evento exportado com sucesso!");
+      closeModal("LeadPageDeleteForm");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["leadsData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadData"] });
+      queryClient.invalidateQueries({ queryKey: ["leadsByEventData"] });
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.data?.message || "Erro ao exportar evento");
+    },
+  });
+
   return {
+    exportEvent,
     toggleStatus,
     deleteEvent,
     createOrUpdate,

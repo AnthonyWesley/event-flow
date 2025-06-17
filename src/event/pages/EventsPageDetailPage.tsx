@@ -20,6 +20,7 @@ import Accordion from "../../components/Accordion";
 import NavAction from "../../components/NavAction";
 import PremiumFeature from "../../components/PremiumFeature";
 import Card2 from "../../components/Card2";
+import { toast } from "react-toastify";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -33,15 +34,21 @@ export default function EventsPageDetailPage() {
     queryEvent: { isPending, error, data: event },
   } = useEvent(eventId);
 
-  // const {
-  //   queryProduct: { data: product },
-  // } = useProduct();
-
-  const { deleteEvent, toggleStatus } = useEventMutations();
+  const { deleteEvent, toggleStatus, exportEvent } = useEventMutations();
 
   if (isPending) return <Spin />;
   if (error) return "An error has occurred: " + error.message;
 
+  const handleEventExport = (id: string) => {
+    if (event?.isActive) {
+      toast.warning(
+        "Somente pode baixar relatório se o evento estiver finalizado.",
+      );
+      return;
+    } else {
+      exportEvent.mutate(id);
+    }
+  };
   return (
     <>
       <Card2 className="bg-gold my-2 w-full pl-1">
@@ -177,7 +184,7 @@ export default function EventsPageDetailPage() {
             <PremiumFeature>
               <div
                 className="cursor-pointer rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-                // onClick={() => navigate(-1)}
+                onClick={() => handleEventExport(event.id)}
               >
                 <Icon icon="line-md:file-download" width="30" />
               </div>
@@ -204,6 +211,7 @@ export default function EventsPageDetailPage() {
               }}
             />
           </Modal>
+
           <Modal
             id="EventsPageEventToggleForm"
             info={!event?.isActive ? "Ativar evento" : "Desativar evento"}
