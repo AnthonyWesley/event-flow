@@ -27,6 +27,20 @@ export const admService = {
     return response.data.accessToken;
   },
 
+  active: async (partnerId: string) => {
+    const response = await admApi.get(`/impersonate/${partnerId}`);
+    localStorage.setItem("accessToken", response.data.accessToken);
+
+    return response.data.accessToken;
+  },
+
+  suspend: async (partnerId: string) => {
+    const response = await admApi.get(`/impersonate/${partnerId}`);
+    localStorage.setItem("accessToken", response.data.accessToken);
+
+    return response.data.accessToken;
+  },
+
   // register: async (data: RegisterPayload) => {
   //   try {
   //     const response = await partnerApi.post("/admin/register", {

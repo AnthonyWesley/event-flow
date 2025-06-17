@@ -31,5 +31,31 @@ export default function useAdmMutate() {
         toast.error(error.response?.data?.message || "Erro ao fazer login");
     },
   });
-  return { login, accessPartner };
+
+  const activePartner = useMutation({
+    mutationFn: admService.impersonate,
+    onSuccess: () => {
+      navigate("/");
+    },
+    onError: (error: any) => {
+      if (error.response.status === 401) {
+        toast.error("E-mail ou senha incorreta.");
+      } else
+        toast.error(error.response?.data?.message || "Erro ao fazer login");
+    },
+  });
+  const suspendPartner = useMutation({
+    mutationFn: admService.impersonate,
+    onSuccess: () => {
+      navigate("/");
+    },
+    onError: (error: any) => {
+      if (error.response.status === 401) {
+        toast.error("E-mail ou senha incorreta.");
+      } else
+        toast.error(error.response?.data?.message || "Erro ao fazer login");
+    },
+  });
+
+  return { login, accessPartner, activePartner, suspendPartner };
 }
