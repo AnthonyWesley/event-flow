@@ -28,17 +28,17 @@ export const admService = {
   },
 
   active: async (partnerId: string) => {
-    const response = await admApi.get(`/impersonate/${partnerId}`);
-    localStorage.setItem("accessToken", response.data.accessToken);
+    console.log(partnerId);
 
-    return response.data.accessToken;
+    const response = await admApi.put(`/partners/${partnerId}/activate`);
+
+    return response.data;
   },
 
   suspend: async (partnerId: string) => {
-    const response = await admApi.get(`/impersonate/${partnerId}`);
-    localStorage.setItem("accessToken", response.data.accessToken);
+    const response = await admApi.put(`/partners/${partnerId}/suspend`);
 
-    return response.data.accessToken;
+    return response.data;
   },
 
   // register: async (data: RegisterPayload) => {

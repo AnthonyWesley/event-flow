@@ -18,7 +18,7 @@ export default function AdmPage() {
     queryPartners: { isPending, error, data },
   } = useAdm();
   // const navigate = useNavigate();
-  const { accessPartner } = useAdmMutate();
+  const { accessPartner, activePartner, suspendPartner } = useAdmMutate();
   const { update } = usePartnerMutations();
 
   if (isPending) return <Spin />;
@@ -29,17 +29,11 @@ export default function AdmPage() {
   };
 
   const handleStatusPartner = (partner: PartnerOutputDto) => {
-    if (partner.id)
-      update.mutate({
-        id: partner?.id,
-        data: {
-          name: partner.name,
-          email: partner.email,
-          phone: partner.phone,
-          plan: partner.plan,
-          status: partner.status === "ACTIVE" ? "SUSPENDED" : "ACTIVE",
-        },
-      });
+    if (partner.status === "SUSPENDED") {
+      activePartner.mutate(partner.id);
+    } else {
+      suspendPartner.mutate(partner.id);
+    }
   };
 
   const logout = () => {
@@ -73,34 +67,39 @@ export default function AdmPage() {
           </NavAction>
         </header>
 
-        <table className="w-full table-fixed text-sm">
+        <table className="w-full text-sm">
           <thead className="rounded-sm bg-slate-900">
-            <tr className="border-l-8">
-              <th className="w-35 p-2 text-left">Nome</th>
-              <th className="w-45 p-2 text-left">Email</th>
-              <th className="w-35 p-2 text-left">Telefone</th>
-              <th className="w-35 p-2 text-left">Plano</th>
-              <th className="w-35 p-2 text-left">Criado em</th>
-              <th className="w-35 p-2 text-left">Ações</th>
+            <tr className="w-full border-l-8">
+              <th className="p-2 text-left">Nome</th>
+              <th className="p-2 text-left">Email</th>
+              <th className="p-2 text-left">Telefone</th>
+              <th className="p-2 text-left">Plano</th>
+              <th className="p-2 text-left">Expirado em</th>
+              <th className="p-2 text-left">Criado em</th>
+              <th className="p-2 text-left">Ações</th>
             </tr>
           </thead>
           <tbody className="rounded-lg border-b border-gray-500/15">
             {data.map((user: PartnerOutputDto) => (
               <tr
                 key={user.id}
-                className={`rounded-sm border-l-8 hover:bg-slate-700 ${user.plan === "FREE" ? "border-amber-600" : user.plan === "BASIC" ? "border-slate-300" : "border-amber-300"}`}
+                className={`${user.status === "SUSPENDED" ? "opacity-50" : ""} rounded-sm border-l-8 hover:bg-slate-700 ${user.plan === "FREE" ? "border-amber-600" : user.plan === "BASIC" ? "border-slate-300" : "border-amber-300"}`}
               >
-                <td className="w-35 p-2">{user.name}</td>
-                <td className="w-45 p-2">{user.email}</td>
-                <td className="w-35 p-2">{user.phone}</td>
+                <td className="max-w-[200px] truncate p-2">{user.name}</td>
+                <td className="max-w-[200px] truncate p-2">{user.email}</td>
+                <td className="p-2">{user.phone}</td>
                 <td
-                  className={`w-35 rounded-lg p-2 ${user.plan === "FREE" ? "bg-bronze" : user.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
+                  className={`rounded-lg p-2 ${user.plan === "FREE" ? "bg-bronze" : user.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
                 >
                   {user.plan}
                 </td>
-                <td className="w-35 p-2">
+                <td className="p-2">
+                  {new Date(user.accessExpiresAt).toLocaleDateString()}
+                </td>
+                <td className="p-2">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
+
                 <td className="flex gap-2 p-2">
                   <Modal
                     id="AdminToggleForm"

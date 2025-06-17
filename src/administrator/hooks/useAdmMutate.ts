@@ -1,9 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { admService } from "../services/admService";
 import { useNavigate } from "react-router-dom";
+import { useModalStore } from "../../store/useModalStore";
 
 export default function useAdmMutate() {
+  const queryClient = useQueryClient();
+  const { closeModal } = useModalStore();
+
   const navigate = useNavigate();
 
   const login = useMutation({
@@ -24,6 +28,7 @@ export default function useAdmMutate() {
     onSuccess: () => {
       navigate("/");
     },
+
     onError: (error: any) => {
       if (error.response.status === 401) {
         toast.error("E-mail ou senha incorreta.");
@@ -33,27 +38,29 @@ export default function useAdmMutate() {
   });
 
   const activePartner = useMutation({
-    mutationFn: admService.impersonate,
+    mutationFn: admService.active,
     onSuccess: () => {
-      navigate("/");
+      toast.success("Parceiro ativo!");
+
+      closeModal("AdminToggleForm");
     },
-    onError: (error: any) => {
-      if (error.response.status === 401) {
-        toast.error("E-mail ou senha incorreta.");
-      } else
-        toast.error(error.response?.data?.message || "Erro ao fazer login");
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["partnerData"] });
+      queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["partnersData"] });
     },
   });
   const suspendPartner = useMutation({
-    mutationFn: admService.impersonate,
+    mutationFn: admService.suspend,
     onSuccess: () => {
-      navigate("/");
+      toast.success("Parceiro suspenso!");
+
+      closeModal("AdminToggleForm");
     },
-    onError: (error: any) => {
-      if (error.response.status === 401) {
-        toast.error("E-mail ou senha incorreta.");
-      } else
-        toast.error(error.response?.data?.message || "Erro ao fazer login");
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["partnerData"] });
+      queryClient.invalidateQueries({ queryKey: ["eventsData"] });
+      queryClient.invalidateQueries({ queryKey: ["partnersData"] });
     },
   });
 

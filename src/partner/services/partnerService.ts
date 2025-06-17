@@ -15,6 +15,7 @@ export type PartnerOutputDto = {
   status: PartnerStatus;
   maxConcurrentEvents: number;
   createdAt: Date;
+  accessExpiresAt: Date;
 };
 export const partnerService = {
   findPartner: async () => {

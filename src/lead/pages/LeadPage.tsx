@@ -60,18 +60,18 @@ export default function LeadPage() {
       ) : (
         <div className="overflow-hidden rounded-lg border border-gray-500/15 text-sm">
           <div className="max-h-[60vh] overflow-x-auto overflow-y-auto">
-            <table className="min-w-[1200px] table-fixed text-left">
+            <table className="table-fixed text-left">
               <thead className="w-full bg-slate-900 font-semibold">
                 <tr>
-                  <th className="w-35 p-2">Nome</th>
-                  <th className="w-45 p-2">Email</th>
-                  <th className="w-35 p-2">Telefone</th>
-                  <th className="w-35 p-2">Origem</th>
-                  <th className="w-35 p-2">Interesse nº1</th>
-                  <th className="w-35 p-2">Interesse nº2</th>
-                  <th className="w-35 p-2">Interesse nº3</th>
-                  <th className="w-35 p-2">Criado em</th>
-                  <th className="shadow-left sticky right-0 z-20 w-35 bg-slate-900 p-2">
+                  <th className="p-2">Nome</th>
+                  <th className="p-2">Email</th>
+                  <th className="p-2">Telefone</th>
+                  <th className="p-2">Origem</th>
+                  <th className="p-2">Interesse nº1</th>
+                  <th className="p-2">Interesse nº2</th>
+                  <th className="p-2">Interesse nº3</th>
+                  <th className="p-2">Criado em</th>
+                  <th className="shadow-left sticky right-0 z-20 bg-slate-900 p-2">
                     Ações
                   </th>
                 </tr>
@@ -82,18 +82,20 @@ export default function LeadPage() {
                     key={lead.id}
                     className="w-full border-t border-gray-500/15 hover:bg-slate-700"
                   >
-                    <td className="w-35 p-2">{lead.name}</td>
-                    <td className="w-45 p-2">{lead.email || "-"}</td>
-                    <td className="w-35 p-2">
+                    <td className="max-w-[220px] truncate p-2">{lead.name}</td>
+                    <td className="max-w-[200px] truncate p-2">
+                      {lead.email || "-"}
+                    </td>
+                    <td className="p-2">
                       {fieldFormatter.phone(lead.phone || "-")}
                     </td>
-                    <td className="w-35 p-2">{lead.source}</td>
+                    <td className="p-2">{lead.source}</td>
                     {[0, 1, 2].map((i) => (
-                      <td key={i} className="w-35 p-2">
+                      <td key={i} className="p-2">
                         {lead.products[i]?.name || "-"}
                       </td>
                     ))}
-                    <td className="w-35 p-2">
+                    <td className="p-2">
                       {new Date(lead.createdAt).toLocaleDateString()}
                     </td>
                     <td className="shadow-left sticky right-0 z-10 rounded-lg bg-slate-900 p-2">
