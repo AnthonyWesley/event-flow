@@ -5,12 +5,14 @@ export type DialogProps = {
   onClick: () => void;
   color?: string;
   admin?: boolean;
+  disabled?: boolean;
 };
 export default function Dialog({
   message,
   onClick,
   color,
   admin,
+  disabled,
 }: DialogProps) {
   const handleClick = () => {
     onClick();
@@ -23,6 +25,7 @@ export default function Dialog({
         <button
           className={`${color} bg-gray hover:bg-opacity-90 w-full rounded p-2 text-white`}
           onClick={handleClick}
+          disabled={disabled}
         >
           CONFIRMAR
         </button>

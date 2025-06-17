@@ -32,9 +32,10 @@ export function usePartnerMutations() {
     mutationFn: ({ id, data }: { id?: string; data: any }) =>
       partnerService.update(id ?? "", data),
     onSuccess: () => {
-      toast.success("Minhas informações atualizadas com sucesso!");
+      toast.success("Informações atualizadas com sucesso!");
       closeModal("PartnerPagePartnerForm");
       closeModal("AdmPageForm");
+      closeModal("AdminToggleForm");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["partnerData"] });

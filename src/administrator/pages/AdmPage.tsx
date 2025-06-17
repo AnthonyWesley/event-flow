@@ -29,8 +29,6 @@ export default function AdmPage() {
   };
 
   const handleStatusPartner = (partner: PartnerOutputDto) => {
-    console.log(partner.status);
-
     if (partner.id)
       update.mutate({
         id: partner?.id,
@@ -44,10 +42,6 @@ export default function AdmPage() {
       });
   };
 
-  // const logout = () => {
-  //   localStorage.removeItem("accessToken");
-  //   navigate("/auth");
-  // };
   const logout = () => {
     localStorage.removeItem("admAccessToken");
     localStorage.removeItem("accessToken");
@@ -75,19 +69,19 @@ export default function AdmPage() {
             <h1 className="test-center text-xl font-semibold text-cyan-400">
               ADMIN
             </h1>
-            <span>_</span>
+            <span>.</span>
           </NavAction>
         </header>
 
-        <table className="w-full text-sm">
+        <table className="w-full table-fixed text-sm">
           <thead className="rounded-sm bg-slate-900">
             <tr className="border-l-8">
-              <th className="p-4 text-left">Nome</th>
-              <th className="hidden p-4 text-left sm:table-cell">Email</th>
-              <th className="hidden p-4 text-left md:table-cell">Telefone</th>
-              <th className="p-4 text-left">Plano</th>
-              <th className="hidden p-4 text-left sm:table-cell">Criado em</th>
-              <th className="p-4 text-left">Ações</th>
+              <th className="w-35 p-2 text-left">Nome</th>
+              <th className="w-45 p-2 text-left">Email</th>
+              <th className="w-35 p-2 text-left">Telefone</th>
+              <th className="w-35 p-2 text-left">Plano</th>
+              <th className="w-35 p-2 text-left">Criado em</th>
+              <th className="w-35 p-2 text-left">Ações</th>
             </tr>
           </thead>
           <tbody className="rounded-lg border-b border-gray-500/15">
@@ -96,24 +90,24 @@ export default function AdmPage() {
                 key={user.id}
                 className={`rounded-sm border-l-8 hover:bg-slate-700 ${user.plan === "FREE" ? "border-amber-600" : user.plan === "BASIC" ? "border-slate-300" : "border-amber-300"}`}
               >
-                <td className="p-2">{user.name}</td>
-                <td className="hidden p-2 sm:table-cell">{user.email}</td>
-                <td className="hidden p-2 md:table-cell">{user.phone}</td>
+                <td className="w-35 p-2">{user.name}</td>
+                <td className="w-45 p-2">{user.email}</td>
+                <td className="w-35 p-2">{user.phone}</td>
                 <td
-                  className={`rounded-lg p-2 ${user.plan === "FREE" ? "bg-bronze" : user.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
+                  className={`w-35 rounded-lg p-2 ${user.plan === "FREE" ? "bg-bronze" : user.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
                 >
                   {user.plan}
                 </td>
-                <td className="hidden p-2 sm:table-cell">
+                <td className="w-35 p-2">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </td>
                 <td className="flex gap-2 p-2">
                   <Modal
-                    id="EventsPageEventToggleForm"
+                    id="AdminToggleForm"
                     info={
-                      user?.status === "ACTIVE"
-                        ? "Ativar evento"
-                        : "Desativar evento"
+                      user?.status === "SUSPENDED"
+                        ? "Ativar parceiro"
+                        : "Suspender parceiro"
                     }
                     icon={
                       <Icon
@@ -129,12 +123,13 @@ export default function AdmPage() {
                   >
                     <Dialog
                       message={
-                        user?.status === "ACTIVE"
+                        user?.status === "SUSPENDED"
                           ? "Reativar parceiro?"
                           : "Suspender parceiro?"
                       }
                       onClick={() => handleStatusPartner(user)}
                       color="bg-green"
+                      disabled={update.isPending}
                       admin
                     />
                   </Modal>

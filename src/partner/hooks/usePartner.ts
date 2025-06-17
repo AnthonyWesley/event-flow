@@ -8,6 +8,7 @@ export default function usePartner() {
     queryKey: ["partnerData"],
     queryFn: partnerService.findPartner,
     enabled: isAuthenticated,
+    refetchInterval: 5000,
   });
 
   const queryPartnerNotifications = useQuery({
