@@ -20,7 +20,7 @@ import Accordion from "../../components/Accordion";
 import NavAction from "../../components/NavAction";
 import PremiumFeature from "../../components/PremiumFeature";
 import Card2 from "../../components/Card2";
-import { toast } from "react-toastify";
+import EventReportPdfButton from "../components/EventReportPdfButton";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -34,21 +34,11 @@ export default function EventsPageDetailPage() {
     queryEvent: { isPending, error, data: event },
   } = useEvent(eventId);
 
-  const { deleteEvent, toggleStatus, exportEvent } = useEventMutations();
+  const { deleteEvent, toggleStatus } = useEventMutations();
 
   if (isPending) return <Spin />;
   if (error) return "An error has occurred: " + error.message;
 
-  const handleEventExport = (id: string) => {
-    if (event?.isActive) {
-      toast.warning(
-        "Somente pode baixar relatório se o evento estiver finalizado.",
-      );
-      return;
-    } else {
-      exportEvent.mutate(id);
-    }
-  };
   return (
     <>
       <Card2 className="bg-gold my-2 w-full pl-1">
@@ -182,12 +172,7 @@ export default function EventsPageDetailPage() {
           </Tooltip>
           <Tooltip info="Baixar relatório">
             <PremiumFeature>
-              <div
-                className="cursor-pointer rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-                onClick={() => handleEventExport(event.id)}
-              >
-                <Icon icon="line-md:file-download" width="30" />
-              </div>
+              <EventReportPdfButton event={event} products={products} />
             </PremiumFeature>
           </Tooltip>
 
