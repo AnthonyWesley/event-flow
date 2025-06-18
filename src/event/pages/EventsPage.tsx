@@ -41,29 +41,29 @@ export default function EventsPage() {
 
   const statusEvents: StatusEvent = {
     ACTIVE: events
-      ?.filter((event: EventOutputDto) => event.isActive)
+      ?.filter((event: EventOutputDto) => event?.isActive)
       .sort(
         (a: any, b: any) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          new Date(b?.createdAt).getTime() - new Date(a?.createdAt).getTime(),
       ),
     CREATED: events
-      ?.filter((event: EventOutputDto) => !event.isActive && !event.endDate)
+      ?.filter((event: EventOutputDto) => !event?.isActive && !event?.endDate)
       .sort(
         (a: any, b: any) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          new Date(b?.createdAt).getTime() - new Date(a?.createdAt).getTime(),
       ),
     FINISH: events
-      ?.filter((event: EventOutputDto) => !event.isActive && event.endDate)
+      ?.filter((event: EventOutputDto) => !event?.isActive && event?.endDate)
       .sort(
         (a: any, b: any) =>
-          new Date(b.endDate!).getTime() - new Date(a.endDate!).getTime(),
+          new Date(b?.endDate!).getTime() - new Date(a?.endDate!).getTime(),
       ),
   };
 
   const sections = [
     { title: "Em Andamento", key: "ACTIVE", color: "orange" },
-    { title: "Não Iniciados", key: "CREATED", color: "gray" },
     { title: "Finalizados", key: "FINISH", color: "slate" },
+    { title: "Não Iniciados", key: "CREATED", color: "gray" },
   ];
 
   return (
@@ -153,23 +153,23 @@ export default function EventsPage() {
                               <InfoLine
                                 line="col"
                                 label={
-                                  event.endDate
+                                  event?.endDate
                                     ? "Finalizado:"
                                     : event.isActive
                                       ? "Status:"
                                       : "Status:"
                                 }
                                 value={
-                                  event.endDate
+                                  event?.endDate
                                     ? formatDate(event.endDate)
                                     : event.isActive
                                       ? "Ativo"
                                       : "Não iniciado"
                                 }
                                 color={
-                                  event.isActive
+                                  event?.isActive
                                     ? "green"
-                                    : event.endDate
+                                    : event?.endDate
                                       ? "gray"
                                       : "yellow"
                                 }
