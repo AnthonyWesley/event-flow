@@ -40,13 +40,24 @@ export default function EventsPage() {
     return <p className="text-red-500">Ocorreu um erro: {error.message}</p>;
 
   const statusEvents: StatusEvent = {
-    ACTIVE: events?.filter((event: EventOutputDto) => event.isActive),
-    CREATED: events?.filter(
-      (event: EventOutputDto) => !event.isActive && !event.endDate,
-    ),
-    FINISH: events?.filter(
-      (event: EventOutputDto) => !event.isActive && event.endDate,
-    ),
+    ACTIVE: events
+      ?.filter((event: EventOutputDto) => event.isActive)
+      .sort(
+        (a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      ),
+    CREATED: events
+      ?.filter((event: EventOutputDto) => !event.isActive && !event.endDate)
+      .sort(
+        (a: any, b: any) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      ),
+    FINISH: events
+      ?.filter((event: EventOutputDto) => !event.isActive && event.endDate)
+      .sort(
+        (a: any, b: any) =>
+          new Date(b.endDate!).getTime() - new Date(a.endDate!).getTime(),
+      ),
   };
 
   const sections = [
