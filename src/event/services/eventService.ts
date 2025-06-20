@@ -57,7 +57,7 @@ export const eventService = {
   },
 
   update: async (eventId: string, data: EventInputDto) => {
-    const response = await partnerApi.put(`/events/${eventId}`, data);
+    const response = await partnerApi.patch(`/events/${eventId}`, data);
     return response.data.events;
   },
 

@@ -13,6 +13,7 @@ export type SellersType = {
   name: string;
   email: string;
   phone: string;
+  photo: string;
   totalSalesCount: number;
   totalSalesValue: number;
 };

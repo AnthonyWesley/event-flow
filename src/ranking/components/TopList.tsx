@@ -10,6 +10,7 @@ interface TopListProps {
     id: string;
     name: string;
     email: string;
+    photo: string;
     totalSalesCount: number;
     totalSalesValue: number;
   };
@@ -97,8 +98,7 @@ export default function TopThree({
           <span className="text-base md:text-2xl lg:text-2xl">
             {correctPosition}º
           </span>
-
-          <Avatar name={topThree?.name} className="lg:size-28" />
+          <Avatar name={topThree?.name} image={topThree?.photo} />
 
           <h1 className="w-25 text-center text-[12px] font-bold lg:text-base">
             {fieldFormatter.name(topThree?.name, "firstTwo")}

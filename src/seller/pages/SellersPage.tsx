@@ -31,7 +31,7 @@ export default function SellerPage() {
       CardComponent={(seller) => (
         <Card2 className="bg-blue pt-[1px]">
           <FlexSection className="w-full p-2">
-            <Avatar icon="bxs:user" className="my-1" />
+            <Avatar icon="bxs:user" image={seller.photo} className="my-1" />
             <div className="flex w-full flex-col items-start">
               <InfoLine value={seller.name} size="base" />
               <InfoLine label="E-mail:" value={seller.email} size="sm" />

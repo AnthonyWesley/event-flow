@@ -21,6 +21,8 @@ import NavAction from "../../components/NavAction";
 import PremiumFeature from "../../components/PremiumFeature";
 import Card2 from "../../components/Card2";
 import EventReportPdfButton from "../components/EventReportPdfButton";
+import AvatarUploader from "../../components/AvatarUploader";
+import partnerApi from "../../api/axios";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -43,6 +45,18 @@ export default function EventsPageDetailPage() {
     <>
       <Card2 className="bg-gold my-2 w-full pl-1">
         <div className="flex w-full justify-between rounded-lg p-2">
+          <AvatarUploader
+            icon="iconoir:box-iso"
+            image={event?.photo}
+            onUpload={(file) => {
+              const formData = new FormData();
+              formData.append("photo", file);
+              return partnerApi.patch(`/event/${event?.id}/photo`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+              });
+            }}
+            onSuccess={(res) => console.log("Upload concluído:", res)}
+          />
           <InfoLine label="Evento:" value={event?.name} />
         </div>
         <header className="flex w-full items-center justify-between rounded-lg bg-slate-900 p-2">

@@ -9,6 +9,7 @@ interface OtherListProps {
     id: string;
     name: string;
     email: string;
+    photo: string;
     totalSalesCount: number;
     totalSalesValue: number;
   };
@@ -54,14 +55,14 @@ export default function OtherList({
               {index + 1} <p className="text-base">º</p>
             </div>
           </div>
-
-          <Avatar name={other?.name} />
+          <div className="w-16">
+            <Avatar name={other?.name} image={other?.photo} size="size-16" />
+          </div>
         </div>
 
         <div className="mr-2 w-full flex-auto">
           <div className="flex justify-between gap-2 font-semibold text-gray-50">
             <InfoLine
-              label="Nome:"
               value={other.name?.split(" ").slice(0, 1).join(" ")}
               color=""
               size="sm"

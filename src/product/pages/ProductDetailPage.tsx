@@ -5,11 +5,15 @@ import { InfoLine } from "../../components/InfoLine";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { useProductMutations } from "../hooks/useProductMutations";
 import Dialog from "../../components/Dialog";
-import Card from "../../components/Card";
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../../components/Modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Tooltip from "../../components/Tooltip";
+import partnerApi from "../../api/axios";
+import Card2 from "../../components/Card2";
+import FlexSection from "../../components/FlexSection";
+import NavAction from "../../components/NavAction";
+import AvatarUploader from "../../components/AvatarUploader";
 
 export default function ProductDetailPage() {
   const navigate = useNavigate();
@@ -25,48 +29,59 @@ export default function ProductDetailPage() {
 
   return (
     <>
-      <div className="w-full">
-        <Card
-          key={product.id}
-          icon={"iconoir:box-iso"}
-          color={"green"}
-          isSelected
-          footer={
-            <>
-              <Tooltip info="Voltar">
-                <div
-                  className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-                  onClick={() => navigate(-1)}
-                >
-                  <Icon icon="hugeicons:link-backward" width="20" />
-                </div>
-              </Tooltip>
-              <Modal id="ProductDetailPageProductForm" icon="carbon:edit">
-                <ProductForm product={product} />,
-              </Modal>
-              <Modal id="ProductDetailPageDeleteForm" icon="carbon:trash-can">
-                <Dialog
-                  message="Deseja excluir o produto?"
-                  onClick={() => {
-                    deleteProduct.mutate(product.id);
-                    navigate(-1);
-                  }}
-                />
-              </Modal>
-            </>
-          }
-        >
-          <div className="flex w-full flex-col items-start p-2">
-            <div className="flex w-full items-center justify-between gap-2">
+      <Card2 className="bg-green my-2 pl-1">
+        <section className="p-4">
+          <header className="flex gap-2">
+            <AvatarUploader
+              icon="iconoir:box-iso"
+              image={product?.photo}
+              onUpload={(file) => {
+                const formData = new FormData();
+                formData.append("photo", file);
+                return partnerApi.patch(
+                  `/product/${product?.id}/photo`,
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  },
+                );
+              }}
+              onSuccess={(res) => console.log("Upload concluído:", res)}
+            />
+            <FlexSection className="items-start">
               <InfoLine label="Nome:" value={product.name} size="base" />
               <InfoLine
                 label="Preço:"
                 value={currencyFormatter.ToBRL(product.price)}
                 size="base"
               />
+            </FlexSection>
+          </header>
+        </section>
+      </Card2>
+      <div className="w-full">
+        <NavAction>
+          <Tooltip info="Voltar">
+            <div
+              className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+              onClick={() => navigate(-1)}
+            >
+              <Icon icon="hugeicons:link-backward" width="20" />
             </div>
-          </div>
-        </Card>
+          </Tooltip>
+          <Modal id="ProductDetailPageProductForm" icon="carbon:edit">
+            <ProductForm product={product} />,
+          </Modal>
+          <Modal id="ProductDetailPageDeleteForm" icon="carbon:trash-can">
+            <Dialog
+              message="Deseja excluir o produto?"
+              onClick={() => {
+                deleteProduct.mutate(product.id);
+                navigate(-1);
+              }}
+            />
+          </Modal>
+        </NavAction>
       </div>
     </>
   );

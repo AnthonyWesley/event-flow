@@ -10,9 +10,10 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Dialog from "../../components/Dialog";
 import NavAction from "../../components/NavAction";
-import Avatar from "../../components/Avatar";
 import Tooltip from "../../components/Tooltip";
 import Card2 from "../../components/Card2";
+import AvatarUploader from "../../components/AvatarUploader";
+import partnerApi from "../../api/axios";
 
 export default function PartnerPage() {
   const {
@@ -47,9 +48,22 @@ export default function PartnerPage() {
       >
         <section className="mx-auto flex min-w-90 flex-col place-items-center gap-4 p-4">
           <FlexSection className="w-full flex-row gap-2">
-            <Avatar
+            <AvatarUploader
               name={data?.name}
-              className="size-30 md:size-30 lg:size-40"
+              icon="iconoir:box-iso"
+              image={data?.photo}
+              onUpload={(file) => {
+                const formData = new FormData();
+                formData.append("photo", file);
+                return partnerApi.patch(
+                  `/partner/${data?.id}/photo`,
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  },
+                );
+              }}
+              onSuccess={(res) => console.log("Upload concluído:", res)}
             />
             <div className="w-full border-l border-gray-500/15 px-2">
               <InfoLine label="Name:" value={data.name} line="col" />

@@ -40,7 +40,7 @@ export const saleService = {
     return response.data;
   },
   update: async (eventId: string, data: SaleInputDto, saleId: string) => {
-    const response = await partnerApi.put(
+    const response = await partnerApi.patch(
       `/events/${eventId}/sales/${saleId}`,
       data,
     );

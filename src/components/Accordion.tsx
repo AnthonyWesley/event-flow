@@ -43,9 +43,9 @@ export default function Accordion({
   return (
     <div
       className={`my-1 w-full overflow-hidden rounded-lg border border-gray-500/15 p-2`}
-      onClick={() => setIsOpen((prev) => !prev)}
     >
       <div
+        onClick={() => setIsOpen((prev) => !prev)}
         className={`flex w-full items-center justify-between text-white focus:outline-none ${className}`}
       >
         {title ?? ""}

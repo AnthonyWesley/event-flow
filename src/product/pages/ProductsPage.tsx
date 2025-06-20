@@ -32,7 +32,11 @@ export default function ProductPage() {
         CardComponent={(product) => (
           <Card2 className="bg-green pt-[1px]">
             <FlexSection className="w-full p-2">
-              <Avatar icon="iconoir:box-iso" className="my-1" />
+              <Avatar
+                icon="iconoir:box-iso"
+                image={product.photo}
+                className="my-1"
+              />
               <div className="flex w-full flex-col items-start">
                 <InfoLine value={product.name} size="base" />
                 <InfoLine

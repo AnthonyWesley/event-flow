@@ -8,6 +8,8 @@ export type ProductOutputDto = {
   id: string;
   name: string;
   price: number;
+  photo: string;
+  photoPublicId: string;
 };
 
 export const productService = {
@@ -27,7 +29,7 @@ export const productService = {
   },
 
   update: async (productId: string, data: ProductInputDto) => {
-    const response = await partnerApi.put(`/products/${productId}`, data);
+    const response = await partnerApi.patch(`/products/${productId}`, data);
     return response.data.products;
   },
 

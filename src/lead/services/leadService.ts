@@ -66,7 +66,7 @@ export const leadService = {
   },
 
   update: async (eventId: string, leadId: string, data: LeadInputDto) => {
-    const response = await partnerApi.put(
+    const response = await partnerApi.patch(
       `events/${eventId}/leads/${leadId}`,
       data,
     );

@@ -39,7 +39,7 @@ export const partnerService = {
   },
 
   update: async (partnerId: string, data: any) => {
-    const response = await partnerApi.put(`/partner/${partnerId}`, data);
+    const response = await partnerApi.patch(`/partner/${partnerId}`, data);
     return response.data;
   },
 };

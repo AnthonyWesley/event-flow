@@ -44,7 +44,7 @@ export default function SellerDetailPage() {
       <Card2 className="bg-blue my-2 pl-1">
         <section className="p-4">
           <header className="flex gap-2">
-            <Avatar icon="bxs:user" />
+            <Avatar icon="bxs:user" image={seller?.photo} />
             <FlexSection className="items-start">
               <InfoLine value={seller?.name} size="base" />
               <InfoLine label="E-mail:" value={seller?.email} size="sm" />
@@ -73,6 +73,7 @@ export default function SellerDetailPage() {
             ))}
           />
         </section>
+
         <NavAction>
           <Tooltip info="Voltar">
             <div

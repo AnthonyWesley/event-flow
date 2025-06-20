@@ -5,32 +5,41 @@ type AvatarProps = {
   icon?: string;
   image?: string;
   className?: string;
+  size?: string;
 };
-export default function Avatar({ image, icon, name, className }: AvatarProps) {
+
+export default function Avatar({
+  image,
+  icon,
+  name,
+  className,
+  size = "size-20",
+}: AvatarProps) {
+  const baseStyle =
+    "flex items-center justify-center rounded-full text-base md:text-xl lg:text-2xl";
+
   return (
-    <div className="not-italic">
+    <div
+      className={`relative aspect-square rounded-full object-cover ring-2 ${className}`}
+    >
       {image && (
         <img
-          alt=""
+          alt={name ?? ""}
           src={image}
-          className="size-14 flex-none rounded-full bg-gray-50"
+          className={`aspect-square rounded-full object-cover ${size}`}
         />
       )}
 
-      {icon && (
-        <h1
-          className={`flex size-14 items-center justify-center rounded-full bg-slate-950 text-base md:size-15 md:text-xl lg:size-16 lg:text-2xl ${className}`}
-        >
-          {icon && <Icon icon={icon} width="40" />}
-        </h1>
+      {!image && icon && (
+        <div className={`${baseStyle} bg-slate-950 ${size}`}>
+          <Icon icon={icon} width="40" />
+        </div>
       )}
 
-      {!image && name && (
-        <h1
-          className={`flex size-14 items-center justify-center rounded-full bg-slate-950 text-base md:size-15 md:text-xl lg:size-16 lg:text-2xl ${className}`}
-        >
+      {!image && !icon && name && (
+        <div className={`${baseStyle} bg-slate-950 text-white ${size}`}>
           {(name[0] + name[1]).toUpperCase()}
-        </h1>
+        </div>
       )}
     </div>
   );

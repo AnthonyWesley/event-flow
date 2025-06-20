@@ -65,7 +65,7 @@ export const sellerService = {
   },
 
   update: async (sellerId: string, data: SellerInputDto) => {
-    const response = await partnerApi.put(`/sellers/${sellerId}`, data);
+    const response = await partnerApi.patch(`/sellers/${sellerId}`, data);
     return response.data.sellers;
   },
 
