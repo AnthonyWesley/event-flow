@@ -16,7 +16,9 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Tooltip from "../../components/Tooltip";
 import Card2 from "../../components/Card2";
 import NavAction from "../../components/NavAction";
-import Avatar from "../../components/Avatar";
+
+import AvatarUploader from "../../components/AvatarUploader";
+import partnerApi from "../../api/axios";
 
 export default function SellerDetailPage() {
   const navigate = useNavigate();
@@ -44,7 +46,23 @@ export default function SellerDetailPage() {
       <Card2 className="bg-blue my-2 pl-1">
         <section className="p-4">
           <header className="flex gap-2">
-            <Avatar icon="bxs:user" image={seller?.photo} />
+            <AvatarUploader
+              name={seller?.name}
+              icon="iconoir:box-iso"
+              image={seller?.photo}
+              onUpload={(file) => {
+                const formData = new FormData();
+                formData.append("photo", file);
+                return partnerApi.patch(
+                  `/seller/${seller?.id}/photo`,
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  },
+                );
+              }}
+              onSuccess={(res) => console.log("Upload concluído:", res)}
+            />
             <FlexSection className="items-start">
               <InfoLine value={seller?.name} size="base" />
               <InfoLine label="E-mail:" value={seller?.email} size="sm" />
