@@ -17,6 +17,7 @@ export default function Modal({
   info,
   children,
   className,
+  color,
 }: ModalProps) {
   const overlay = useRef(null);
   const { closeModal, isModalOpen, openModal } = useModalStore();
@@ -30,7 +31,7 @@ export default function Modal({
     <>
       {icon && (
         <div
-          className="flex justify-center rounded font-semibold transition duration-300 ease-in-out"
+          className={`flex justify-center rounded font-semibold transition duration-300 ease-in-out ${color}`}
           onClick={() => {
             openModal(id);
           }}

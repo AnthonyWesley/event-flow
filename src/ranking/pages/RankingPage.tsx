@@ -73,18 +73,19 @@ export default function RankingPage() {
 
   const modalActions = [
     {
+      title: "Vendas",
+      id: "RankingPageSaleForm",
+      info: "Add venda",
+      color: "text-rose-500",
+      icon: "mi:shopping-cart-add",
+      children: <SaleForm eventId={showEvent?.id} />,
+    },
+    {
       title: "Vendedores",
       id: "RankingPageSellerForm",
       info: "Add vendedor",
       icon: "material-symbols:person-add",
       children: <SellerForm eventId={showEvent?.id} />,
-    },
-    {
-      title: "Vendas",
-      id: "RankingPageSaleForm",
-      info: "Add venda",
-      icon: "mi:shopping-cart-add",
-      children: <SaleForm eventId={showEvent?.id} />,
     },
     {
       id: "RankingPageEventForm",
@@ -234,6 +235,7 @@ export default function RankingPage() {
                   info={modal.info}
                   id={modal.id}
                   icon={modal.icon}
+                  color={modal.color}
                 >
                   {modal.children}
                 </Modal>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Spin from "../../components/Spin";
-import Select, { SelectList } from "../../components/Select";
+import { SelectList } from "../../components/Select";
 import { useEvent } from "../../event/hooks/useEvent";
 import Counter from "../../components/Counter";
 import Card from "../../components/Card";
@@ -10,6 +10,7 @@ import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 import { SellerOutputDto } from "../../seller/services/sellerService";
 import useProduct from "../../product/hooks/useProduct";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
+import { SelectCombobox } from "../../components/SelectCombobox";
 
 export type SaleProps = {
   eventId?: string;
@@ -96,18 +97,31 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
         className="flex w-full flex-col gap-4 rounded-lg p-4"
       >
         <h1 className="rounded text-xl font-bold">Registro de Venda</h1>
-        <Select
+        {/* <Select
+          label="Vendedor"
+          selectList={isGuest ? isGuestSeller : event.allSellers}
+          onChange={setSeller}
+          selected={seller}
+        /> */}
+        <SelectCombobox
           label="Vendedor"
           selectList={isGuest ? isGuestSeller : event.allSellers}
           onChange={setSeller}
           selected={seller}
         />
-        <Select
+        {/* <Select
+          label="Produto"
+          selectList={products}
+          onChange={setProduct}
+          selected={product}
+        /> */}
+        <SelectCombobox
           label="Produto"
           selectList={products}
           onChange={setProduct}
           selected={product}
         />
+
         <Counter label="Quantidade:" onChange={setQuantity} />
         <AccessExpiredWrapper>
           <button
