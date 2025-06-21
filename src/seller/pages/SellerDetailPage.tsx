@@ -33,8 +33,10 @@ export default function SellerDetailPage() {
   } = useEvent();
 
   const sellerEvents = events?.filter((ev: EventOutputDto) =>
-    ev?.allSellers?.filter((se: SellerOutputDto) => se.id === sellerId),
+    ev?.allSellers?.some((se: SellerOutputDto) => se.id === sellerId),
   );
+
+  console.log(sellerEvents);
 
   const { deleteSeller } = useSellerMutations();
 

@@ -60,7 +60,7 @@ export default function LeadPage() {
       ) : (
         <div className="overflow-hidden rounded-lg border border-gray-500/15 text-sm">
           <div className="max-h-[60vh] overflow-x-auto overflow-y-auto">
-            <table className="table-fixed text-left">
+            <table className="w-full text-left">
               <thead className="w-full bg-slate-900 font-semibold">
                 <tr>
                   <th className="p-2">Nome</th>
@@ -71,9 +71,7 @@ export default function LeadPage() {
                   <th className="p-2">Interesse nº2</th>
                   <th className="p-2">Interesse nº3</th>
                   <th className="p-2">Criado em</th>
-                  <th className="shadow-left sticky right-0 z-20 bg-slate-900 p-2">
-                    Ações
-                  </th>
+                  <th className="p-2">Ações</th>
                 </tr>
               </thead>
               <tbody>
@@ -98,7 +96,7 @@ export default function LeadPage() {
                     <td className="p-2">
                       {new Date(lead.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="shadow-left sticky right-0 z-10 rounded-lg bg-slate-900 p-2">
+                    <td className="p-2">
                       <AccessExpiredWrapper>
                         <PremiumFeature className="flex gap-2">
                           <Modal id={lead.id} icon="carbon:edit" info="Editar">
@@ -155,7 +153,7 @@ export default function LeadPage() {
           <AccessExpiredWrapper>
             <PremiumFeature>
               <div
-                className="cursor-pointer rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                className="cursor-pointer rounded-full border border-slate-100/15 p-3 text-yellow-400 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
                 onClick={() =>
                   exportLead.mutate(eventId === "partner" ? undefined : eventId)
                 }

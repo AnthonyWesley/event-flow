@@ -160,9 +160,9 @@ export default function EventReportPdfButton({
   return (
     <div
       onClick={handleDownload}
-      className="cursor-pointer rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+      className="cursor-pointer rounded-full border border-slate-100/15 p-3 text-yellow-400 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
     >
-      <Icon icon="line-md:file-download" width="30" />
+      <Icon icon="line-md:file-download" width="25" />
     </div>
   );
 }

@@ -48,11 +48,11 @@ export default function Modal({
       <section
         ref={overlay}
         onClick={clickCloseRef}
-        className={`fixed inset-0 top-0 z-80 border-none text-sm backdrop-blur-sm ${
+        className={`fixed inset-0 z-80 border-none text-sm backdrop-blur-sm ${
           isModalOpen(id) ? "flex" : "hidden"
         } items-center justify-center`}
       >
-        <div className="absolute max-h-[90vh] w-full max-w-lg overflow-auto rounded-lg border-white/90 p-2 text-white">
+        <div className="absolute flex max-h-[90vh] w-full max-w-lg overflow-auto rounded-lg border-white/90 p-2 text-white">
           <Icon
             onClick={() => closeModal(id)}
             className="absolute top-3 right-2 z-80 cursor-pointer self-end transition-all hover:text-red-600"

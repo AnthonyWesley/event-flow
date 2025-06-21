@@ -20,6 +20,7 @@ import Card2 from "../../components/Card2";
 import NavAction from "../../components/NavAction";
 import AvatarUploader from "../../components/AvatarUploader";
 import partnerApi from "../../api/axios";
+import { SaleOutputDto } from "../../sale/services/saleService";
 
 export default function GuestPage() {
   const { eventId, sellerId } = useParams<{
@@ -40,7 +41,6 @@ export default function GuestPage() {
 
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token");
-    console.log(token);
 
     if (token) {
       localStorage.setItem("accessToken", token);
@@ -63,7 +63,11 @@ export default function GuestPage() {
   );
   const goalLabel = isValueGoal ? currencyFormatter.ToBRL(goal) : `${goal}`;
   const goalColor = goalUtils.handleGoalAchieved(currentProgress, goal);
-  console.log(event);
+  const totalQuantity =
+    seller?.guest?.sales?.reduce(
+      (acc: any, sale: SaleOutputDto) => acc + (sale?.quantity ?? 0),
+      0,
+    ) ?? 0;
 
   if (error) {
     return (
@@ -189,7 +193,7 @@ export default function GuestPage() {
                 <InfoList
                   tittle="Vendas"
                   icon="mi:shopping-cart"
-                  length={event?.sales?.length}
+                  length={totalQuantity}
                   className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
                 />
               }

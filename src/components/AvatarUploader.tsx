@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
+import { toast } from "react-toastify";
 
 type AvatarUploaderProps = {
   name?: string;
@@ -22,26 +23,24 @@ export default function AvatarUploader({
 }: AvatarUploaderProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(image ?? null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setLoading(true);
-    setMessage("");
 
     try {
       const result = await onUpload(file);
 
       const uploadedUrl = result?.data?.photo ?? URL.createObjectURL(file);
       setPreviewUrl(uploadedUrl);
-      setMessage("Upload feito com sucesso!");
+      toast("Upload feito com sucesso!");
 
       if (onSuccess) onSuccess(result);
     } catch (err) {
       console.error(err);
-      setMessage("Erro ao enviar imagem.");
+      toast.error("Erro ao enviar imagem.");
     } finally {
       setLoading(false);
     }
@@ -62,7 +61,7 @@ export default function AvatarUploader({
             className="h-full w-full object-cover"
           />
         ) : icon ? (
-          <Icon icon={icon} width={32} />
+          <Icon icon={icon} width={30} />
         ) : (
           <span className="font-bold">{getInitials()}</span>
         )}
@@ -88,10 +87,6 @@ export default function AvatarUploader({
           className="hidden"
         />
       </label>
-
-      {message && (
-        <p className="mt-2 text-center text-sm text-gray-600">{message}</p>
-      )}
     </div>
   );
 }
