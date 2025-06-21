@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar";
 import PremiumFeature from "../../components/PremiumFeature";
 import Card2 from "../../components/Card2";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 interface SellerDetailByEventProps {
   seller: {
@@ -71,8 +72,12 @@ export default function SellerDetailByEvent({
         title={
           <header className="flex w-full items-center justify-between gap-2">
             <Avatar name={seller?.name} image={seller?.photo} />
-            <div className="mr-auto">
-              <InfoLine value={seller?.name} size="base" />
+            <div className="mr-auto w-25">
+              <InfoLine
+                value={fieldFormatter.name(seller?.name, "firstTwo")}
+                // value={seller?.name}
+                size="base"
+              />
             </div>
             <div className="flex w-20 items-start justify-end border-l border-l-gray-500/15 pl-2 text-4xl">
               <h1> {index}</h1>
@@ -108,7 +113,7 @@ export default function SellerDetailByEvent({
       />
 
       {/* <InfoLine label="Vendas:" value={event?.name} /> */}
-      <section className="flex items-center justify-between p-2">
+      <section className="flex items-center justify-between gap-2 p-2">
         <CircularProgress total={sellerGoal} current={currentProgress} />
         <FlexSection className="items-start">
           <InfoLine

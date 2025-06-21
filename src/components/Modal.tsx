@@ -48,7 +48,7 @@ export default function Modal({
       <section
         ref={overlay}
         onClick={clickCloseRef}
-        className={`fixed inset-0 z-80 border-none text-sm backdrop-blur-sm ${
+        className={`fixed inset-0 top-0 z-80 border-none text-sm backdrop-blur-sm ${
           isModalOpen(id) ? "flex" : "hidden"
         } items-center justify-center`}
       >
