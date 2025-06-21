@@ -44,7 +44,7 @@ export default function EventsPageDetailPage() {
   return (
     <>
       <Card2 className="bg-gold my-2 w-full pl-1">
-        <div className="flex w-full justify-between rounded-lg p-2">
+        <header className="flex w-full items-center justify-between rounded-lg bg-slate-900 p-2">
           <AvatarUploader
             icon="iconoir:box-iso"
             image={event?.photo}
@@ -57,49 +57,6 @@ export default function EventsPageDetailPage() {
             }}
             onSuccess={(res) => console.log("Upload concluído:", res)}
           />
-          <InfoLine label="Evento:" value={event?.name} />
-        </div>
-        <header className="flex w-full items-center justify-between rounded-lg bg-slate-900 p-2">
-          <div
-            className={`flex w-full flex-col items-start justify-start gap-1`}
-          >
-            <InfoLine
-              label="Meta:"
-              value={
-                event.goalType == "VALUE"
-                  ? currencyFormatter.ToBRL(event.goal)
-                  : event.goal + " unid."
-              }
-              color={goalUtils.handleGoalAchieved(
-                goalUtils.getTotalForGoal(event.allSellers, event.goalType),
-                event?.goal,
-              )}
-              line="col"
-              size="base"
-            />
-            <InfoLine
-              label="Total:"
-              value={
-                event.goalType == "VALUE"
-                  ? currencyFormatter.ToBRL(
-                      goalUtils.getTotalForGoal(
-                        event.allSellers,
-                        event.goalType,
-                      ),
-                    )
-                  : goalUtils.getTotalForGoal(
-                      event.allSellers,
-                      event.goalType,
-                    ) + " unid."
-              }
-              color={goalUtils.handleGoalAchieved(
-                goalUtils.getTotalForGoal(event.allSellers, event.goalType),
-                event?.goal,
-              )}
-              line="col"
-              size="base"
-            />
-          </div>
           <CircularProgress
             total={event?.goal}
             current={goalUtils.getTotalForGoal(
@@ -108,8 +65,48 @@ export default function EventsPageDetailPage() {
             )}
           />
         </header>
+        <div className="px-2">
+          <InfoLine label="Evento:" value={event?.name} line="col" />
+        </div>
+        <div className={`flex w-full justify-between gap-1 p-2`}>
+          <InfoLine
+            label="Meta:"
+            value={
+              event.goalType == "VALUE"
+                ? currencyFormatter.ToBRL(event.goal)
+                : event.goal + " unid."
+            }
+            color={goalUtils.handleGoalAchieved(
+              goalUtils.getTotalForGoal(event.allSellers, event.goalType),
+              event?.goal,
+            )}
+            line="col"
+            size="base"
+          />
+          <InfoLine
+            label="Total:"
+            value={
+              event.goalType == "VALUE"
+                ? currencyFormatter.ToBRL(
+                    goalUtils.getTotalForGoal(event.allSellers, event.goalType),
+                  )
+                : goalUtils.getTotalForGoal(event.allSellers, event.goalType) +
+                  " unid."
+            }
+            color={goalUtils.handleGoalAchieved(
+              goalUtils.getTotalForGoal(event.allSellers, event.goalType),
+              event?.goal,
+            )}
+            line="col"
+            size="base"
+          />
+        </div>
         <div className="flex w-full justify-between gap-2 p-2">
-          <InfoLine label="Inicio:" value={formatDate(event?.createdAt)} />
+          <InfoLine
+            label="Inicio:"
+            value={formatDate(event?.createdAt)}
+            line="col"
+          />
           <InfoLine
             label="Fim:"
             value={
@@ -119,6 +116,7 @@ export default function EventsPageDetailPage() {
                   ? "Ativo"
                   : "Não iniciado"
             }
+            line="col"
           />
         </div>
 
@@ -135,7 +133,7 @@ export default function EventsPageDetailPage() {
               }
               content={
                 event?.sales.length > 0 && (
-                  <div className="max-h-[35vh] overflow-y-scroll border-r border-gray-500/15 lg:h-[45vh]">
+                  <div className="max-h-[30vh] overflow-y-scroll border-r border-gray-500/15 lg:h-[45vh]">
                     <SaleList
                       sales={event?.sales}
                       sellers={event?.allSellers}
@@ -159,7 +157,7 @@ export default function EventsPageDetailPage() {
               }
               content={
                 event && (
-                  <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll lg:h-[45vh]">
+                  <div className="pointer-events-auto max-h-[30vh] overflow-y-scroll lg:h-[45vh]">
                     <RankingDisplay event={event} disable />
                   </div>
                 )

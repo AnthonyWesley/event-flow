@@ -94,7 +94,7 @@ export default function TopThree({
           className="w-27 drop-shadow-lg md:w-36 lg:w-46"
         />
 
-        <div className="absolute top-0 z-20 mt-5 flex w-full flex-col items-center justify-between gap-1 text-[8px] md:text-sm lg:gap-4 lg:text-sm">
+        <div className="absolute top-0 z-20 mt-2 flex w-full flex-col items-center justify-between gap-1 text-[8px] md:mt-4 md:text-sm lg:mt-6 lg:gap-4 lg:text-sm">
           <span className="text-base md:text-2xl lg:text-2xl">
             {correctPosition}º
           </span>
@@ -104,7 +104,7 @@ export default function TopThree({
             {fieldFormatter.name(topThree?.name, "firstTwo")}
           </h1>
         </div>
-        <div className="mt-1">
+        <div className="mt-1 w-full">
           <InfoLine
             label="Meta:"
             value={(topThree && goalLabel) || 0}

@@ -50,7 +50,7 @@ export default function MultiSelectCombobox({
                 </span>
               ))}
             <Combobox.Input
-              className="flex-1 border-none p-1 text-sm text-gray-700 placeholder-gray-400 outline-0 focus:ring-0"
+              className="flex-1 border-none p-1 text-sm text-gray-200 placeholder-gray-400 outline-0 focus:ring-0"
               onChange={(event) => setQuery(event.target.value)}
               placeholder={placeholder}
             />
@@ -67,7 +67,7 @@ export default function MultiSelectCombobox({
           leaveTo="opacity-0"
           afterLeave={() => setQuery("")}
         >
-          <Combobox.Options className="z-10 mt-1 max-h-24 w-full overflow-y-scroll rounded-md bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+          <Combobox.Options className="z-10 mt-1 max-h-42 w-full overflow-y-scroll rounded-md bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
             {filteredPeople?.length === 0 && query !== "" ? (
               <div className="relative cursor-default px-4 py-2 text-gray-400 select-none">
                 Sem vendedor para selecionar.

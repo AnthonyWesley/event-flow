@@ -5,7 +5,6 @@ import useProduct from "../../product/hooks/useProduct";
 import SellerForm from "../../seller/components/SellerForm";
 import SaleForm from "../../sale/components/SaleForm";
 import Modal from "../../components/Modal";
-import Avatar from "../../components/Avatar";
 import RankingDisplay from "../../ranking/components/RankingDisplay";
 import { InfoLine } from "../../components/InfoLine";
 import { useEvent } from "../../event/hooks/useEvent";
@@ -19,6 +18,8 @@ import Accordion from "../../components/Accordion";
 import InfoList from "../../components/InfoList";
 import Card2 from "../../components/Card2";
 import NavAction from "../../components/NavAction";
+import AvatarUploader from "../../components/AvatarUploader";
+import partnerApi from "../../api/axios";
 
 export default function GuestPage() {
   const { eventId, sellerId } = useParams<{
@@ -95,9 +96,21 @@ export default function GuestPage() {
         header={
           <>
             <h1 className="mr-auto flex items-center gap-2 rounded-lg p-2">
-              <Avatar
-                name={seller?.guest?.name}
-                className="size-24 lg:size-30"
+              <AvatarUploader
+                icon="iconoir:box-iso"
+                image={seller?.guest?.photo}
+                onUpload={(file) => {
+                  const formData = new FormData();
+                  formData.append("photo", file);
+                  return partnerApi.patch(
+                    `/seller/${seller?.guest?.id}/photo`,
+                    formData,
+                    {
+                      headers: { "Content-Type": "multipart/form-data" },
+                    },
+                  );
+                }}
+                onSuccess={(res) => console.log("Upload concluído:", res)}
               />
               <div className="mr-auto">
                 <InfoLine value={seller?.guest?.name} line="col" />

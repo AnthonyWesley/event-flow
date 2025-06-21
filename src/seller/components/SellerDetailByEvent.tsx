@@ -21,6 +21,7 @@ interface SellerDetailByEventProps {
   seller: {
     id: string;
     name: string;
+    photo: string;
     email: string;
     phone: string;
     totalSalesCount: number;
@@ -69,7 +70,7 @@ export default function SellerDetailByEvent({
       <Accordion
         title={
           <header className="flex w-full items-center justify-between gap-2">
-            <Avatar name={seller?.name} />
+            <Avatar name={seller?.name} image={seller?.photo} />
             <div className="mr-auto">
               <InfoLine value={seller?.name} size="base" />
             </div>
