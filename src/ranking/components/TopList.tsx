@@ -104,7 +104,7 @@ export default function TopThree({
             {fieldFormatter.name(topThree?.name, "firstTwo")}
           </h1>
         </div>
-        <div className="mt-1 w-full">
+        <div className="mt-1 w-full px-1">
           <InfoLine
             label="Meta:"
             value={(topThree && goalLabel) || 0}
