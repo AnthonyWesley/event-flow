@@ -40,7 +40,7 @@ partnerApi.interceptors.response.use(
     );
 
     if (shouldBypassInterceptor) {
-      return Promise.reject(error); // 🔥 Deixa o toast funcionar no useMutation
+      return Promise.reject(error);
     }
 
     if (error.response?.status === 401 && isGuest) {
