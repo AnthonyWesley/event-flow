@@ -1,4 +1,6 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import AccessExpiredWrapper from "./AccessExpiredWrapper";
+import Card2 from "./Card2";
 
 export type DialogProps = {
   message: string;
@@ -19,8 +21,9 @@ export default function Dialog({
     // closeModal();
   };
   return (
-    <div className="flex h-full w-full flex-col justify-evenly gap-8 rounded-sm bg-slate-950 p-2">
-      <div className="text-center text-xl italic">{message}</div>
+    <Card2 className="bg-rose flex h-full w-full flex-col justify-evenly gap-8 rounded-sm pl-1">
+      <Icon icon="line-md:alert-loop" width="30" className="text-rose-500" />
+      <div className="p-8 text-center text-xl italic">{message}</div>
       <AccessExpiredWrapper admin={admin}>
         <button
           className={`${color} bg-gray hover:bg-opacity-90 w-full rounded p-2 text-white`}
@@ -30,6 +33,6 @@ export default function Dialog({
           CONFIRMAR
         </button>
       </AccessExpiredWrapper>
-    </div>
+    </Card2>
   );
 }

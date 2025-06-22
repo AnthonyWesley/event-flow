@@ -1,4 +1,5 @@
 import Avatar from "../../components/Avatar";
+import Card2 from "../../components/Card2";
 import { InfoLine } from "../../components/InfoLine";
 import ProgressBar from "../../components/ProgressBar";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
@@ -30,24 +31,32 @@ export default function OtherList({
   isValueGoal,
   goalLabel,
 }: OtherListProps) {
+  const bgClass =
+    index === 0
+      ? "bg-gold"
+      : index === 1
+        ? "bg-silver"
+        : index === 2
+          ? "bg-bronze"
+          : "bg-slate-950";
+
+  const ringClass =
+    index === 0
+      ? "ring-amber-300"
+      : index === 1
+        ? "ring-slate-300"
+        : index === 2
+          ? "ring-amber-700"
+          : "bg-slate-950";
   return (
-    <ul
-      role="list"
-      className={`h-20 w-full rounded-sm border-l-4 ${
-        index === 0
-          ? "border-yellow-400"
-          : index === 1
-            ? "border-gray-300"
-            : index === 2
-              ? "border-amber-800"
-              : "border-transparent"
-      } ${index % 2 === 0 ? "bg-[rgb(15,23,42)]" : "bg-[rgb(10,23,42)]"}`}
+    <Card2
+      className={`border border-gray-500/15 pl-1 ring-amber-300 hover:bg-[rgb(29,37,57)] ${bgClass}`}
     >
-      <li
+      <section
         key={other.email}
         id={other.id}
         onClick={() => getId(other.id)}
-        className="flex w-full items-center justify-between gap-1 hover:bg-[rgb(29,37,57)]"
+        className="flex w-full items-center justify-between gap-1 border-b border-gray-500/15"
       >
         <div className="m-auto flex items-center justify-between gap-2 py-2">
           <div className="flex w-12 justify-center border-r border-gray-500/40 text-2xl">
@@ -56,7 +65,12 @@ export default function OtherList({
             </div>
           </div>
           <div className="w-16">
-            <Avatar name={other?.name} image={other?.photo} size="size-16" />
+            <Avatar
+              name={other?.name}
+              image={other?.photo}
+              className={`${ringClass}`}
+              size="size-16"
+            />
           </div>
         </div>
 
@@ -107,7 +121,7 @@ export default function OtherList({
             />
           </div>
         </div>
-      </li>
-    </ul>
+      </section>
+    </Card2>
   );
 }

@@ -9,11 +9,14 @@ import Tooltip from "./Tooltip";
 import { useEffect, useRef } from "react";
 import notificationSound from "/sounds/notification.mp3";
 import { playSong } from "../helpers/playSong";
+import { fieldFormatter } from "../helpers/fieldFormatter";
+import { useEvent } from "../event/hooks/useEvent";
 
 type NotificationType = "create" | "update" | "delete";
 
 interface PendingSale {
   id: string;
+  eventName: string;
   sellerName: string;
   sellerImage: string;
   notificationType: NotificationType;
@@ -42,17 +45,20 @@ function mapNotificationsToPendingSales(
   notifications: any[],
   sellers: any[],
   products: any[],
+  events: any[],
 ): PendingSale[] {
   return notifications.map((notification) => {
     const seller = sellers.find((s) => s.id === notification.sellerId);
     const product = products.find(
       (p) => p.id === notification.payload.productId,
     );
+    const event = events.find((e) => e.id === notification.eventId);
 
     return {
       id: notification.id,
+      eventName: event?.name,
       sellerName: seller?.name,
-      sellerImage: seller?.image,
+      sellerImage: seller?.photo,
       notificationType: notification.actionType
         .replace("_SALE", "")
         .toLowerCase() as NotificationType,
@@ -72,9 +78,9 @@ export default function PendingModal() {
     queryPartnerNotifications: { data: notifications = [] },
   } = usePartner();
 
-  // const {
-  //   queryEvents: { data: events = [] },
-  // } = useEvent();
+  const {
+    queryEvents: { data: events = [] },
+  } = useEvent();
 
   const {
     queryProducts: { data: products = [] },
@@ -83,6 +89,7 @@ export default function PendingModal() {
   const {
     querySellers: { data: sellers = [] },
   } = useSeller();
+
   const prevCount = useRef(0);
   useEffect(() => {
     if (notifications.length > prevCount.current) {
@@ -95,7 +102,9 @@ export default function PendingModal() {
     notifications,
     sellers,
     products,
+    events,
   );
+
   return (
     <SlideBar
       icon={
@@ -111,7 +120,7 @@ export default function PendingModal() {
     >
       <ul
         role="list"
-        className="h-full w-[300px] divide-y divide-gray-500 overflow-x-scroll rounded-lg bg-slate-900/90 p-2"
+        className="h-full w-[300px] divide-y divide-gray-500 overflow-x-scroll rounded-lg bg-slate-900/95 p-2"
       >
         {pendingSales.length === 0 && (
           <div className="flex h-full flex-col items-center justify-center gap-20">
@@ -120,7 +129,11 @@ export default function PendingModal() {
           </div>
         )}
         {pendingSales.map((sale) => (
-          <li key={sale.id} className="flex flex-col gap-1 py-2">
+          <li
+            key={sale.id}
+            className="flex flex-col gap-1 border-b border-gray-500/15 py-2"
+          >
+            <h1>{sale.eventName}</h1>
             <div className="flex items-center gap-4">
               <img
                 src={sale.sellerImage}
@@ -129,7 +142,7 @@ export default function PendingModal() {
               />
               <div>
                 <p className="text-sm font-semibold text-white">
-                  {sale.sellerName}
+                  {fieldFormatter.name(sale.sellerName, "firstTwo")}
                 </p>
                 <p className="text-xs text-gray-400">
                   {getNotificationLabel(sale.notificationType)}
@@ -142,8 +155,7 @@ export default function PendingModal() {
                 <p className="text-sm font-semibold text-gray-50">
                   {sale.saleInfo.product}
                 </p>
-                <p className="mt-1 text-xs text-gray-500">
-                  R${" "}
+                <p className="mt-1 text-xs text-gray-300">
                   {sale.saleInfo.amount.toLocaleString("pt-BR", {
                     style: "currency",
                     currency: "BRL",
@@ -155,7 +167,7 @@ export default function PendingModal() {
                 <p className="text-sm font-medium text-gray-50">
                   {sale.saleInfo.quantity} und
                 </p>
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-xs text-gray-300">
                   {sale.saleInfo.date}
                 </p>
               </div>
