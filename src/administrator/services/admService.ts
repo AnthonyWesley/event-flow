@@ -30,13 +30,13 @@ export const admService = {
   active: async (partnerId: string) => {
     console.log(partnerId);
 
-    const response = await admApi.put(`/partners/${partnerId}/activate`);
+    const response = await admApi.patch(`/partners/${partnerId}/activate`);
 
     return response.data;
   },
 
   suspend: async (partnerId: string) => {
-    const response = await admApi.put(`/partners/${partnerId}/suspend`);
+    const response = await admApi.patch(`/partners/${partnerId}/suspend`);
 
     return response.data;
   },
