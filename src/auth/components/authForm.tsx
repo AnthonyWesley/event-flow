@@ -3,9 +3,11 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 export function formatPhoneNumber(value: string): string {
   const cleaned = value.replace(/\D/g, "").slice(0, 11);
-  const match = cleaned.match(/^(\d{0,2})(\d{0,5})(\d{0,4})$/);
-  if (!match) return "";
-  return `${match[1] ? `(${match[1]}` : ""}${match[1]?.length === 2 ? ") " : ""}${match[2] || ""}${match[3] ? `-${match[3]}` : ""}`;
+
+  if (cleaned.length <= 2) return `(${cleaned}`;
+  if (cleaned.length <= 7)
+    return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2)}`;
+  return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7, 11)}`;
 }
 
 interface Props {
