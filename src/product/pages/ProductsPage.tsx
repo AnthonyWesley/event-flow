@@ -6,7 +6,7 @@ import { currencyFormatter } from "../../helpers/currencyFormatter";
 import FlexSection from "../../components/FlexSection";
 import EntityListPage from "../../components/EntityListPage";
 import { useNavigate } from "react-router-dom";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 import Avatar from "../../components/Avatar";
 
 export default function ProductPage() {
@@ -30,7 +30,7 @@ export default function ProductPage() {
         }}
         FormModal={<ProductForm />}
         CardComponent={(product) => (
-          <Card2 className="bg-green pt-[1px]">
+          <Card className="bg-green pt-[1px]">
             <FlexSection className="w-full p-2">
               <Avatar
                 icon="iconoir:box-iso"
@@ -46,7 +46,7 @@ export default function ProductPage() {
                 />
               </div>
             </FlexSection>
-          </Card2>
+          </Card>
         )}
         onItemClick={(product) => navigate(`/products/${product.id}`)}
       />

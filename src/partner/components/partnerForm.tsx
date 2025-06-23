@@ -5,7 +5,7 @@ import { PartnerOutputDto, PlanType } from "../services/partnerService";
 import { usePartnerMutations } from "../hooks/usePartnerMutations";
 import { formatPhoneNumber } from "../../auth/components/authForm";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 
 export type PartnerProps = {
   partner?: PartnerOutputDto;
@@ -49,7 +49,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
     fieldFormatter.phone(phone) !== fieldFormatter.phone(partner?.phone ?? "");
 
   return (
-    <Card2
+    <Card
       key={partner?.id ?? ""}
       className={`w-full py-2 ${partner?.plan === "FREE" ? "bg-bronze" : partner?.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
     >
@@ -98,6 +98,6 @@ export default function PartnerForm({ partner }: PartnerProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card2>
+    </Card>
   );
 }

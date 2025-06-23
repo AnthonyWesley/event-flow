@@ -14,7 +14,7 @@ import Accordion from "../../components/Accordion";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Tooltip from "../../components/Tooltip";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 import NavAction from "../../components/NavAction";
 
 import AvatarUploader from "../../components/AvatarUploader";
@@ -45,7 +45,7 @@ export default function SellerDetailPage() {
 
   return (
     <>
-      <Card2 className="bg-blue my-2 pl-1">
+      <Card className="bg-blue my-2 pl-1">
         <section className="p-4">
           <header className="flex gap-2">
             <AvatarUploader
@@ -115,7 +115,7 @@ export default function SellerDetailPage() {
             />
           </Modal>
         </NavAction>
-      </Card2>
+      </Card>
     </>
   );
 }

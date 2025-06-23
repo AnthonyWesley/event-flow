@@ -18,14 +18,14 @@ export default function MultiSelectCombobox({
 }: MultiSelectComboboxProps) {
   const [query, setQuery] = useState("");
   const removePerson = (item: any) => {
-    setSelectedItem(selectedItem.filter((p) => p.id !== item.id));
+    setSelectedItem(selectedItem?.filter((p) => p?.id !== item?.id));
   };
 
   const filteredPeople =
     query === ""
       ? uniqueItem
       : uniqueItem?.filter((item: any) =>
-          item.name.toLowerCase().includes(query.toLowerCase()),
+          item?.name?.toLowerCase().includes(query.toLowerCase()),
         );
 
   return (
@@ -34,11 +34,16 @@ export default function MultiSelectCombobox({
         <div className="relative w-full cursor-default overflow-hidden rounded-sm border border-cyan-800 bg-white/5 text-left shadow-md focus:outline-none sm:text-sm">
           <div className="flex flex-wrap gap-1 p-1">
             {selectedItem &&
-              selectedItem.map((person) => (
+              selectedItem?.map((person) => (
                 <span
                   key={person.id}
                   className="flex items-center gap-1 rounded bg-blue-50 px-2 py-1 text-sm text-blue-800"
                 >
+                  <img
+                    src={person.photo}
+                    className="size-6 rounded-full"
+                    alt=""
+                  />{" "}
                   {person.name}
                   <button
                     type="button"
@@ -88,10 +93,15 @@ export default function MultiSelectCombobox({
                     <>
                       <span
                         className={clsx(
-                          "block truncate",
+                          "flex items-center gap-2 truncate",
                           selected ? "font-semibold" : "font-normal",
                         )}
                       >
+                        <img
+                          src={person.photo}
+                          className="size-6 rounded-full"
+                          alt=""
+                        />{" "}
                         {person.name}
                       </span>
                       {selected && (

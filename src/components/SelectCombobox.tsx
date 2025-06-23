@@ -1,24 +1,21 @@
 import { Fragment, useEffect, useState } from "react";
-import { Combobox, Label, Transition } from "@headlessui/react";
+import { Combobox, Transition } from "@headlessui/react";
 import { Icon } from "@iconify/react";
 import clsx from "clsx";
-
-export type selectProps = {
-  selectList: SelectList[];
-  label?: string;
-};
 
 export type SelectList = {
   id: string;
   name: string;
+  photo: string;
 };
 
 export type SelectProps = {
   selectList: SelectList[];
   label?: string;
-  onChange?: (value: any) => void;
+  onChange?: (value: SelectList) => void;
   selected?: SelectList;
   className?: string;
+  placeholder?: string;
 };
 
 export function SelectCombobox({
@@ -27,44 +24,61 @@ export function SelectCombobox({
   onChange,
   selected: externalSelected,
   className,
+  placeholder = "Selecione uma opção",
 }: SelectProps) {
   const [selected, setSelected] = useState<SelectList>(
     externalSelected || selectList?.[0],
   );
-
-  const handleChange = (value: SelectList) => {
-    setSelected(value);
-    onChange?.(value);
-  };
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (externalSelected) {
       setSelected(externalSelected);
     }
   }, [externalSelected]);
-  const [query, setQuery] = useState("");
 
-  const filteredPeople =
+  const handleChange = (value: SelectList) => {
+    setSelected(value);
+    onChange?.(value);
+  };
+
+  const filteredList =
     query === ""
       ? selectList
-      : selectList?.filter((person) =>
-          person?.name?.toLowerCase().includes(query.toLowerCase()),
+      : selectList?.filter((item) =>
+          item.name.toLowerCase().includes(query.toLowerCase()),
         );
 
   return (
     <div className="relative w-full">
+      {label && (
+        <label className="mb-1 block text-sm text-white">{label}</label>
+      )}
+
       <Combobox value={selected} onChange={handleChange}>
-        <Label htmlFor={label}>{label}</Label>
         <div className="relative w-full cursor-default overflow-hidden rounded-sm border border-cyan-800 bg-white/5 text-left shadow-md focus:outline-none sm:text-sm">
-          <Combobox.Input
-            className={`w-full border-none bg-transparent p-2 text-sm text-gray-200 placeholder-gray-400 outline-none focus:ring-0 ${className}`}
-            displayValue={(person: any) => person?.name}
-            onChange={(event) => setQuery(event?.target.value)}
-            placeholder="Selecione uma opção"
-          />
-          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-            <Icon icon="mdi:chevron-down" className="h-5 w-5 text-gray-400" />
-          </Combobox.Button>
+          {/* Input com imagem + nome */}
+          <div className="flex items-center gap-2 p-2">
+            {selected?.photo && (
+              <img
+                src={selected.photo}
+                className="size-6 rounded-full"
+                alt=""
+              />
+            )}
+            <Combobox.Input
+              className={clsx(
+                "w-full border-none bg-transparent text-sm text-gray-200 placeholder-gray-400 outline-none focus:ring-0",
+                className,
+              )}
+              displayValue={(item: SelectList) => item?.name}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={placeholder}
+            />
+            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+              <Icon icon="mdi:chevron-down" className="h-5 w-5 text-gray-400" />
+            </Combobox.Button>
+          </div>
         </div>
 
         <Transition
@@ -74,16 +88,16 @@ export function SelectCombobox({
           leaveTo="opacity-0"
           afterLeave={() => setQuery("")}
         >
-          <Combobox.Options className="z-10 mt-1 max-h-30 w-full overflow-auto rounded-md bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-            {filteredPeople?.length === 0 && query !== "" ? (
+          <Combobox.Options className="z-10 mt-1 max-h-42 w-full overflow-y-auto rounded-md bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+            {filteredList?.length === 0 && query !== "" ? (
               <div className="relative cursor-default px-4 py-2 text-gray-400 select-none">
                 Nenhum resultado encontrado.
               </div>
             ) : (
-              filteredPeople?.map((person) => (
+              filteredList?.map((item) => (
                 <Combobox.Option
-                  key={person?.id}
-                  value={person}
+                  key={item.id}
+                  value={item}
                   className={({ active }) =>
                     clsx(
                       "relative cursor-default py-2 pr-4 pl-10 select-none",
@@ -95,11 +109,16 @@ export function SelectCombobox({
                     <>
                       <span
                         className={clsx(
-                          "block truncate",
+                          "flex items-center gap-2 truncate",
                           selected ? "font-semibold" : "font-normal",
                         )}
                       >
-                        {person.name}
+                        <img
+                          src={item.photo}
+                          className="size-6 rounded-full"
+                          alt=""
+                        />
+                        {item.name}
                       </span>
                       {selected && (
                         <span

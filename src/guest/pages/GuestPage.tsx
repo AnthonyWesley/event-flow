@@ -16,11 +16,11 @@ import useGuest from "../hooks/useGuest";
 import { useEffect } from "react";
 import Accordion from "../../components/Accordion";
 import InfoList from "../../components/InfoList";
-import Card2 from "../../components/Card2";
 import NavAction from "../../components/NavAction";
 import AvatarUploader from "../../components/AvatarUploader";
 import partnerApi from "../../api/axios";
 import { SaleOutputDto } from "../../sale/services/saleService";
+import Card from "../../components/Card";
 
 export default function GuestPage() {
   const { eventId, sellerId } = useParams<{
@@ -95,7 +95,7 @@ export default function GuestPage() {
 
   return (
     <>
-      <Card2
+      <Card
         className="bg-dark my-2 flex flex-col gap-2"
         header={
           <>
@@ -232,7 +232,7 @@ export default function GuestPage() {
             />
           </div>
         </section>
-      </Card2>
+      </Card>
     </>
   );
 }

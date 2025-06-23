@@ -6,7 +6,7 @@ import { InfoLine } from "../../components/InfoLine";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { SellerOutputDto } from "../services/sellerService";
 import EntityListPage from "../../components/EntityListPage";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 import Avatar from "../../components/Avatar";
 
 export default function SellerPage() {
@@ -29,7 +29,7 @@ export default function SellerPage() {
       }}
       FormModal={<SellerForm />}
       CardComponent={(seller) => (
-        <Card2 className="bg-blue pt-[1px]">
+        <Card className="bg-blue pt-[1px]">
           <FlexSection className="w-full p-2">
             <Avatar icon="bxs:user" image={seller.photo} className="my-1" />
             <div className="flex w-full flex-col items-start">
@@ -45,7 +45,7 @@ export default function SellerPage() {
               />
             </div>
           </FlexSection>
-        </Card2>
+        </Card>
       )}
       onItemClick={(seller) => navigate(`/sellers/${seller.id}`)}
     />

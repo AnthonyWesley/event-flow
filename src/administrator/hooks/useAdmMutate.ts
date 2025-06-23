@@ -40,10 +40,9 @@ export default function useAdmMutate() {
 
   const activePartner = useMutation({
     mutationFn: admService.active,
-    onSuccess: () => {
+    onSuccess: (_, data: any) => {
       toast.success("Parceiro ativo!");
-
-      closeModal("AdminToggleForm");
+      closeModal(`AdminToggleForm-${data.id}`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["partnerData"] });
@@ -53,10 +52,9 @@ export default function useAdmMutate() {
   });
   const suspendPartner = useMutation({
     mutationFn: admService.suspend,
-    onSuccess: () => {
+    onSuccess: (_, data: any) => {
       toast.success("Parceiro suspenso!");
-
-      closeModal("AdminToggleForm");
+      closeModal(`AdminToggleForm-${data.id}`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["partnerData"] });

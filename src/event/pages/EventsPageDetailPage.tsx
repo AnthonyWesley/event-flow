@@ -19,11 +19,11 @@ import { goalUtils } from "../../helpers/goalUtils";
 import Accordion from "../../components/Accordion";
 import NavAction from "../../components/NavAction";
 import PremiumFeature from "../../components/PremiumFeature";
-import Card2 from "../../components/Card2";
 import EventReportPdfButton from "../components/EventReportPdfButton";
 import AvatarUploader from "../../components/AvatarUploader";
 import partnerApi from "../../api/axios";
 import { SaleOutputDto } from "../../sale/services/saleService";
+import Card from "../../components/Card";
 
 export default function EventsPageDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
@@ -49,7 +49,7 @@ export default function EventsPageDetailPage() {
     ) ?? 0;
   return (
     <>
-      <Card2 className="bg-gold my-2 w-full pl-1">
+      <Card className="bg-gold my-2 w-full pl-1">
         <header className="flex w-full flex-col items-center gap-2 rounded-lg bg-slate-900 p-2 lg:flex-row">
           <section className="flex w-full items-center justify-start gap-2">
             <AvatarUploader
@@ -248,7 +248,7 @@ export default function EventsPageDetailPage() {
             />
           </Modal>
         </NavAction>
-      </Card2>
+      </Card>
     </>
   );
 }

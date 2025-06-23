@@ -8,7 +8,7 @@ import {
   PlanType,
 } from "../../partner/services/partnerService";
 import SelectPlan from "../../components/SelectPlan";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 
 export type PartnerProps = {
   partner?: PartnerOutputDto;
@@ -48,7 +48,7 @@ export default function PartnerForm({ partner, isAdmin }: PartnerProps) {
   };
 
   return (
-    <Card2
+    <Card
       key={partner?.id ?? ""}
       className={`w-full py-2 ${partner?.plan === "FREE" ? "bg-bronze" : partner?.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
     >
@@ -104,6 +104,6 @@ export default function PartnerForm({ partner, isAdmin }: PartnerProps) {
           {update.isPending ? "Salvando..." : "Salvar"}
         </button>
       </form>
-    </Card2>
+    </Card>
   );
 }

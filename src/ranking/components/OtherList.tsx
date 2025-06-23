@@ -1,5 +1,5 @@
 import Avatar from "../../components/Avatar";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 import { InfoLine } from "../../components/InfoLine";
 import ProgressBar from "../../components/ProgressBar";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
@@ -49,7 +49,7 @@ export default function OtherList({
           ? "ring-amber-700"
           : "bg-slate-950";
   return (
-    <Card2
+    <Card
       className={`border-b border-gray-500/15 pl-1 ring-amber-300 hover:bg-[rgb(29,37,57)] ${bgClass}`}
     >
       <section
@@ -122,6 +122,6 @@ export default function OtherList({
           </div>
         </div>
       </section>
-    </Card2>
+    </Card>
   );
 }

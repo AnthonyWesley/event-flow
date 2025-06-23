@@ -7,7 +7,7 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { ProductOutputDto } from "../../product/services/productService";
 import useProduct from "../../product/hooks/useProduct";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 
 type LeadFormProps = {
   eventId?: string;
@@ -67,7 +67,7 @@ export default function LeadForm({ eventId, lead }: LeadFormProps) {
     });
   };
   return (
-    <Card2 key={eventId ?? ""} className="bg-gold w-full py-2">
+    <Card key={eventId ?? ""} className="bg-gold w-full py-2">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -150,6 +150,6 @@ export default function LeadForm({ eventId, lead }: LeadFormProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card2>
+    </Card>
   );
 }

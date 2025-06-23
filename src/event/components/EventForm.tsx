@@ -5,9 +5,8 @@ import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { EventOutputDto } from "../services/eventService";
 import { FormValidator } from "../../helpers/FormValidator";
-
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 
 export type EventProps = {
   event?: EventOutputDto;
@@ -63,7 +62,7 @@ export default function EventForm({ event }: EventProps) {
     currencyFormatter.ToNumber(goal) !== event?.goal;
 
   return (
-    <Card2 key={event?.id ?? ""} className="bg-gold w-full py-1">
+    <Card key={event?.id ?? ""} className="bg-gold w-full py-1">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -123,6 +122,6 @@ export default function EventForm({ event }: EventProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card2>
+    </Card>
   );
 }

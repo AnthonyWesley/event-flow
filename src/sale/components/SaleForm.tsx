@@ -10,7 +10,7 @@ import { SellerOutputDto } from "../../seller/services/sellerService";
 import useProduct from "../../product/hooks/useProduct";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 import { SelectCombobox } from "../../components/SelectCombobox";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 
 export type SaleProps = {
   eventId?: string;
@@ -91,7 +91,7 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
 
   if (!event || !product) return <Spin />;
   return (
-    <Card2 key={eventId ?? ""} className="bg-rose w-full py-1">
+    <Card key={eventId ?? ""} className="bg-rose w-full py-1">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -123,6 +123,6 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card2>
+    </Card>
   );
 }

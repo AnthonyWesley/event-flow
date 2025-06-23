@@ -10,7 +10,7 @@ import Modal from "../../components/Modal";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Tooltip from "../../components/Tooltip";
 import partnerApi from "../../api/axios";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 import FlexSection from "../../components/FlexSection";
 import NavAction from "../../components/NavAction";
 import AvatarUploader from "../../components/AvatarUploader";
@@ -29,7 +29,7 @@ export default function ProductDetailPage() {
 
   return (
     <>
-      <Card2 className="bg-green my-2 pl-1">
+      <Card className="bg-green my-2 pl-1">
         <section className="p-4">
           <header className="flex gap-2">
             <AvatarUploader
@@ -58,7 +58,7 @@ export default function ProductDetailPage() {
             </FlexSection>
           </header>
         </section>
-      </Card2>
+      </Card>
       <div className="w-full">
         <NavAction>
           <Tooltip info="Voltar">

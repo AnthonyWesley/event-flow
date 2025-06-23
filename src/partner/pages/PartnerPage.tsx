@@ -11,9 +11,9 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Dialog from "../../components/Dialog";
 import NavAction from "../../components/NavAction";
 import Tooltip from "../../components/Tooltip";
-import Card2 from "../../components/Card2";
 import AvatarUploader from "../../components/AvatarUploader";
 import partnerApi from "../../api/axios";
+import Card from "../../components/Card";
 
 export default function PartnerPage() {
   const {
@@ -36,7 +36,7 @@ export default function PartnerPage() {
 
   return (
     <>
-      <Card2
+      <Card
         className={`my-2 ${data.plan === "FREE" ? "bg-bronze" : data.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
         header={
           <header
@@ -120,7 +120,7 @@ export default function PartnerPage() {
             </Tooltip>
           </NavAction>
         </section>
-      </Card2>
+      </Card>
     </>
   );
 }

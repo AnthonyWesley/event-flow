@@ -15,7 +15,7 @@ import CopyToClipboard from "../../components/CopyToClipboard";
 import { useState, useEffect } from "react";
 import Avatar from "../../components/Avatar";
 import PremiumFeature from "../../components/PremiumFeature";
-import Card2 from "../../components/Card2";
+import Card from "../../components/Card";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 interface SellerDetailByEventProps {
@@ -67,7 +67,7 @@ export default function SellerDetailByEvent({
   }, []);
 
   return (
-    <Card2 className="bg-blue flex w-full flex-col gap-2 pl-1">
+    <Card className="bg-blue flex w-full flex-col gap-2 pl-1">
       <Accordion
         title={
           <header className="flex w-full items-center justify-between gap-2">
@@ -184,6 +184,6 @@ export default function SellerDetailByEvent({
           </>
         }
       />
-    </Card2>
+    </Card>
   );
 }

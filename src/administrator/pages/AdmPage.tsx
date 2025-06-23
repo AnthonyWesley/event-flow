@@ -30,6 +30,8 @@ export default function AdmPage() {
   };
 
   const handleStatusPartner = (partner: PartnerOutputDto) => {
+    console.log(partner.name, partner.id);
+
     if (partner.status === "SUSPENDED") {
       activePartner.mutate(partner.id);
     } else {
@@ -90,7 +92,7 @@ export default function AdmPage() {
                 <td className="max-w-[200px] truncate p-2">{user.email}</td>
                 <td className="p-2">{user.phone}</td>
                 <td
-                  className={`rounded-lg p-2 ${user.plan === "FREE" ? "bg-bronze" : user.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
+                  className={`p-2 text-xl font-extrabold ${user.plan === "FREE" ? "text-amber-600" : user.plan === "BASIC" ? "text-slate-300" : "text-amber-300"}`}
                 >
                   {user.plan}
                 </td>
@@ -103,7 +105,7 @@ export default function AdmPage() {
 
                 <td className="flex gap-2 p-2">
                   <Modal
-                    id="AdminToggleForm"
+                    id={`AdminToggleForm-${user.id}`}
                     info={
                       user?.status === "SUSPENDED"
                         ? "Ativar parceiro"
@@ -124,8 +126,8 @@ export default function AdmPage() {
                     <Dialog
                       message={
                         user?.status === "SUSPENDED"
-                          ? "Reativar parceiro?"
-                          : "Suspender parceiro?"
+                          ? `Reativar ${user?.name}?`
+                          : `Suspender ${user?.name}?`
                       }
                       onClick={() => handleStatusPartner(user)}
                       color="bg-green"

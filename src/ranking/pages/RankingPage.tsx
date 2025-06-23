@@ -207,7 +207,7 @@ export default function RankingPage() {
             infoHeader={<div className="py-5"></div>}
             infoFooter={<div className="py-5"></div>}
           >
-            <div className="flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
+            <div className="flex max-h-[45vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
               <div className="flex-1 overflow-y-auto">
                 {list === "SELLERS" && (
                   <RankingDisplay
