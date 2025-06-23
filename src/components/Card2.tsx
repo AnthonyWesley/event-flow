@@ -12,7 +12,7 @@ export default function Card2({ children, header, className = "" }: CardProps) {
       )}
 
       <div
-        className={`rounded-lg bg-slate-900 p-2 shadow-2xl hover:bg-slate-900/80`}
+        className={`rounded-lg bg-slate-900 p-2 shadow-2xl hover:bg-slate-900/10`}
       >
         {children}
       </div>
