@@ -133,7 +133,11 @@ export default function AdmPage() {
                       admin
                     />
                   </Modal>
-                  <Modal id="AdmPageForm" icon="carbon:edit" info="Editar">
+                  <Modal
+                    id={`AdmPageForm-${user.id}`}
+                    icon="carbon:edit"
+                    info="Editar"
+                  >
                     <PartnerForm partner={user} isAdmin />
                   </Modal>
 
