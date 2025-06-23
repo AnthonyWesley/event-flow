@@ -153,28 +153,7 @@ export default function RankingPage() {
                 />
               </div>
             }
-            infoFooter={<div className="py-5"></div>}
-          >
-            <section className="mb-auto max-h-[55vh] w-full overflow-y-auto lg:max-h-[60vh]">
-              <div className="flex flex-1">
-                {list === "SALES" && (
-                  <SaleList
-                    sales={showEvent?.sales}
-                    sellers={showEvent?.allSellers}
-                    products={products}
-                  />
-                )}
-                {list === "SELLERS" && (
-                  <RankingDisplay event={showEvent} mode="PODIUM" />
-                )}
-              </div>
-            </section>
-          </GameDisplay>
-
-          {/* Estatísticas */}
-          <GameDisplay
-            className="mt-2 flex-[1]"
-            infoHeader={
+            infoFooter={
               <div className="flex w-full flex-col">
                 <div className="flex justify-between">
                   <InfoLine
@@ -205,6 +184,27 @@ export default function RankingPage() {
                 <ProgressBar total={showEvent?.goal} current={totalGoal} />
               </div>
             }
+          >
+            <section className="mb-auto max-h-[55vh] w-full overflow-y-auto lg:max-h-[60vh]">
+              <div className="flex flex-1">
+                {list === "SALES" && (
+                  <SaleList
+                    sales={showEvent?.sales}
+                    sellers={showEvent?.allSellers}
+                    products={products}
+                  />
+                )}
+                {list === "SELLERS" && (
+                  <RankingDisplay event={showEvent} mode="PODIUM" />
+                )}
+              </div>
+            </section>
+          </GameDisplay>
+
+          {/* Estatísticas */}
+          <GameDisplay
+            className="mt-2 flex-[1]"
+            infoHeader={<div className="py-5"></div>}
             infoFooter={<div className="py-5"></div>}
           >
             <div className="flex max-h-[35vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">

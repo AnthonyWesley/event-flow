@@ -34,7 +34,7 @@ body {
   }
 
   .bg-gold {
-    @apply bg-gradient-to-r from-amber-200 via-yellow-400 to-yellow-500;
+    @apply bg-gradient-to-r from-yellow-500 via-yellow-400 to-amber-200;
   }
 
   .bg-bronze {
