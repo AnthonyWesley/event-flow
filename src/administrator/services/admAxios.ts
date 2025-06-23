@@ -71,12 +71,14 @@ admApi.interceptors.response.use(
         processQueue(null, newAccessToken);
         return admApi(originalRequest);
       } catch (err) {
-        processQueue(err, null);
-        await admApi.post("/admin/logout");
+        await admApi.post("/admin/logout").catch(() => {});
         localStorage.removeItem("admAccessToken");
 
-        window.location.href = "/adm";
-        return Promise.reject(err);
+        processQueue(err, null);
+
+        window.location.replace("/auth");
+
+        return new Promise(() => {});
       } finally {
         isRefreshing = false;
       }

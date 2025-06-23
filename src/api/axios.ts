@@ -78,13 +78,14 @@ partnerApi.interceptors.response.use(
         processQueue(null, newAccessToken);
         return partnerApi(originalRequest);
       } catch (err) {
-        processQueue(err, null);
-        await partnerApi.post("/auth/logout");
+        await partnerApi.post("/auth/logout").catch(() => {});
         localStorage.removeItem("accessToken");
 
-        window.location.href = "/auth";
+        processQueue(err, null);
 
-        return Promise.reject(err);
+        window.location.replace("/auth");
+
+        return new Promise(() => {});
       } finally {
         isRefreshing = false;
       }
