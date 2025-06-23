@@ -6,7 +6,7 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 import Card from "../../components/Card";
 import { EventOutputDto } from "../services/eventService";
 import { FormValidator } from "../../helpers/FormValidator";
-import { useNavigate } from "react-router-dom";
+
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 
 export type EventProps = {
@@ -15,8 +15,6 @@ export type EventProps = {
 };
 
 export default function EventForm({ event }: EventProps) {
-  const navigate = useNavigate();
-
   const [name, setName] = useState("");
   const [goal, setGoal] = useState<string | number>("R$");
   const [goalType, setGoalType] = useState<SelectList>({
@@ -49,19 +47,14 @@ export default function EventForm({ event }: EventProps) {
       goal,
     });
     if (!isValid) return;
-    createOrUpdate.mutate(
-      {
-        id: event?.id,
-        data: {
-          name: fieldFormatter.name(name),
-          goal: currencyFormatter.ToNumber(goal),
-          goalType: goalType.id,
-        },
+    createOrUpdate.mutate({
+      id: event?.id,
+      data: {
+        name: fieldFormatter.name(name),
+        goal: currencyFormatter.ToNumber(goal),
+        goalType: goalType.id,
       },
-      {
-        onSuccess: () => navigate(`${event?.id ? `` : `/events/${event?.id}`}`),
-      },
-    );
+    });
   };
 
   const hasChanges =

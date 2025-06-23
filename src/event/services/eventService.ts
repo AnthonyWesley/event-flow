@@ -53,7 +53,8 @@ export const eventService = {
 
   create: async (data: EventInputDto) => {
     const response = await partnerApi.post("/events", data);
-    return response.data.events;
+
+    return response.data;
   },
 
   update: async (eventId: string, data: EventInputDto) => {
@@ -67,7 +68,7 @@ export const eventService = {
   },
   export: async (eventId: string) => {
     const response = await partnerApi.get(`/events/${eventId}/export`, {
-      responseType: "blob", // importantíssimo
+      responseType: "blob",
     });
 
     const blob = new Blob([response.data], { type: "application/pdf" });

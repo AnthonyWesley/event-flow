@@ -57,12 +57,14 @@ export function useEventMutations() {
   const createOrUpdate = useMutation({
     mutationFn: ({ id, data }: { id?: string; data: any }) =>
       id ? eventService.update(id, data) : eventService.create(data),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Evento salvo com sucesso!");
       closeModal("RankingPageEventForm");
       closeModal("RankingPageEventForm2");
       closeModal("EventsPageEventForm");
       closeModal("EventsPageDetailPageEventForm");
+      // const newId = newEvent?.id ?? event?.id;
+      navigate(`/events/${data.id}`);
     },
     onError: (err: any) => {
       toast.error(
