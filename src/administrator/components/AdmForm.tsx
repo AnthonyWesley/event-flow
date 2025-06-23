@@ -1,4 +1,3 @@
-import Card from "../../components/Card";
 import { useEffect, useState } from "react";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { FormValidator } from "../../helpers/FormValidator";
@@ -9,6 +8,7 @@ import {
   PlanType,
 } from "../../partner/services/partnerService";
 import SelectPlan from "../../components/SelectPlan";
+import Card2 from "../../components/Card2";
 
 export type PartnerProps = {
   partner?: PartnerOutputDto;
@@ -48,7 +48,10 @@ export default function PartnerForm({ partner, isAdmin }: PartnerProps) {
   };
 
   return (
-    <Card key={partner?.id ?? ""} color="">
+    <Card2
+      key={partner?.id ?? ""}
+      className={`w-full py-2 ${partner?.plan === "FREE" ? "bg-bronze" : partner?.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
+    >
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -101,6 +104,6 @@ export default function PartnerForm({ partner, isAdmin }: PartnerProps) {
           {update.isPending ? "Salvando..." : "Salvar"}
         </button>
       </form>
-    </Card>
+    </Card2>
   );
 }

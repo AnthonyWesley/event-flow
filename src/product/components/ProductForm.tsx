@@ -4,10 +4,10 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { FormValidator } from "../../helpers/FormValidator";
 import { useProductMutations } from "../hooks/useProductMutations";
 import { ProductOutputDto } from "../services/productService";
-import Card from "../../components/Card";
 import useProduct from "../hooks/useProduct";
 import { toast } from "react-toastify";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
+import Card2 from "../../components/Card2";
 
 export type ProductProps = {
   product?: ProductOutputDto;
@@ -64,7 +64,7 @@ export default function ProductForm({ product }: ProductProps) {
     name !== product?.name ||
     currencyFormatter.ToNumber(price) !== product?.price;
   return (
-    <Card key={product?.id ?? ""} color="green">
+    <Card2 key={product?.id ?? ""} className="bg-green w-full py-1">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -104,6 +104,6 @@ export default function ProductForm({ product }: ProductProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card>
+    </Card2>
   );
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { formatPhoneNumber } from "../../auth/components/authForm";
-import Card from "../../components/Card";
 import MultiSelectCombobox from "../../components/MultiSelectCombobox";
 import { FormValidator } from "../../helpers/FormValidator";
 import { useLeadMutations } from "../hooks/useLeadMutations";
@@ -8,6 +7,7 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { ProductOutputDto } from "../../product/services/productService";
 import useProduct from "../../product/hooks/useProduct";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
+import Card2 from "../../components/Card2";
 
 type LeadFormProps = {
   eventId?: string;
@@ -67,7 +67,7 @@ export default function LeadForm({ eventId, lead }: LeadFormProps) {
     });
   };
   return (
-    <Card key={eventId ?? ""} color="blue">
+    <Card2 key={eventId ?? ""} className="bg-gold w-full py-2">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -150,6 +150,6 @@ export default function LeadForm({ eventId, lead }: LeadFormProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card>
+    </Card2>
   );
 }

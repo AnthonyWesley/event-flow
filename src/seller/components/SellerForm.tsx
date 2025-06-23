@@ -3,13 +3,13 @@ import { FormValidator } from "../../helpers/FormValidator";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { useSellerMutations } from "../hooks/useSellerMutations";
 import { SellerOutputDto } from "../services/sellerService";
-import Card from "../../components/Card";
 import MultiSelectCombobox from "../../components/MultiSelectCombobox";
 import { formatPhoneNumber } from "../../auth/components/authForm";
 import { useEvent } from "../../event/hooks/useEvent";
 import { toast } from "react-toastify";
 import useSeller from "../hooks/useSeller";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
+import Card2 from "../../components/Card2";
 // import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 
 type SellerFormProps = {
@@ -143,7 +143,7 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
     fieldFormatter.phone(phone) !== fieldFormatter.phone(seller?.phone ?? "");
 
   return (
-    <Card key={seller?.id ?? ""} color="blue">
+    <Card2 key={seller?.id ?? ""} className="bg-blue w-full py-1">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -229,6 +229,6 @@ export default function SellerForm({ seller, eventId }: SellerFormProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card>
+    </Card2>
   );
 }

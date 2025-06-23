@@ -1,4 +1,3 @@
-import Card from "../../components/Card";
 import { useEffect, useState } from "react";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import { FormValidator } from "../../helpers/FormValidator";
@@ -6,6 +5,7 @@ import { PartnerOutputDto, PlanType } from "../services/partnerService";
 import { usePartnerMutations } from "../hooks/usePartnerMutations";
 import { formatPhoneNumber } from "../../auth/components/authForm";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
+import Card2 from "../../components/Card2";
 
 export type PartnerProps = {
   partner?: PartnerOutputDto;
@@ -49,7 +49,10 @@ export default function PartnerForm({ partner }: PartnerProps) {
     fieldFormatter.phone(phone) !== fieldFormatter.phone(partner?.phone ?? "");
 
   return (
-    <Card key={partner?.id ?? ""} color="">
+    <Card2
+      key={partner?.id ?? ""}
+      className={`w-full py-2 ${partner?.plan === "FREE" ? "bg-bronze" : partner?.plan === "BASIC" ? "bg-silver" : "bg-gold"}`}
+    >
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -95,6 +98,6 @@ export default function PartnerForm({ partner }: PartnerProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card>
+    </Card2>
   );
 }
