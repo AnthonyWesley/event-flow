@@ -6,6 +6,7 @@ import { formatDate } from "../../helpers/formatDate";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { goalUtils } from "../../helpers/goalUtils";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
 
 type EventReportPdfProps = {
   event: EventOutputDto;
@@ -53,7 +54,7 @@ export default function EventReportPdfButton({
     doc.setTextColor(0, 0, 0);
     doc.setFont("helvetica", "normal");
     doc.text(
-      `Período: ${formatDate(event.startDate)} a ${formatDate(event.endDate)}`,
+      `Período: ${formatDate(event.startDate)} a ${formatDate(event.endDate) ?? "Em andamento"}`,
       14,
       25,
     );
@@ -88,7 +89,7 @@ export default function EventReportPdfButton({
         return [
           s.name,
           s.email,
-          s.phone,
+          fieldFormatter.phone(s.phone),
           s.totalSalesCount.toString(),
           currencyFormatter.ToBRL(s.totalSalesValue),
           event.goalType === "VALUE"
