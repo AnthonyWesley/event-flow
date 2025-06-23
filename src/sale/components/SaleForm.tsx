@@ -102,14 +102,14 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
           label="Vendedor"
           selectList={isGuest ? isGuestSeller : event.allSellers}
           onChange={setSeller}
-          selected={seller}
+          // selected={seller}
         />
 
         <SelectCombobox
           label="Produto"
           selectList={products}
           onChange={setProduct}
-          selected={product}
+          // selected={product}
         />
 
         <Counter label="Quantidade:" onChange={setQuantity} />
