@@ -51,6 +51,7 @@ export default function OtherList({
   return (
     <Card
       className={`border-b border-gray-500/15 pl-1 ring-amber-300 hover:bg-[rgb(29,37,57)] ${bgClass}`}
+      hover="hover:bg-[rgb(29,37,57)]"
     >
       <section
         key={other.email}

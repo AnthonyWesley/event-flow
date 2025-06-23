@@ -77,6 +77,15 @@ export default function TopThree({
   };
   // const images = ["/images/02.png", "/images/01.png", "/images/03.png"];
 
+  const ringClass =
+    index === 1
+      ? "ring-amber-300 shadow-[0_0_10px_#dfb005]"
+      : index === 0
+        ? "ring-slate-300 shadow-[0_0_10px_#c4cfda]"
+        : index === 2
+          ? "ring-amber-600 shadow-[0_0_10px_#d19449]"
+          : "bg-slate-950";
+
   return (
     <section className="my-2 flex min-h-[330px] w-full items-start justify-center gap-1">
       <div
@@ -98,7 +107,11 @@ export default function TopThree({
           <span className="text-base md:text-2xl lg:text-2xl">
             {correctPosition}º
           </span>
-          <Avatar name={topThree?.name} image={topThree?.photo} />
+          <Avatar
+            name={topThree?.name}
+            image={topThree?.photo}
+            className={`${ringClass}`}
+          />
 
           <h1 className="w-25 text-center text-[12px] font-bold lg:text-base">
             {fieldFormatter.name(topThree?.name, "firstTwo")}

@@ -36,10 +36,7 @@ export default function SellerPage() {
           <FlexSection className="w-full p-2">
             <Avatar icon="bxs:user" image={seller.photo} className="my-1" />
             <div className="flex w-full flex-col items-start">
-              <InfoLine
-                value={fieldFormatter.name(seller?.name, "firstTwo")}
-                size="base"
-              />
+              <InfoLine value={fieldFormatter.name(seller?.name)} size="base" />
               <InfoLine label="E-mail:" value={seller.email} size="sm" />
               <InfoLine
                 label="Telefone:"
