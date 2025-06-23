@@ -4,13 +4,13 @@ import Spin from "../../components/Spin";
 import { SelectList } from "../../components/Select";
 import { useEvent } from "../../event/hooks/useEvent";
 import Counter from "../../components/Counter";
-import Card from "../../components/Card";
 import { useSaleMutations } from "../hooks/useSaleMutations";
 import { useGuestMutations } from "../../guest/hooks/useGuestMutations";
 import { SellerOutputDto } from "../../seller/services/sellerService";
 import useProduct from "../../product/hooks/useProduct";
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
 import { SelectCombobox } from "../../components/SelectCombobox";
+import Card2 from "../../components/Card2";
 
 export type SaleProps = {
   eventId?: string;
@@ -91,30 +91,20 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
 
   if (!event || !product) return <Spin />;
   return (
-    <Card key={eventId ?? ""} color="rose">
+    <Card2 key={eventId ?? ""} className="bg-rose w-full py-1">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
       >
         <h1 className="rounded text-xl font-bold">Registro de Venda</h1>
-        {/* <Select
-          label="Vendedor"
-          selectList={isGuest ? isGuestSeller : event.allSellers}
-          onChange={setSeller}
-          selected={seller}
-        /> */}
+
         <SelectCombobox
           label="Vendedor"
           selectList={isGuest ? isGuestSeller : event.allSellers}
           onChange={setSeller}
           selected={seller}
         />
-        {/* <Select
-          label="Produto"
-          selectList={products}
-          onChange={setProduct}
-          selected={product}
-        /> */}
+
         <SelectCombobox
           label="Produto"
           selectList={products}
@@ -133,6 +123,6 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card>
+    </Card2>
   );
 }

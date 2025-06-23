@@ -3,11 +3,11 @@ import Select, { SelectList } from "../../components/Select";
 import { useEventMutations } from "../hooks/useEventMutations";
 import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
-import Card from "../../components/Card";
 import { EventOutputDto } from "../services/eventService";
 import { FormValidator } from "../../helpers/FormValidator";
 
 import AccessExpiredWrapper from "../../components/AccessExpiredWrapper";
+import Card2 from "../../components/Card2";
 
 export type EventProps = {
   event?: EventOutputDto;
@@ -63,7 +63,7 @@ export default function EventForm({ event }: EventProps) {
     currencyFormatter.ToNumber(goal) !== event?.goal;
 
   return (
-    <Card key={event?.id ?? ""} color="orange">
+    <Card2 key={event?.id ?? ""} className="bg-gold w-full py-1">
       <form
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-4 rounded-lg p-4"
@@ -123,6 +123,6 @@ export default function EventForm({ event }: EventProps) {
           </button>
         </AccessExpiredWrapper>
       </form>
-    </Card>
+    </Card2>
   );
 }

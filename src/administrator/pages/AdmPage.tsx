@@ -25,6 +25,7 @@ export default function AdmPage() {
   if (error) return "An error has occurred: " + error.message;
 
   const handleAccessPartner = (partner: PartnerOutputDto) => {
+    localStorage.removeItem("accessToken");
     accessPartner.mutate(partner.id);
   };
 

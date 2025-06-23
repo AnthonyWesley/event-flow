@@ -47,8 +47,8 @@ export function SelectCombobox({
   const filteredPeople =
     query === ""
       ? selectList
-      : selectList.filter((person) =>
-          person.name.toLowerCase().includes(query.toLowerCase()),
+      : selectList?.filter((person) =>
+          person?.name?.toLowerCase().includes(query.toLowerCase()),
         );
 
   return (
@@ -59,7 +59,7 @@ export function SelectCombobox({
           <Combobox.Input
             className={`w-full border-none bg-transparent p-2 text-sm text-gray-200 placeholder-gray-400 outline-none focus:ring-0 ${className}`}
             displayValue={(person: any) => person?.name}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => setQuery(event?.target.value)}
             placeholder="Selecione uma opção"
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -75,14 +75,14 @@ export function SelectCombobox({
           afterLeave={() => setQuery("")}
         >
           <Combobox.Options className="z-10 mt-1 max-h-30 w-full overflow-auto rounded-md bg-gray-700 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-            {filteredPeople.length === 0 && query !== "" ? (
+            {filteredPeople?.length === 0 && query !== "" ? (
               <div className="relative cursor-default px-4 py-2 text-gray-400 select-none">
                 Nenhum resultado encontrado.
               </div>
             ) : (
-              filteredPeople.map((person) => (
+              filteredPeople?.map((person) => (
                 <Combobox.Option
-                  key={person.id}
+                  key={person?.id}
                   value={person}
                   className={({ active }) =>
                     clsx(

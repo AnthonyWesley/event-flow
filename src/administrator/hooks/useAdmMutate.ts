@@ -26,7 +26,8 @@ export default function useAdmMutate() {
   const accessPartner = useMutation({
     mutationFn: admService.impersonate,
     onSuccess: () => {
-      navigate("/");
+      window.location.href = "/";
+      // navigate("/");
     },
 
     onError: (error: any) => {

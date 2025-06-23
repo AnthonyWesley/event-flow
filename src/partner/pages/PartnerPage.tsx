@@ -50,7 +50,7 @@ export default function PartnerPage() {
           <FlexSection className="w-full flex-row gap-2">
             <AvatarUploader
               name={data?.name}
-              icon="iconoir:box-iso"
+              icon="ri:user-star-fill"
               image={data?.photo}
               onUpload={(file) => {
                 const formData = new FormData();
@@ -103,7 +103,7 @@ export default function PartnerPage() {
               }
               info="Sair do app"
             >
-              <Dialog message="Deseja sair do app?" onClick={logout} />
+              <Dialog message="Deseja sair do app?" onClick={logout} admin />
             </Modal>
 
             <Modal id="PartnerPagePartnerForm" icon="carbon:edit" info="Editar">
