@@ -11,11 +11,7 @@ export default function Card2({ children, header, className = "" }: CardProps) {
         <header className="flex items-center justify-center">{header}</header>
       )}
 
-      <div
-        className={`rounded-lg bg-slate-900 p-2 shadow-2xl hover:bg-slate-900/10`}
-      >
-        {children}
-      </div>
+      <div className={`rounded-lg bg-slate-900 p-2 shadow-2xl`}>{children}</div>
     </section>
   );
 }
