@@ -29,7 +29,10 @@ export default function SellerPage() {
       }}
       FormModal={<SellerForm />}
       CardComponent={(seller) => (
-        <Card className="bg-blue pt-[1px]">
+        <Card
+          className="bg-blue pt-[1px]"
+          hover="hover:shadow-[0_0_10px_#0188ff]"
+        >
           <FlexSection className="w-full p-2">
             <Avatar icon="bxs:user" image={seller.photo} className="my-1" />
             <div className="flex w-full flex-col items-start">

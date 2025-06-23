@@ -30,7 +30,10 @@ export default function ProductPage() {
         }}
         FormModal={<ProductForm />}
         CardComponent={(product) => (
-          <Card className="bg-green pt-[1px]">
+          <Card
+            className="bg-green pt-[1px]"
+            hover="hover:shadow-[0_0_10px_#01ffff]"
+          >
             <FlexSection className="w-full p-2">
               <Avatar
                 icon="iconoir:box-iso"
