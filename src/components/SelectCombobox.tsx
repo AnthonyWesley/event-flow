@@ -61,7 +61,7 @@ export function SelectCombobox({
           <div className="flex items-center gap-2 p-2">
             {selected?.photo && (
               <img
-                src={selected.photo}
+                src={selected?.photo}
                 className="size-6 rounded-full"
                 alt=""
               />
