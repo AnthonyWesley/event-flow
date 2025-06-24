@@ -16,6 +16,7 @@ export type SelectProps = {
   selected?: SelectList;
   className?: string;
   placeholder?: string;
+  imageOn?: boolean;
 };
 
 export function SelectCombobox({
@@ -24,6 +25,7 @@ export function SelectCombobox({
   onChange,
   selected: externalSelected,
   className,
+  imageOn,
   placeholder = "Selecione uma opção",
 }: SelectProps) {
   const [selected, setSelected] = useState<SelectList>(
@@ -59,7 +61,7 @@ export function SelectCombobox({
         <div className="relative w-full cursor-default overflow-hidden rounded-sm border border-cyan-800 bg-white/5 text-left shadow-md focus:outline-none sm:text-sm">
           {/* Input com imagem + nome */}
           <div className="flex items-center gap-2 p-2">
-            {selected?.photo && (
+            {selected?.photo && imageOn && (
               <img
                 src={selected?.photo}
                 className="size-6 rounded-full"
@@ -71,10 +73,11 @@ export function SelectCombobox({
                 "w-full border-none bg-transparent text-sm text-gray-200 placeholder-gray-400 outline-none focus:ring-0",
                 className,
               )}
-              displayValue={(item: SelectList) => item?.name}
+              displayValue={(item: SelectList) => item?.name || ""}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={placeholder}
             />
+
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <Icon icon="mdi:chevron-down" className="h-5 w-5 text-gray-400" />
             </Combobox.Button>
@@ -113,11 +116,14 @@ export function SelectCombobox({
                           selected ? "font-semibold" : "font-normal",
                         )}
                       >
-                        <img
-                          src={item.photo}
-                          className="size-6 rounded-full"
-                          alt=""
-                        />
+                        {imageOn && (
+                          <img
+                            src={item.photo}
+                            className="size-6 rounded-full"
+                            alt=""
+                          />
+                        )}
+
                         {item.name}
                       </span>
                       {selected && (

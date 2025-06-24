@@ -87,9 +87,9 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
     if (!product && products?.length > 0) {
       setProduct(products[0]);
     }
-  }, [products]);
+  }, [product]);
 
-  if (!event || !product) return <Spin />;
+  if (!event) return <Spin />;
   return (
     <Card key={eventId ?? ""} className="bg-rose w-full py-1">
       <form
@@ -102,14 +102,13 @@ export default function SaleForm({ eventId, guestId, isGuest }: SaleProps) {
           label="Vendedor"
           selectList={isGuest ? isGuestSeller : event.allSellers}
           onChange={setSeller}
-          // selected={seller}
+          imageOn
         />
 
         <SelectCombobox
           label="Produto"
           selectList={products}
           onChange={setProduct}
-          // selected={product}
         />
 
         <Counter label="Quantidade:" onChange={setQuantity} />
