@@ -1,4 +1,6 @@
-export const PRIVATE_ROUTES = [
+import { PartnerOutputDto } from "../partner/services/partnerService";
+
+export const PRIVATE_ROUTES = (user: PartnerOutputDto) => [
   {
     href: "/",
     text: "Ranking",
@@ -24,5 +26,6 @@ export const PRIVATE_ROUTES = [
     href: "/user",
     text: "",
     icon: "ri:map-pin-user-fill",
+    image: user?.photo,
   },
 ];

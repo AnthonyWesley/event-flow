@@ -5,6 +5,7 @@ type RouteType = {
   href: string;
   text: string;
   icon: string;
+  image?: string;
 };
 
 export type NavProps = {
@@ -33,7 +34,16 @@ export default function Navbar({ links }: NavProps) {
                 : ""
             }`}
           >
-            <Icon icon={link.icon} width="30" />
+            {link?.image ? (
+              <img
+                src={link.image}
+                alt={link.text}
+                className="size-10 rounded-full ring-2"
+              />
+            ) : (
+              <Icon icon={link.icon} width="30" />
+            )}
+
             <p className="hidden lg:flex">{link.text}</p>
           </Link>
         ))}

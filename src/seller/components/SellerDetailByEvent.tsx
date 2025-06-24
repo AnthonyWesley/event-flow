@@ -71,7 +71,9 @@ export default function SellerDetailByEvent({
       <Accordion
         title={
           <header className="flex w-full items-center justify-between gap-2">
-            <Avatar name={seller?.name} image={seller?.photo} />
+            {/* <Avatar name={seller?.name} image={seller?.photo} /> */}
+            <Avatar icon="bxs:user" image={seller.photo} className="my-1" />
+
             <div className="mr-auto w-25">
               <InfoLine
                 value={fieldFormatter.name(seller?.name, "firstTwo")}

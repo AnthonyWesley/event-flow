@@ -22,11 +22,15 @@ import AdmAuthPage from "./administrator/pages/AdmAuthPage";
 import SellerDetailPage from "./seller/pages/SellerDetailPage";
 import LeadPage from "./lead/pages/LeadPage";
 import AdminMenu from "./components/AdminMenu";
+import usePartner from "./partner/hooks/usePartner";
 
 export default function App() {
   const location = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
   const isAdmAuthenticated = Boolean(localStorage.getItem("admAccessToken"));
+  const {
+    queryPartner: { data: partner },
+  } = usePartner();
 
   const isGuestPage = matchPath(
     "events/:eventId/guest/:sellerId",
@@ -43,7 +47,7 @@ export default function App() {
 
   return (
     <div className="scrollbar-transparent flex min-h-screen flex-col">
-      {shouldShowNavbar && <Navbar links={PRIVATE_ROUTES} />}
+      {shouldShowNavbar && <Navbar links={PRIVATE_ROUTES(partner)} />}
       {shouldShowPendingModal && <PendingModal />}
       {shouldShowPublicNavbar && <Navbar links={PUBLIC_ROUTES} />}
 

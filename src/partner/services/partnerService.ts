@@ -11,6 +11,7 @@ export type PartnerOutputDto = {
   name: string;
   email: string;
   phone: string;
+  photo: string;
   plan: PlanType;
   status: PartnerStatus;
   maxConcurrentEvents: number;

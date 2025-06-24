@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Icon } from "@iconify/react";
 
 type CopyToClipboardProps = {
   text: string;
@@ -15,7 +16,7 @@ export default function CopyToClipboard({
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset after 2s
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Erro ao copiar:", err);
     }
@@ -24,8 +25,16 @@ export default function CopyToClipboard({
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-2 text-base text-blue-600 hover:underline"
+      className="flex items-center gap-2 text-base text-cyan-400 hover:underline"
     >
+      <Icon
+        icon={
+          copied
+            ? "material-symbols:check-circle"
+            : "material-symbols:content-copy"
+        }
+        className="h-5 w-5"
+      />
       {copied ? "Copiado!" : label}
     </button>
   );

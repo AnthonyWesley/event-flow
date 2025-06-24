@@ -17,7 +17,11 @@ export function CircularProgress({ total, current }: ProgressBarProps) {
 
   return (
     <div className="relative h-25 w-25">
-      <svg height={radius * 2} width={radius * 2} className="rotate-[-90deg]">
+      <svg
+        height={radius * 2}
+        width={radius * 2}
+        className="rotate-[-90deg] animate-pulse"
+      >
         <defs>
           <linearGradient
             id="progress-gradient"
