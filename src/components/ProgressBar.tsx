@@ -10,7 +10,7 @@ export default function ProgressBar({ total, current }: ProgressBarProps) {
   return (
     <div className="flex w-full items-center gap-1 border-gray-400/15">
       <div
-        className="bg-blue flex h-[3px] items-center justify-end rounded-full"
+        className="bg-blue flex h-[3px] animate-pulse items-center justify-end rounded-full"
         style={{ width: `${progress}%` }}
       ></div>
       <p
