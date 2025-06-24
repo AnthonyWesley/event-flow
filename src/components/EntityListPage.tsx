@@ -3,6 +3,7 @@ import InputSearch from "./InputSearch";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Modal from "./Modal";
 import NavAction from "./NavAction";
+import AnimatedSection from "./AnimatedSection";
 
 type EntityListPageProps<T> = {
   title: string;
@@ -87,13 +88,13 @@ export default function EntityListPage<T>({
           </div>
         ) : entities && entities.length > 0 ? (
           entities.slice(0, visibleCount).map((entity, index) => (
-            <div
+            <AnimatedSection
               key={index}
               className="w-full cursor-pointer"
               onClick={() => onItemClick(entity)}
             >
               {CardComponent(entity)}
-            </div>
+            </AnimatedSection>
           ))
         ) : (
           <p className="col-span-full text-center text-gray-400">

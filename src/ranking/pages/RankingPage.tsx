@@ -26,6 +26,8 @@ import Select from "../../components/Select";
 import { EventOutputDto } from "../../event/services/eventService";
 import { usePersistedEvent } from "../hooks/usePersistedEvent";
 
+import AnimatedSection from "../../components/AnimatedSection";
+
 export const eventsLinks = [
   {
     href: "/sellers",
@@ -186,18 +188,20 @@ export default function RankingPage() {
             }
           >
             <section className="mb-auto max-h-[55vh] w-full overflow-y-auto lg:max-h-[60vh]">
-              <div className="flex flex-1">
-                {list === "SALES" && (
+              {list === "SALES" && (
+                <AnimatedSection className="flex flex-1">
                   <SaleList
                     sales={showEvent?.sales}
                     sellers={showEvent?.allSellers}
                     products={products}
                   />
-                )}
-                {list === "SELLERS" && (
+                </AnimatedSection>
+              )}
+              {list === "SELLERS" && (
+                <AnimatedSection className="flex flex-1">
                   <RankingDisplay event={showEvent} mode="PODIUM" />
-                )}
-              </div>
+                </AnimatedSection>
+              )}
             </section>
           </GameDisplay>
 
@@ -210,37 +214,45 @@ export default function RankingPage() {
             <div className="flex max-h-[45vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
               <div className="flex-1 overflow-y-auto">
                 {list === "SELLERS" && (
-                  <RankingDisplay
-                    event={showEvent}
-                    mode={showEvent?.sales.length <= 0 ? "NORMAL" : "OTHERS"}
-                  />
+                  <AnimatedSection className="text-sm">
+                    <RankingDisplay
+                      event={showEvent}
+                      mode={showEvent?.sales.length <= 0 ? "NORMAL" : "OTHERS"}
+                    />
+                  </AnimatedSection>
                 )}
-                {list === "SALES" && <RankingDisplay event={showEvent} />}
+                {list === "SALES" && (
+                  <AnimatedSection>
+                    <RankingDisplay event={showEvent} />
+                  </AnimatedSection>
+                )}
               </div>
             </div>
           </GameDisplay>
 
           {/* Ações */}
           <GameDisplay className="mt-2">
-            <NavAction position="vertical" className="lg:h-[75vh]">
-              <Tooltip
-                info={list === "SALES" ? "Vendas" : "Vendedores"}
-                className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100"
-              >
-                <ChangeButton onChange={changeList} />
-              </Tooltip>
-              {modalActions.map((modal) => (
-                <Modal
-                  key={modal.id}
-                  info={modal.info}
-                  id={modal.id}
-                  icon={modal.icon}
-                  color={modal.color}
+            <AnimatedSection>
+              <NavAction position="vertical" className="lg:h-[75vh]">
+                <Tooltip
+                  info={list === "SALES" ? "Vendas" : "Vendedores"}
+                  className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100"
                 >
-                  {modal.children}
-                </Modal>
-              ))}
-            </NavAction>
+                  <ChangeButton onChange={changeList} />
+                </Tooltip>
+                {modalActions.map((modal) => (
+                  <Modal
+                    key={modal.id}
+                    info={modal.info}
+                    id={modal.id}
+                    icon={modal.icon}
+                    color={modal.color}
+                  >
+                    {modal.children}
+                  </Modal>
+                ))}
+              </NavAction>
+            </AnimatedSection>
           </GameDisplay>
         </div>
       ) : (
