@@ -4,6 +4,7 @@ import AuthForm from "../components/authForm";
 import { toast } from "react-toastify";
 import { FormValidator } from "../../helpers/FormValidator";
 import AnimatedTabs from "../../components/AnimatedTabs";
+import SplitText from "../../components/SplitText";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -33,56 +34,63 @@ export default function AuthPage() {
   };
 
   return (
-    <section className="flex items-start justify-center p-1">
-      <div className="w-full max-w-sm rounded-md border border-gray-500 p-6 shadow-lg">
-        <AnimatedTabs
-          tabs={[
-            {
-              value: "login",
-              label: (
-                <button
-                  type="button"
-                  onClick={() => setIsLogin(true)}
-                  className="text-center text-xl font-bold"
-                >
-                  Fazer login
-                </button>
-              ),
-              content: (
-                <AuthForm
-                  isLogin={isLogin}
-                  isLoading={login.isPending || register.isPending}
-                  onSubmit={handleSubmit}
-                />
-              ),
-            },
-            {
-              value: "register",
-              label: (
-                <button
-                  type="button"
-                  onClick={() => setIsLogin(false)}
-                  className="text-center text-xl font-bold"
-                >
-                  Criar conta
-                </button>
-              ),
-              content: (
-                <AuthForm
-                  isLogin={false}
-                  isLoading={login.isPending || register.isPending}
-                  onSubmit={handleSubmit}
-                />
-              ),
-            },
-          ]}
+    <section className="flex items-start justify-center gap-2 p-1">
+      <section className="flex flex-col">
+        <SplitText
+          className="border-b border-gray-500 text-center text-3xl font-black"
+          message="Bem-vindo!"
         />
-      </div>
-
+        <div className="w-full max-w-sm rounded-md border-gray-500 pb-6 shadow-lg">
+          <AnimatedTabs
+            tabs={[
+              {
+                value: "login",
+                label: (
+                  <button
+                    type="button"
+                    onClick={() => setIsLogin(true)}
+                    className="text-center text-xl font-bold"
+                  >
+                    Fazer login
+                  </button>
+                ),
+                content: (
+                  <AuthForm
+                    isLogin={isLogin}
+                    isLoading={login.isPending || register.isPending}
+                    onSubmit={handleSubmit}
+                  />
+                ),
+              },
+              {
+                value: "register",
+                label: (
+                  <button
+                    type="button"
+                    onClick={() => setIsLogin(false)}
+                    className="text-center text-xl font-bold"
+                  >
+                    Criar conta
+                  </button>
+                ),
+                content: (
+                  <AuthForm
+                    isLogin={false}
+                    isLoading={login.isPending || register.isPending}
+                    onSubmit={handleSubmit}
+                  />
+                ),
+              },
+            ]}
+          />
+        </div>
+      </section>
       <img
-        src="./images/bg-3.jpg"
+        // src="./images/bg-3.jpg"
+        src="./images/logo.png"
         alt=""
-        className="hidden w-[500px] border mix-blend-multiply lg:flex"
+        className="hidden max-w-[300px] md:flex lg:flex"
+        // className="hidden w-[500px] border mix-blend-multiply lg:flex"
       />
     </section>
   );

@@ -21,13 +21,13 @@ export default function Navbar({ links }: NavProps) {
       className={`bottom-0 z-40 flex w-full items-center justify-center rounded-b-lg border-b border-solid border-gray-100/15 bg-slate-950 p-1 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out`}
     >
       {/* <ThemeToggle /> */}
-      <div className={`flex w-full duration-500 ease-in-out`}>
+      <div className={`Nav flex w-full duration-500 ease-in-out`}>
         {links.map((link) => (
           <Link
             key={link.text}
             to={link.href}
             aria-label={link.text}
-            className={`group relative flex h-16 w-full flex-row items-center justify-center gap-3 rounded-lg border-solid border-gray-100/5 p-4 duration-300 ease-in-out hover:border hover:shadow-lg ${
+            className={`group ${link.text} relative flex h-16 w-full flex-row items-center justify-center gap-3 rounded-lg border-solid border-gray-100/5 p-4 duration-300 ease-in-out hover:border hover:shadow-lg ${
               pathname.pathname === link.href ||
               (link.href !== "/" && pathname.pathname.startsWith(link.href))
                 ? "text-cyan-400"

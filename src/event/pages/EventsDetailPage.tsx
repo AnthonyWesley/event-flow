@@ -25,7 +25,7 @@ import partnerApi from "../../api/axios";
 import { SaleOutputDto } from "../../sale/services/saleService";
 import Card from "../../components/Card";
 
-export default function EventsPageDetailPage() {
+export default function EventsDetailPage() {
   const { eventId } = useParams<{ eventId: string }>();
 
   const navigate = useNavigate();
@@ -195,7 +195,7 @@ export default function EventsPageDetailPage() {
             />
           </div>
         </section>
-        <NavAction>
+        <NavAction className="justify-evenly">
           <Tooltip info="Voltar">
             <div
               className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
@@ -206,7 +206,7 @@ export default function EventsPageDetailPage() {
           </Tooltip>
 
           <Modal
-            id="EventsPageDetailPageEventForm"
+            id="EventsDetailPageEventForm"
             icon="carbon:edit"
             info="Editar"
           >
@@ -228,6 +228,7 @@ export default function EventsPageDetailPage() {
 
           <Modal
             id="EventsPageEventToggleForm"
+            className="ActiveEvent"
             info={!event?.isActive ? "Ativar evento" : "Desativar evento"}
             icon={
               <Icon
@@ -241,7 +242,7 @@ export default function EventsPageDetailPage() {
           >
             <Dialog
               message={
-                !event?.isActive ? "Reativar evento?" : "Encerrar evento?"
+                !event?.isActive ? "Ativar evento?" : "Desativar evento?"
               }
               onClick={() => toggleStatus.mutate(event.id)}
               color="bg-green"

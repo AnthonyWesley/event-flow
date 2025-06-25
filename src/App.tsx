@@ -11,7 +11,7 @@ import ProductsPage from "./product/pages/ProductsPage";
 import SellersPage from "./seller/pages/SellersPage";
 import ProductDetailPage from "./product/pages/ProductDetailPage";
 import EventsPage from "./event/pages/EventsPage";
-import EventsPageDetailPage from "./event/pages/EventsPageDetailPage";
+import EventsDetailPage from "./event/pages/EventsDetailPage";
 import GuestPage from "./guest/pages/GuestPage";
 import PendingModal from "./components/PendingModal";
 import { PRIVATE_ROUTES } from "./constants/privateRoutes";
@@ -58,7 +58,7 @@ export default function App() {
           <Route path="/" element={<PrivateRoutes />}>
             <Route index element={<RankingPage />} />
             <Route path="events" element={<EventsPage />} />
-            <Route path="events/:eventId" element={<EventsPageDetailPage />} />
+            <Route path="events/:eventId" element={<EventsDetailPage />} />
             <Route path="user" element={<User />} />
             <Route path="sellers" element={<SellersPage />} />
             <Route path="sellers/:sellerId" element={<SellerDetailPage />} />

@@ -11,7 +11,7 @@ import SellerForm from "../../seller/components/SellerForm";
 import ChangeButton from "../../components/ChangeButton";
 import SaleList from "../../sale/components/SaleList";
 import useProduct from "../../product/hooks/useProduct";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SalesOrSellersKey } from "../types/SalesOrSellersKey";
 import Tooltip from "../../components/Tooltip";
 import EventIcon from "../../icons/eventIcon";
@@ -27,6 +27,8 @@ import { EventOutputDto } from "../../event/services/eventService";
 import { usePersistedEvent } from "../hooks/usePersistedEvent";
 
 import AnimatedSection from "../../components/AnimatedSection";
+import SplitText from "../../components/SplitText";
+import GoalAchievedModal from "../../components/GoalAchievedModal";
 
 export const eventsLinks = [
   {
@@ -42,6 +44,8 @@ export const eventsLinks = [
 ];
 
 export default function RankingPage() {
+  const [showModal, setShowModal] = useState(false);
+  const [alreadyTriggered, setAlreadyTriggered] = useState(false);
   const {
     queryEvents: { data: events = [], isPending, error },
   } = useEvent();
@@ -70,12 +74,26 @@ export default function RankingPage() {
 
   const changeList = (status: any) => setList(status);
 
+  useEffect(() => {
+    if (!showEvent || alreadyTriggered) return;
+
+    const alreadyShown = localStorage.getItem(`goalAchieved-${showEvent.id}`);
+    const total = totalGoal;
+    const meta = showEvent?.goal;
+
+    if (total >= meta && !alreadyShown) {
+      setShowModal(true);
+      setAlreadyTriggered(true);
+      localStorage.setItem(`goalAchieved-${showEvent.id}`, "true");
+    }
+  }, [showEvent, alreadyTriggered, totalGoal]);
+
   if (isPending) return <Spin />;
   if (error) return <div>Ocorreu um erro: {error.message}</div>;
 
   const modalActions = [
     {
-      title: "Vendas",
+      title: "ListaDeVendas",
       id: "RankingPageSaleForm",
       info: "Add venda",
       color: "text-rose-500",
@@ -83,19 +101,21 @@ export default function RankingPage() {
       children: <SaleForm eventId={showEvent?.id} />,
     },
     {
-      title: "Vendedores",
+      title: "ListaDeVendedores",
       id: "RankingPageSellerForm",
       info: "Add vendedor",
       icon: "material-symbols:person-add",
       children: <SellerForm eventId={showEvent?.id} />,
     },
     {
+      title: "EditarEvento",
       id: "RankingPageEventForm",
       info: "Editar evento",
       icon: <EventIcon icon="PEN" />,
       children: <EventForm event={showEvent} />,
     },
     {
+      title: "AtivarOuDesativarEvento",
       id: "RankingPageEventToggleForm",
       info: !showEvent?.endDate ? "Finalizar Evento" : "Ativar Evento",
       icon: (
@@ -121,13 +141,19 @@ export default function RankingPage() {
 
   return (
     <>
+      {/* <button
+        onClick={() => localStorage.removeItem(`goalAchieved-${showEvent?.id}`)}
+      >
+        remover
+      </button> */}
+      {showModal && <GoalAchievedModal onClose={() => setShowModal(false)} />}
       {showEvent && (
         <header className="mt-2">
           <Select
             selectList={activeEvents}
             selected={showEvent}
             onChange={setShowEvent}
-            className="bg-gold text-lg font-bold text-slate-900"
+            className="bg-gold rankingPageSelect text-lg font-bold text-slate-900"
           />
         </header>
       )}
@@ -208,7 +234,16 @@ export default function RankingPage() {
           {/* Estatísticas */}
           <GameDisplay
             className="mt-2 flex-[1]"
-            infoHeader={<div className="py-5"></div>}
+            infoHeader={
+              <div className="flex w-full items-center justify-center">
+                <img
+                  // src="./images/bg-3.jpg"
+                  src="./images/logo-2.png"
+                  alt=""
+                  className="max-w-[200px] self-center md:flex lg:flex"
+                />
+              </div>
+            }
             infoFooter={<div className="py-5"></div>}
           >
             <div className="flex max-h-[45vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
@@ -236,7 +271,7 @@ export default function RankingPage() {
               <NavAction position="vertical" className="lg:h-[75vh]">
                 <Tooltip
                   info={list === "SALES" ? "Vendas" : "Vendedores"}
-                  className="cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100"
+                  className="rankingPageChangeList cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100"
                 >
                   <ChangeButton onChange={changeList} />
                 </Tooltip>
@@ -247,6 +282,7 @@ export default function RankingPage() {
                     id={modal.id}
                     icon={modal.icon}
                     color={modal.color}
+                    className={modal.title}
                   >
                     {modal.children}
                   </Modal>
@@ -256,17 +292,29 @@ export default function RankingPage() {
           </GameDisplay>
         </div>
       ) : (
-        <div className="shadow-basic mb-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 p-2 italic">
-          Nenhum evento ativo no momento!
-          <div>Criar evento</div>
-          <Modal
-            info="Criar"
-            id="RankingPageEventForm2"
-            icon={<Icon icon="ic:baseline-plus" width="40" />}
-          >
-            <EventForm event={showEvent} />
-          </Modal>
-        </div>
+        <>
+          <div className="shadow-basic mb-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 bg-slate-900 p-2 italic">
+            <img
+              // src="./images/bg-3.jpg"
+              src="./images/logo.png"
+              alt=""
+              className="max-w-[300px] md:flex lg:flex"
+            />
+            <SplitText
+              className="border-b border-gray-500 text-center"
+              message="Nenhum evento ativo no momento!"
+            />
+            <div>Criar evento</div>
+            <Modal
+              info="Criar"
+              id="RankingPageEventForm2"
+              className="RankingCreateEvent text-cyan-400"
+              icon={<Icon icon="ic:baseline-plus" width="40" />}
+            >
+              <EventForm event={showEvent} />
+            </Modal>
+          </div>
+        </>
       )}
     </>
   );

@@ -65,7 +65,7 @@ export default function EventForm({ event }: EventProps) {
     <Card key={event?.id ?? ""} className="bg-gold w-full py-1">
       <form
         onSubmit={handleSubmit}
-        className="flex w-full flex-col gap-4 rounded-lg p-4"
+        className="EventForm flex w-full flex-col gap-4 rounded-lg p-4"
       >
         <h1 className="rounded text-xl font-bold">
           {event?.id ? "Editar Evento" : "Registro de Evento"}
@@ -116,7 +116,7 @@ export default function EventForm({ event }: EventProps) {
           <button
             type="submit"
             disabled={!hasChanges || createOrUpdate.isPending}
-            className="bg-gray w-full rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
+            className="EventFormButton bg-gray w-full rounded p-2 text-white hover:opacity-90 disabled:opacity-50"
           >
             {createOrUpdate.isPending ? "Salvando..." : "Salvar"}
           </button>

@@ -62,7 +62,7 @@ export function useEventMutations() {
       closeModal("RankingPageEventForm");
       closeModal("RankingPageEventForm2");
       closeModal("EventsPageEventForm");
-      closeModal("EventsPageDetailPageEventForm");
+      closeModal("EventsDetailPageEventForm");
       // const newId = newEvent?.id ?? event?.id;
       navigate(`/events/${data.id}`);
     },

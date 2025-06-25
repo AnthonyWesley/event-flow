@@ -13,10 +13,11 @@ import { CircularProgress } from "../../components/CircularProgress";
 import { useModalStore } from "../../store/useModalStore";
 import CopyToClipboard from "../../components/CopyToClipboard";
 import { useState, useEffect } from "react";
-import Avatar from "../../components/Avatar";
 import PremiumFeature from "../../components/PremiumFeature";
 import Card from "../../components/Card";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
+import AvatarUploader from "../../components/AvatarUploader";
+import partnerApi from "../../api/axios";
 
 interface SellerDetailByEventProps {
   seller: {
@@ -72,7 +73,23 @@ export default function SellerDetailByEvent({
         title={
           <header className="flex w-full items-center justify-between gap-2">
             {/* <Avatar name={seller?.name} image={seller?.photo} /> */}
-            <Avatar icon="bxs:user" image={seller.photo} className="my-1" />
+            <AvatarUploader
+              icon="bxs:user"
+              image={seller.photo}
+              className="my-1"
+              onUpload={(file) => {
+                const formData = new FormData();
+                formData.append("photo", file);
+                return partnerApi.patch(
+                  `/seller/${seller?.id}/photo`,
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  },
+                );
+              }}
+              onSuccess={(res) => console.log("Upload concluído:", res)}
+            />
 
             <div className="mr-auto w-25">
               <InfoLine

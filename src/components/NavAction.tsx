@@ -18,8 +18,7 @@ export default function NavAction({
     "bottom-0 left-0 flex w-full items-center justify-between rounded-t-lg p-2";
 
   const desktopPositionStyles = {
-    horizontal:
-      "lg:static lg:flex lg:h-full lg:w-full lg:flex-row lg:rounded-lg",
+    horizontal: " ",
     vertical: "lg:static lg:flex  lg:w-20 lg:flex-col lg:rounded-lg",
   };
 
