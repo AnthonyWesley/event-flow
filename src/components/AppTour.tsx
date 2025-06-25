@@ -19,11 +19,11 @@ const tourSteps = {
   firstEvent: [
     {
       selector: ".rankingPageSelect",
-      content: "Aqui você pode alternar a lista de vendedos ou vendas.",
+      content: "Aqui você pode alternar entre os eventos ativos.",
     },
     {
       selector: ".rankingPageChangeList",
-      content: "Botão para criar vendas.",
+      content: "Aqui você pode alternar a lista de vendedos ou vendas.",
     },
     {
       selector: ".ListaDeVendas",
