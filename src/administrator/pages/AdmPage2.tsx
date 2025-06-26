@@ -74,7 +74,7 @@ export default function AdmPage2() {
             };
           }}
           // FormModal={<EventForm />}
-          onItemClick={(partner) => navigate(`/partners/${partner.id}`)}
+          onItemClick={() => {}}
           CardComponent={(partner) => (
             <Card
               key={partner.id}
@@ -97,7 +97,7 @@ export default function AdmPage2() {
               <FlexSection className={`w-full gap-2 p-2`}>
                 {/* <Avatar icon="bxs:user" image={partner.photo} className="my-1" /> */}
                 <div
-                  className={`flex w-full flex-col items-start ${partner.status === "SUSPENDED" ? "opacity-40" : ""}`}
+                  className={`flex w-full flex-col items-start gap-1 border-b border-gray-500/15 ${partner.status === "SUSPENDED" ? "opacity-40" : ""}`}
                 >
                   <InfoLine
                     value={fieldFormatter.name(partner?.name)}
@@ -122,9 +122,9 @@ export default function AdmPage2() {
                     size="sm"
                   />
                 </div>
-                <div className="flex w-full justify-evenly gap-2 border-t border-gray-500/15 pt-2">
+                <nav className="flex w-full justify-evenly gap-2">
                   <Modal
-                    id={`AdminToggleForm-${partner.id}`}
+                    id={`AdminToggleForm-${partner.id}-${partner.status}`}
                     info={
                       partner?.status === "SUSPENDED"
                         ? "Ativar parceiro"
@@ -170,7 +170,7 @@ export default function AdmPage2() {
                       <Icon icon="qlementine-icons:log-in-16" width="20" />
                     </div>
                   </Tooltip>
-                </div>
+                </nav>
               </FlexSection>
             </Card>
           )}

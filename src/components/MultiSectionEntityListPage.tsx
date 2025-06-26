@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import NavAction from "./NavAction";
 import Accordion from "./Accordion";
 import { Icon } from "@iconify/react";
+import AnimatedSection from "./AnimatedSection";
 
 type SectionConfig<T> = {
   title: string;
@@ -126,13 +127,13 @@ export default function MultiSectionEntityListPage<T>({
                     </p>
                   ) : (
                     items.map((item, idx) => (
-                      <div
+                      <AnimatedSection
                         key={idx}
-                        className="cursor-pointer transition-opacity hover:opacity-90"
+                        className="w-full cursor-pointer"
                         onClick={() => onItemClick(item)}
                       >
                         {CardComponent(item)}
-                      </div>
+                      </AnimatedSection>
                     ))
                   )}
                 </section>

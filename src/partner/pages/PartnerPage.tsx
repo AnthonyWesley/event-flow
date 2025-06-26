@@ -14,12 +14,14 @@ import Tooltip from "../../components/Tooltip";
 import AvatarUploader from "../../components/AvatarUploader";
 import partnerApi from "../../api/axios";
 import Card from "../../components/Card";
+import { useModalStore } from "../../store/useModalStore";
 
 export default function PartnerPage() {
   const {
     queryPartner: { isPending, error, data },
   } = usePartner();
   const navigate = useNavigate();
+  const { closeModal } = useModalStore();
 
   if (isPending) return <Spin />;
   if (error) return "An error has occurred: " + error.message;
@@ -27,6 +29,7 @@ export default function PartnerPage() {
   const logout = () => {
     localStorage.removeItem("accessToken");
     navigate("/auth");
+    closeModal("PartnerLogout");
   };
 
   const isPartnerSuspended =

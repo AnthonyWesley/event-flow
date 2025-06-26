@@ -68,7 +68,7 @@ export default function PartnerForm({ partner }: PartnerProps) {
             required
           />
         </label>
-        <label className="flex flex-col">
+        <label className="pointer-events-none flex cursor-not-allowed flex-col opacity-50 select-none">
           Email:
           <input
             type="text"
