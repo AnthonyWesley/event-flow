@@ -31,8 +31,8 @@ export default function EventsPage() {
       onItemClick={(event) => navigate(`/events/${event.id}`)}
       CardComponent={(event) => (
         <Card
-          className="bg-gold rounded pt-[1px]"
-          childrenStyle="hover:shadow-[0_0_10px_#ffdd01]"
+          className={`rounded pt-[1px] ${!event.isActive ? "bg-silver opacity-50" : "bg-gold"}`}
+          childrenStyle={`hover:shadow-[0_0_10px_#ffdd01] `}
         >
           <HeaderRanking event={event} />
           <FlexSection className="justify-between border-t border-gray-500/15 pt-2">

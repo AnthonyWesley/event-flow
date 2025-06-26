@@ -293,7 +293,7 @@ export default function RankingPage() {
         </div>
       ) : (
         <>
-          <div className="shadow-basic mb-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 bg-slate-900 p-2 italic">
+          <div className="shadow-basic bg-dark my-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 p-2 italic">
             <img
               // src="./images/bg-3.jpg"
               src="./images/logo.png"

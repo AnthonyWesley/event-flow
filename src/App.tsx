@@ -46,7 +46,7 @@ export default function App() {
     !isAuthenticated && !isGuestPage && !isAdminRoute;
 
   return (
-    <div className="scrollbar-transparent flex min-h-screen flex-col">
+    <div className="bg-dark scrollbar-transparent flex min-h-screen flex-col">
       {shouldShowNavbar && <Navbar links={PRIVATE_ROUTES(partner)} />}
       {shouldShowPendingModal && <PendingModal />}
       {shouldShowPublicNavbar && <Navbar links={PUBLIC_ROUTES} />}

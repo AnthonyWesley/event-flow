@@ -51,7 +51,7 @@ export function SaleItem({
   return (
     <li
       key={sale.id}
-      className={`flex h-20 w-full items-center justify-between rounded-sm border-b border-b-gray-500/15 p-2 hover:bg-[rgb(29,37,57)] ${index % 2 === 0 ? "bg-[rgb(15,23,42)]" : "bg-[rgb(10,23,42)]"}`}
+      className={`flex h-20 w-full items-center justify-between rounded-sm border-b border-b-gray-500/15 p-2 hover:bg-[rgb(29,37,57)] ${index % 2 === 0 ? "bg-slate-950" : "bg-gray-950"}`}
     >
       <div className="flex w-full items-center justify-between">
         <div className="flex w-full min-w-0">

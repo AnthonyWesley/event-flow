@@ -18,7 +18,7 @@ export default function Card({
       )}
 
       <div
-        className={`rounded-lg bg-slate-900 p-2 shadow-2xl ${childrenStyle}`}
+        className={`rounded-lg bg-slate-950 p-2 shadow-2xl ${childrenStyle}`}
       >
         {children}
       </div>

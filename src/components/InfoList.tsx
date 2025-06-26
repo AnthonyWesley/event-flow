@@ -13,9 +13,7 @@ export default function InfoList({
   className,
 }: InfoListProps) {
   return (
-    <div
-      className={`flex w-full justify-between bg-slate-900 not-italic ${className}`}
-    >
+    <div className={`flex w-full justify-between not-italic ${className}`}>
       {(length && <span className="basis-[10%] text-right">({length})</span>) ||
         "(0)"}
       <h1 className="basis-[80%] text-center">{tittle}</h1>

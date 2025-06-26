@@ -23,7 +23,7 @@ const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
 
     return (
       <div
-        className={`flex h-[50px] items-center overflow-hidden rounded-full bg-slate-900 p-4 shadow-[2px_2px_20px_rgba(0,0,0,0.08)] duration-300 ${
+        className={`flex h-[50px] items-center overflow-hidden rounded-full bg-slate-950 p-4 shadow-[2px_2px_20px_rgba(0,0,0,0.08)] duration-300 ${
           isOpen ? "w-full" : "w-[50px]"
         }`}
         onMouseEnter={() => setIsHovered(true)}
