@@ -17,12 +17,12 @@ import PendingModal from "./components/PendingModal";
 import { PRIVATE_ROUTES } from "./constants/privateRoutes";
 import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 import ErrorPage from "./auth/pages/ErrorPage";
-import AdmPage from "./administrator/pages/AdmPage";
 import AdmAuthPage from "./administrator/pages/AdmAuthPage";
 import SellerDetailPage from "./seller/pages/SellerDetailPage";
 import LeadPage from "./lead/pages/LeadPage";
 import AdminMenu from "./components/AdminMenu";
 import usePartner from "./partner/hooks/usePartner";
+import AdmPage2 from "./administrator/pages/AdmPage2";
 
 export default function App() {
   const location = useLocation();
@@ -82,7 +82,8 @@ export default function App() {
 
           {/* Admin */}
           {isAdmAuthenticated && (
-            <Route path="/adm/dashboard" element={<AdmPage />} />
+            // <Route path="/adm/dashboard" element={<AdmPage />} />
+            <Route path="/adm/dashboard" element={<AdmPage2 />} />
           )}
           <Route path="/adm" element={<AdmAuthPage />} />
         </Routes>
