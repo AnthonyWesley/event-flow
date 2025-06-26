@@ -14,7 +14,7 @@ type EntityListPageProps<T> = {
     error?: Error;
   };
   CardComponent: (item: T) => React.ReactNode;
-  FormModal: React.ReactNode;
+  FormModal?: React.ReactNode;
   onItemClick: (item: T) => void;
 };
 
@@ -62,22 +62,26 @@ export default function EntityListPage<T>({
           >
             <h1 className="mr-10 text-xl font-semibold text-white">{title}</h1>
           </div>
-          <Modal
-            id={`${title}Form`}
-            className="hidden bg-slate-900 lg:flex"
-            icon={<Icon icon="ic:baseline-plus" width="20" />}
-          >
-            {FormModal}
-          </Modal>
-          <NavAction className="justify-center lg:hidden">
+          {FormModal && (
             <Modal
               id={`${title}Form`}
-              className="bg-slate-900"
+              className="hidden bg-slate-900 lg:flex"
               icon={<Icon icon="ic:baseline-plus" width="20" />}
             >
               {FormModal}
             </Modal>
-          </NavAction>
+          )}
+          {FormModal && (
+            <NavAction className="justify-center lg:hidden">
+              <Modal
+                id={`${title}Form`}
+                className="bg-slate-900"
+                icon={<Icon icon="ic:baseline-plus" width="20" />}
+              >
+                {FormModal}
+              </Modal>
+            </NavAction>
+          )}
         </header>
       </section>
 

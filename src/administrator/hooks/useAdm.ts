@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { admService } from "../services/admService";
 
-export default function useAdm() {
+export default function useAdm(search?: string) {
   const isAdmAuthenticated = Boolean(localStorage.getItem("admAccessToken"));
 
   const queryPartners = useQuery({
-    queryKey: ["partnersData"],
-    queryFn: admService.list,
+    queryKey: ["partnersData", search],
+    queryFn: () => admService.list(search),
     enabled: isAdmAuthenticated,
   });
 

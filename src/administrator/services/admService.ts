@@ -15,8 +15,11 @@ export const admService = {
     return response.data;
   },
 
-  list: async () => {
-    const response = await admApi.get(`/partners`);
+  list: async (search?: string) => {
+    const response = await admApi.get("/partners", {
+      params: { search },
+    });
+
     return response.data.partners;
   },
 

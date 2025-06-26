@@ -84,7 +84,7 @@ export default function LeadPage() {
                     <td className="max-w-[200px] truncate p-2">
                       {lead.email || "-"}
                     </td>
-                    <td className="p-2">
+                    <td className="max-w-[200px] truncate p-2">
                       {fieldFormatter.phone(lead.phone || "-")}
                     </td>
                     <td className="p-2">{lead.source}</td>

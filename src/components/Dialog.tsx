@@ -21,7 +21,7 @@ export default function Dialog({
     // closeModal();
   };
   return (
-    <Card className="bg-rose flex h-full w-full flex-col justify-evenly gap-8 rounded-sm px-1">
+    <Card className="bg-rose flex h-full w-full flex-col justify-evenly gap-8 rounded-sm p-[1px]">
       <Icon icon="line-md:alert-loop" width="20" className="text-rose-500" />
       <div className="p-8 text-center text-xl italic">{message}</div>
       <AccessExpiredWrapper admin={admin}>
