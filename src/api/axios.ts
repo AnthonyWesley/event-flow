@@ -49,10 +49,7 @@ partnerApi.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (
-      [401, 404, 500].includes(error.response.status) &&
-      !originalRequest._retry
-    ) {
+    if ([401, 500].includes(error.response.status) && !originalRequest._retry) {
       originalRequest._retry = true;
       localStorage.removeItem("accessToken");
 
