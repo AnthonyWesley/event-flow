@@ -5,11 +5,14 @@ import { useModalStore } from "../../store/useModalStore";
 import usePartner from "../../partner/hooks/usePartner";
 import { useNavigate } from "react-router-dom";
 
+import { useTourStore } from "../../store/useTourStore";
+
 export function useEventMutations() {
   const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   const { closeModal } = useModalStore();
+  const { setNextTour } = useTourStore();
   const {
     queryPartner: { data: partner },
   } = usePartner();
@@ -21,6 +24,7 @@ export function useEventMutations() {
         toast.success("Status do evento atualizado!");
       closeModal("RankingPageEventToggleForm");
       closeModal("EventsPageEventToggleForm");
+      setNextTour("firstEvent");
     },
 
     onError: (error: any) => {
@@ -65,6 +69,7 @@ export function useEventMutations() {
       closeModal("EventsDetailPageEventForm");
       // const newId = newEvent?.id ?? event?.id;
       navigate(`/events/${data.id}`);
+      setNextTour("activeEvent");
     },
     onError: (err: any) => {
       toast.error(

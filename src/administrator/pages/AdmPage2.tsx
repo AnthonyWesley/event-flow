@@ -176,12 +176,12 @@ export default function AdmPage2() {
           )}
           sections={[
             {
-              title: "Em Andamento",
+              title: "Ativos",
               key: "ACTIVE",
               filter: (e) => e.status === "ACTIVE",
             },
             {
-              title: "Finalizados",
+              title: "Suspensos",
               key: "SUSPENDED",
               filter: (e) => e.status === "SUSPENDED",
             },

@@ -293,18 +293,16 @@ export default function RankingPage() {
         </div>
       ) : (
         <>
-          <div className="shadow-basic bg-dark my-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 p-2 italic">
+          <div className="shadow-basic Logo bg-dark my-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 p-2 italic">
             <img
               // src="./images/bg-3.jpg"
               src="./images/logo.png"
               alt=""
               className="max-w-[300px] md:flex lg:flex"
             />
-            <SplitText
-              className="border-b border-gray-500 text-center"
-              message="Nenhum evento ativo no momento!"
-            />
-            <div>Criar evento</div>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-2">
+            <SplitText message="Nenhum evento ativo no momento!" />
             <Modal
               info="Criar"
               id="RankingPageEventForm2"
@@ -313,6 +311,7 @@ export default function RankingPage() {
             >
               <EventForm event={showEvent} />
             </Modal>
+            <SplitText message="Criar evento!" />
           </div>
         </>
       )}

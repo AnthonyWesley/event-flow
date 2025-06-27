@@ -5,10 +5,12 @@ import { toast } from "react-toastify";
 import { FormValidator } from "../../helpers/FormValidator";
 import AnimatedTabs from "../../components/AnimatedTabs";
 import SplitText from "../../components/SplitText";
+import { useTourStore } from "../../store/useTourStore";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const { login, register } = useAuth();
+  const { setNextTour } = useTourStore();
 
   const handleSubmit = (data: any) => {
     if (isLogin) {
@@ -28,6 +30,7 @@ export default function AuthPage() {
       register.mutate(data, {
         onSuccess: () => {
           login.mutate({ email: data.email, password: data.password });
+          setNextTour("ranking");
         },
       });
     }
@@ -35,7 +38,7 @@ export default function AuthPage() {
 
   return (
     <section className="flex items-start justify-center gap-2 p-1">
-      <section className="flex flex-col">
+      <div className="flex flex-col">
         <SplitText
           className="border-b border-gray-500 text-center text-3xl font-black"
           message="Bem-vindo!"
@@ -84,7 +87,7 @@ export default function AuthPage() {
             ]}
           />
         </div>
-      </section>
+      </div>
       <img
         // src="./images/bg-3.jpg"
         src="./images/logo.png"

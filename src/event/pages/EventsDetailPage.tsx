@@ -206,50 +206,46 @@ export default function EventsDetailPage() {
         </NavAction>
       </Card>
 
-      <section className="flex w-full flex-col gap-2 rounded-lg lg:flex-row">
-        <Card className="bg-rose my-2 w-full rounded-lg pl-1">
-          <Accordion
-            title={
-              <InfoList
-                tittle="Vendas"
-                icon="mi:shopping-cart"
-                length={totalQuantity}
-                className="w-full rounded-t-2xl p-2"
-              />
-            }
-            content={
-              event?.sales.length > 0 && (
-                <div className="max-h-[40vh] overflow-y-scroll border-r border-gray-500/15 lg:h-[45vh]">
-                  <SaleList
-                    sales={event?.sales}
-                    sellers={event?.allSellers}
-                    products={products}
-                  />
-                </div>
-              )
-            }
-          />
-        </Card>
+      <section className="bg-dark flex w-full flex-col gap-2 rounded-lg lg:flex-row">
+        <Accordion
+          title={
+            <InfoList
+              tittle="Vendas"
+              icon="mi:shopping-cart"
+              length={totalQuantity}
+              className="w-full rounded-t-2xl p-2"
+            />
+          }
+          content={
+            <div className="max-h-[40vh] overflow-y-scroll border-r border-gray-500/15 lg:h-[45vh]">
+              {event?.sales.length > 0 && (
+                <SaleList
+                  sales={event?.sales}
+                  sellers={event?.allSellers}
+                  products={products}
+                />
+              )}
+            </div>
+          }
+        />
 
-        <Card className="bg-gold my-2 w-full rounded-lg pl-1">
-          <Accordion
-            title={
-              <InfoList
-                tittle="Rankig"
-                icon="game-icons:podium-winner"
-                length={event?.allSellers?.length}
-                className="w-full rounded-t-2xl p-2"
-              />
-            }
-            content={
-              event && (
-                <div className="pointer-events-auto max-h-[40vh] overflow-y-scroll lg:h-[45vh]">
-                  <RankingDisplay event={event} disable />
-                </div>
-              )
-            }
-          />
-        </Card>
+        <Accordion
+          title={
+            <InfoList
+              tittle="Rankig"
+              icon="game-icons:podium-winner"
+              length={event?.allSellers?.length}
+              className="w-full rounded-t-2xl p-2"
+            />
+          }
+          content={
+            event && (
+              <div className="pointer-events-auto max-h-[40vh] overflow-y-scroll lg:h-[45vh]">
+                <RankingDisplay event={event} disable />
+              </div>
+            )
+          }
+        />
       </section>
     </>
   );

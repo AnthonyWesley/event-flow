@@ -70,7 +70,7 @@ export default function ProductForm({ product }: ProductProps) {
         className="flex w-full flex-col gap-4 rounded-lg p-4"
       >
         <h1 className="rounded text-xl font-bold">
-          {product?.id ? "Editar Producto" : "Registro de Producto"}
+          {product?.id ? "Editar Produto" : "Registro de Produto"}
         </h1>
         <label className="flex flex-col">
           Nome:

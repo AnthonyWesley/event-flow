@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { TourProvider, useTour } from "@reactour/tour";
-import { useLocation } from "react-router-dom";
-import { useEvent } from "../event/hooks/useEvent";
+import { useTourStore } from "../store/useTourStore";
 
 const tourSteps = {
   ranking: [
     {
+      selector: ".Logo",
+      content:
+        "Bem-vindo ao EventShow! Transforme metas em conquistas e vendas em verdadeiros espetáculos!",
+    },
+    {
       selector: ".RankingCreateEvent",
-      content: "Bem-vindo ao EventShow! Vamos criar seu primeiro evento?",
+      content: "Vamos criar seu primeiro evento?",
     },
   ],
   activeEvent: [
@@ -48,7 +52,7 @@ type AppTourProps = {
   children: React.ReactNode;
 };
 
-function waitForElement(selector: string, timeout = 3000): Promise<boolean> {
+function waitForElement(selector: string, timeout = 5000): Promise<boolean> {
   return new Promise((resolve) => {
     const interval = 200;
     let elapsed = 0;
@@ -68,97 +72,63 @@ function waitForElement(selector: string, timeout = 3000): Promise<boolean> {
   });
 }
 
-function AutoStartTour({
-  currentStepGroup,
-}: {
-  currentStepGroup: keyof typeof tourSteps;
-}) {
+function TourController({ stepGroup }: { stepGroup: keyof typeof tourSteps }) {
   const { setIsOpen, setSteps, setCurrentStep } = useTour();
 
   useEffect(() => {
-    async function startTour() {
-      const steps = tourSteps[currentStepGroup];
-      if (!steps || steps.length === 0) return;
-
-      const localKey = `hasSeenTour_${currentStepGroup}`;
-      const hasSeenTour = localStorage.getItem(localKey);
-
+    async function start() {
+      const steps = tourSteps[stepGroup];
+      const localKey = `hasSeenTour_${stepGroup}`;
+      const alreadySeen = localStorage.getItem(localKey);
       const firstStep = steps[0];
-      const ready = await waitForElement(firstStep.selector);
 
-      if (ready && !hasSeenTour) {
+      const ready = await waitForElement(firstStep.selector);
+      if (ready && !alreadySeen) {
         setSteps!(steps);
         setCurrentStep(0);
         setIsOpen(true);
         localStorage.setItem(localKey, "true");
-      } else if (!ready) {
-        console.warn(
-          `Elemento ${firstStep.selector} não encontrado para iniciar o tour "${currentStepGroup}".`,
-        );
       }
     }
 
-    startTour();
-  }, [currentStepGroup]);
+    start();
+  }, [stepGroup]);
 
   return null;
 }
 
 export default function AppTour({ children }: AppTourProps) {
-  const pathname = useLocation();
-  const [stepGroup, setStepGroup] = useState<keyof typeof tourSteps>("ranking");
-  const {
-    queryEvents: { data: events },
-  } = useEvent();
+  // const pathname = useLocation();
+  const { nextTour, setNextTour } = useTourStore();
+  const [stepGroup, setStepGroup] = useState<keyof typeof tourSteps | null>(
+    null,
+  );
 
   useEffect(() => {
-    const tryStartFirstEventTour = async () => {
-      const ready = await waitForElement(
-        tourSteps.activeEvent[0].selector,
-        4000,
-      );
-      if (ready && !localStorage.getItem("hasSeenTour_activeEvent")) {
-        setStepGroup("activeEvent");
+    const runTour = async () => {
+      if (!nextTour) return;
+
+      const steps = tourSteps[nextTour];
+      const ready = await waitForElement(steps[0].selector, 5000);
+      const alreadySeen = localStorage.getItem(`hasSeenTour_${nextTour}`);
+
+      if (ready && !alreadySeen) {
+        setStepGroup(nextTour);
       }
+
+      setNextTour(null);
     };
 
-    const timeout = setTimeout(() => {
-      tryStartFirstEventTour();
-    }, 400);
-
-    return () => clearTimeout(timeout);
-  }, [pathname.pathname, events]);
-
-  useEffect(() => {
-    const runFirstEventTour = async () => {
-      const firstEvent = events?.[0];
-      const isOnHomePage = pathname.pathname === `/`;
-
-      if (!firstEvent || !isOnHomePage) return;
-
-      const alreadySeen = localStorage.getItem("hasSeenTour_firstEvent");
-      if (firstEvent.isActive && !alreadySeen) {
-        const ready = await waitForElement(tourSteps.firstEvent[0].selector);
-        if (ready) {
-          setStepGroup("firstEvent");
-        }
-      }
-    };
-
-    const timeout = setTimeout(() => {
-      runFirstEventTour();
-    }, 400);
-
-    return () => clearTimeout(timeout);
-  }, [pathname.pathname, events]);
+    runTour();
+  }, [nextTour]);
 
   return (
     <TourProvider
-      steps={tourSteps[stepGroup]}
+      steps={stepGroup ? tourSteps[stepGroup] : []}
       styles={{
         popover: (base) => ({
           ...base,
-          backgroundColor: "#1e293b", // slate-800
+          backgroundColor: "#1e293b",
           color: "#fff",
           borderRadius: "10px",
           padding: "20px",
@@ -172,24 +142,25 @@ export default function AppTour({ children }: AppTourProps) {
         }),
         badge: (base) => ({
           ...base,
-          backgroundColor: "#0ea5e9", // cyan-500
+          backgroundColor: "#0ea5e9",
           color: "#fff",
         }),
       }}
     >
-      <AutoStartTour currentStepGroup={stepGroup} />
+      {stepGroup && <TourController stepGroup={stepGroup} />}
       {children}
-      {/* <button
+      <button
         onClick={() => {
           Object.keys(localStorage).forEach((key) => {
             if (key.startsWith("hasSeenTour_")) {
               localStorage.removeItem(key);
             }
           });
+          window.location.reload();
         }}
       >
         remover
-      </button> */}
+      </button>
     </TourProvider>
   );
 }
