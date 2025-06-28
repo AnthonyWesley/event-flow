@@ -149,7 +149,7 @@ export default function AppTour({ children }: AppTourProps) {
     >
       {stepGroup && <TourController stepGroup={stepGroup} />}
       {children}
-      <button
+      {/* <button
         onClick={() => {
           Object.keys(localStorage).forEach((key) => {
             if (key.startsWith("hasSeenTour_")) {
@@ -160,7 +160,7 @@ export default function AppTour({ children }: AppTourProps) {
         }}
       >
         remover
-      </button>
+      </button> */}
     </TourProvider>
   );
 }

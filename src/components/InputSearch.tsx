@@ -23,7 +23,7 @@ const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
 
     return (
       <div
-        className={`flex h-[50px] items-center overflow-hidden rounded-full bg-slate-950 p-4 shadow-[2px_2px_20px_rgba(0,0,0,0.08)] duration-300 ${
+        className={`flex h-[55px] w-[55px] items-center overflow-hidden rounded-full bg-slate-950 p-4 shadow-[2px_2px_20px_rgba(0,0,0,0.08)] duration-300 ${
           isOpen ? "w-full" : "w-[50px]"
         }`}
         onMouseEnter={() => setIsHovered(true)}
@@ -33,8 +33,8 @@ const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            width="18"
-            height="18"
+            width="20"
+            height="20"
           >
             <path d="M18.9,16.776A10.539,10.539,0,1,0,16.776,18.9l5.1,5.1L24,21.88ZM10.5,18A7.5,7.5,0,1,1,18,10.5,7.507,7.507,0,0,1,10.5,18Z" />
           </svg>

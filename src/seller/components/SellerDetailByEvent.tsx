@@ -187,7 +187,7 @@ export default function SellerDetailByEvent({
         title={<h1 className="text-gray-400">Vendas</h1>}
         content={
           <>
-            <FlexSection className="max-h-[35vh] overflow-y-scroll">
+            <FlexSection className="max-h-[33vh] overflow-y-scroll">
               {allSalesBySeller && allSalesBySeller.length > 0 ? (
                 <SaleList
                   sales={allSalesBySeller}

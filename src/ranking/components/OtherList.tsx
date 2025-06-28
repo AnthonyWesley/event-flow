@@ -50,14 +50,14 @@ export default function OtherList({
           : "bg-slate-950";
   return (
     <Card
-      className={`border-b border-gray-500/15 pl-1 ring-amber-300 hover:bg-[rgb(29,37,57)] ${bgClass}`}
-      childrenStyle="hover:bg-[rgb(29,37,57)]"
+      className={`pl-1 ring-amber-300 hover:bg-[rgb(29,37,57)] ${bgClass}`}
+      childrenStyle="hover:bg-[rgb(29,37,57)] px-0 py-0"
     >
       <section
         key={other.email}
         id={other.id}
         onClick={() => getId(other.id)}
-        className="flex w-full items-center justify-between gap-1"
+        className={`flex w-full items-center justify-between gap-1 border-b border-gray-500/30 ${index % 2 === 0 ? "bg-slate-900" : "bg-slate-900/85"}`}
       >
         <div className="m-auto flex items-center justify-between gap-2 py-2">
           <div className="flex w-12 justify-center border-r border-gray-500/40 text-2xl">

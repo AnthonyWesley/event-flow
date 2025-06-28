@@ -30,7 +30,7 @@ export default function SaleList({
       new Date(b.createdAt)?.getTime() - new Date(a.createdAt)?.getTime(),
   );
   return (
-    <ul role="list" className="w-full rounded-sm border-b border-gray-100/15">
+    <ul role="list" className="w-full rounded-sm">
       {sortedItems?.map((sale, index) => (
         <SaleItem
           index={index}

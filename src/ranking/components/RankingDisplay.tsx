@@ -7,6 +7,7 @@ import TopList from "./TopList";
 import SellerDetailByEvent from "../../seller/components/SellerDetailByEvent";
 import Modal from "../../components/Modal";
 import { useModalStore } from "../../store/useModalStore";
+import AnimatedSection from "../../components/AnimatedSection";
 
 export type SellersType = {
   id: string;
@@ -125,16 +126,21 @@ export default function RankingDisplay({
               event.allSellers.findIndex((s) => s.id === seller.id) + 1;
 
             return (
-              <SellerDetailByEvent
-                key={seller.email}
-                index={index}
-                seller={seller}
-                event={event}
-                sellerGoal={sellerGoal}
-                currentProgress={currentProgress}
-                isValueGoal={isValueGoal}
-                goalLabel={goalLabel}
-              />
+              <AnimatedSection
+                className="w-full"
+                transition={{ duration: 0.55 }}
+              >
+                <SellerDetailByEvent
+                  key={seller.email}
+                  index={index}
+                  seller={seller}
+                  event={event}
+                  sellerGoal={sellerGoal}
+                  currentProgress={currentProgress}
+                  isValueGoal={isValueGoal}
+                  goalLabel={goalLabel}
+                />
+              </AnimatedSection>
             );
           })()}
       </Modal>

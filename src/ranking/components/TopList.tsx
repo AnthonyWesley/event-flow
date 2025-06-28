@@ -93,7 +93,7 @@ export default function TopThree({
         className={`shake-vertical relative flex flex-col items-center justify-between ${positionMargin}`}
       >
         {/* <div
-          className={`hexagon-border w-28 drop-shadow-lg md:w-36 lg:w-46 ${getBackgroundColor(index)}`}
+          className={`hexagon-border w-28 bg-amber-300 drop-shadow-lg md:w-36 lg:w-46`}
         ></div> */}
 
         <img

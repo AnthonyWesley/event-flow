@@ -12,14 +12,12 @@ export default function Card({
   childrenStyle,
 }: CardProps) {
   return (
-    <section className={`rounded-lg shadow-2xl ${className}`}>
+    <section className={`rounded-lg shadow-xl ${className}`}>
       {header && (
         <header className="flex items-center justify-center">{header}</header>
       )}
 
-      <div
-        className={`rounded-lg bg-slate-950 p-2 shadow-2xl ${childrenStyle}`}
-      >
+      <div className={`rounded-lg bg-slate-950 p-2 shadow-xl ${childrenStyle}`}>
         {children}
       </div>
     </section>

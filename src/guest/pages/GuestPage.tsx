@@ -21,6 +21,8 @@ import AvatarUploader from "../../components/AvatarUploader";
 import partnerApi from "../../api/axios";
 import { SaleOutputDto } from "../../sale/services/saleService";
 import Card from "../../components/Card";
+import { fieldFormatter } from "../../helpers/fieldFormatter";
+import AnimatedSection from "../../components/AnimatedSection";
 
 export default function GuestPage() {
   const { eventId, sellerId } = useParams<{
@@ -94,145 +96,153 @@ export default function GuestPage() {
   }
 
   return (
-    <>
-      <Card
-        className="bg-dark my-2 flex flex-col gap-2"
-        header={
-          <>
-            <h1 className="mr-auto flex items-center gap-2 rounded-lg p-2">
-              <AvatarUploader
-                icon="iconoir:box-iso"
-                image={seller?.guest?.photo}
-                onUpload={(file) => {
-                  const formData = new FormData();
-                  formData.append("photo", file);
-                  return partnerApi.patch(
-                    `/seller/${seller?.guest?.id}/photo`,
-                    formData,
-                    {
-                      headers: { "Content-Type": "multipart/form-data" },
-                    },
-                  );
-                }}
-                onSuccess={(res) => console.log("Upload concluído:", res)}
+    <AnimatedSection>
+      <div className="shadow-basic bg-dark my-2 flex w-full flex-col items-center justify-end gap-1 rounded-xl border border-gray-100/15 p-2">
+        <img
+          // src="./images/bg-3.jpg"
+          src="/images/logo-2.png"
+          alt=""
+          className="max-w-[300px] md:flex lg:flex"
+        />
+      </div>
+      <section className="mb-1 flex w-full flex-col gap-1 lg:flex-row">
+        <Card className="bg-blue w-full pl-[1px]">
+          <header className="flex h-30 w-full items-center gap-2 truncate rounded-lg p-1">
+            <AvatarUploader
+              icon="iconoir:box-iso"
+              size="w-25 h-25"
+              image={seller?.guest?.photo}
+              onUpload={(file) => {
+                const formData = new FormData();
+                formData.append("photo", file);
+                return partnerApi.patch(
+                  `/seller/${seller?.guest?.id}/photo`,
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  },
+                );
+              }}
+              onSuccess={(res) => console.log("Upload concluído:", res)}
+            />
+            <div className="mr-auto">
+              <InfoLine value={seller?.guest?.name} line="col" />
+
+              <InfoLine
+                label="E-mail:"
+                value={seller?.guest?.email}
+                size="sm"
+                line="col"
               />
-              <div className="mr-auto">
-                <InfoLine value={seller?.guest?.name} line="col" />
-                <InfoLine
-                  label="E-mail:"
-                  value={seller?.guest?.email}
-                  size="sm"
-                  line="col"
-                />
-                <InfoLine
-                  label="Telefone:"
-                  value={seller?.guest?.phone}
-                  size="sm"
-                  line="col"
-                />
-              </div>
-            </h1>
-            <NavAction position="vertical" className="lg:h-[20vh]">
-              <Modal id="GuestPageSellerForm" icon="carbon:edit">
-                <SellerForm seller={seller?.guest} />
-              </Modal>
-              <Modal id="GuestPageSaleForm" icon="carbon:shopping-cart-plus">
-                <SaleForm eventId={event?.id} guestId={sellerId} isGuest />
-              </Modal>
-            </NavAction>
-          </>
-        }
-      >
-        <section className="flex w-full items-center justify-between p-2">
+
+              <InfoLine
+                label="Telefone:"
+                value={fieldFormatter.phone(seller?.guest?.phone)}
+                size="sm"
+                line="col"
+              />
+            </div>
+          </header>
+        </Card>
+        <NavAction position="vertical" className="justify-evenly gap-2">
+          <Modal id="GuestPageSellerForm" icon="carbon:edit">
+            <SellerForm seller={seller?.guest} />
+          </Modal>
+          <Modal id="GuestPageSaleForm" icon="carbon:shopping-cart-plus">
+            <SaleForm eventId={event?.id} guestId={sellerId} isGuest />
+          </Modal>
+        </NavAction>
+      </section>
+      <section className="flex w-full items-center justify-between p-2">
+        <InfoLine label="Evento:" value={event?.name} size="lg" line="col" />
+
+        <div className="flex w-20 items-start justify-end border-gray-500/25 text-5xl lg:text-5xl">
+          <h1 className={`${goalUtils.podiumColor(currentIndex)}`}>
+            {currentIndex}
+          </h1>
+
+          <p className={`text-base ${goalUtils.podiumColor(currentIndex)}`}>
+            º
+          </p>
+        </div>
+      </section>
+      <section className="flex w-full items-center justify-between gap-2 p-2">
+        <FlexSection className="w-full items-start justify-start gap-2">
           <InfoLine
-            label="Evento:"
-            value={event?.name}
-            size="base"
-            line="col"
+            label="Meta:"
+            value={goalLabel}
+            icon={!isValueGoal ? "iconoir:box-iso" : ""}
+            color={goalColor}
+            size="lg"
           />
 
-          <div className="flex w-20 items-start justify-end border-gray-500/25 text-5xl lg:text-5xl">
-            <h1 className={`${goalUtils.podiumColor(currentIndex)}`}>
-              {currentIndex}
-            </h1>
-
-            <p className={`text-base ${goalUtils.podiumColor(currentIndex)}`}>
-              º
-            </p>
-          </div>
-        </section>
-        <section className="flex w-full items-center justify-between gap-2 p-2">
-          <FlexSection className="w-full items-start justify-start">
+          <div
+            className={`flex flex-col items-start gap-2 ${event.goalType == "VALUE" ? "" : "flex-col-reverse"}`}
+          >
             <InfoLine
-              label="Meta:"
-              value={goalLabel}
-              icon={!isValueGoal ? "iconoir:box-iso" : ""}
+              label="Total:"
+              value={currencyFormatter.ToBRL(seller?.guest?.totalSalesValue)}
               color={goalColor}
+              size="lg"
             />
-
             <InfoLine
               label="Vendas:"
               value={seller?.guest?.totalSalesCount}
               icon="iconoir:box-iso"
               color={!isValueGoal ? goalColor : ""}
-            />
-
-            <InfoLine
-              label="Total:"
-              value={currencyFormatter.ToBRL(seller?.guest?.totalSalesValue)}
-              color={goalColor}
-            />
-          </FlexSection>
-          <CircularProgress total={goal} current={currentProgress} />
-        </section>
-
-        <section className="flex w-full flex-col rounded-lg lg:flex-row">
-          <div className="mb-2 w-full rounded-lg bg-slate-900 lg:mr-2">
-            <Accordion
-              title={
-                <InfoList
-                  tittle="Vendas"
-                  icon="mi:shopping-cart"
-                  length={totalQuantity}
-                  className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
-                />
-              }
-              content={
-                event?.sales.length > 0 && (
-                  <div className="max-h-[35vh] overflow-y-scroll border-r border-gray-500/15">
-                    <SaleList
-                      sales={seller?.guest?.sales}
-                      sellers={event?.allSellers}
-                      products={products}
-                      isGuest
-                    />
-                  </div>
-                )
-              }
+              size="lg"
             />
           </div>
+        </FlexSection>
+        <CircularProgress total={goal} current={currentProgress} />
+      </section>
 
-          <div className="mb-2 w-full rounded-lg bg-slate-900">
-            <Accordion
-              title={
-                <InfoList
-                  tittle="Rankig"
-                  icon="game-icons:podium-winner"
-                  length={event?.allSellers?.length}
-                  className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
-                />
-              }
-              content={
-                event && (
-                  <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll">
-                    <RankingDisplay event={event} disable />
-                  </div>
-                )
-              }
-            />
-          </div>
-        </section>
-      </Card>
-    </>
+      <section className="flex w-full flex-col rounded-lg lg:flex-row">
+        <div className="mb-2 w-full rounded-lg bg-slate-950 lg:mr-2">
+          <Accordion
+            title={
+              <InfoList
+                tittle="Vendas"
+                icon="mi:shopping-cart"
+                length={totalQuantity}
+                className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
+              />
+            }
+            content={
+              event?.sales.length > 0 && (
+                <div className="max-h-[35vh] overflow-y-scroll border-r border-gray-500/15">
+                  <SaleList
+                    sales={seller?.guest?.sales}
+                    sellers={event?.allSellers}
+                    products={products}
+                    isGuest
+                  />
+                </div>
+              )
+            }
+          />
+        </div>
+
+        <div className="mb-2 w-full rounded-lg bg-slate-950">
+          <Accordion
+            title={
+              <InfoList
+                tittle="Rankig"
+                icon="game-icons:podium-winner"
+                length={event?.allSellers?.length}
+                className="mx-4 w-full rounded-t-2xl border-b border-gray-500/15 py-4"
+              />
+            }
+            content={
+              event && (
+                <div className="pointer-events-auto max-h-[35vh] overflow-y-scroll">
+                  <RankingDisplay event={event} disable />
+                </div>
+              )
+            }
+          />
+        </div>
+      </section>
+    </AnimatedSection>
   );
 }

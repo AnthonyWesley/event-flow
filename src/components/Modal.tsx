@@ -62,11 +62,11 @@ export default function Modal({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="relative flex max-h-[90vh] w-full max-w-lg overflow-auto rounded-lg border-white/90 p-4 text-white shadow-xl"
+              className="relative flex max-h-[90vh] w-full max-w-lg overflow-auto rounded-lg border-white/90 text-white shadow-xl"
             >
               <Icon
                 onClick={() => closeModal(id)}
-                className="absolute top-5 right-5 z-80 cursor-pointer self-end transition-all hover:text-red-600"
+                className="absolute top-2 right-2 z-80 cursor-pointer self-end transition-all hover:text-red-600"
                 icon="line-md:close-small"
                 width={25}
               />
