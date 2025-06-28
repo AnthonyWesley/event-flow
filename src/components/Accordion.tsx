@@ -42,7 +42,7 @@ export default function Accordion({
 
   return (
     <div
-      className={`my-1 w-full overflow-hidden rounded-lg border border-gray-500/15 p-2`}
+      className={`w-full overflow-hidden rounded-lg border border-gray-500/15 p-2`}
     >
       <div
         onClick={() => setIsOpen((prev) => !prev)}

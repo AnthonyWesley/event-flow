@@ -159,7 +159,7 @@ export default function EventsDetailPage() {
               />
             }
             content={
-              <div className="max-h-[40vh] overflow-y-scroll border-r border-gray-500/15 lg:h-[45vh]">
+              <div className="max-h-[40vh] overflow-y-scroll border-r border-gray-500/15 lg:max-h-[55vh]">
                 {event?.sales.length > 0 && (
                   <SaleList
                     sales={event?.sales}
@@ -183,7 +183,7 @@ export default function EventsDetailPage() {
             }
             content={
               event && (
-                <div className="pointer-events-auto max-h-[40vh] overflow-y-scroll lg:h-[45vh]">
+                <div className="pointer-events-auto max-h-[40vh] overflow-y-scroll lg:max-h-[55vh]">
                   <RankingDisplay event={event} disable />
                 </div>
               )
