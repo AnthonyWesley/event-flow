@@ -50,110 +50,103 @@ export default function EventsDetailPage() {
 
   return (
     <>
-      <section className="mb-1 flex w-full flex-col lg:flex-row">
-        <Card className="bg-gold my-2 w-full pl-1">
-          <header className="flex w-full flex-col items-center gap-2 rounded-lg lg:flex-row">
-            <section className="flex w-full items-center gap-2">
-              <AvatarUploader
-                icon="iconoir:box-iso"
-                size="w-25 h-25"
-                image={event?.photo}
-                onUpload={(file) => {
-                  const formData = new FormData();
-                  formData.append("photo", file);
-                  return partnerApi.patch(
-                    `/event/${event?.id}/photo`,
-                    formData,
-                    {
-                      headers: { "Content-Type": "multipart/form-data" },
-                    },
-                  );
-                }}
-                onSuccess={(res) => console.log("Upload concluído:", res)}
+      <Card
+        className="bg-gold my-1 w-full pl-1"
+        childrenStyle="flex flex-col lg:flex-row justify-between"
+      >
+        <header className="flex w-full flex-col items-center gap-2 rounded-lg lg:flex-row">
+          <section className="flex w-full items-center gap-2">
+            <AvatarUploader
+              icon="iconoir:box-iso"
+              size="w-25 h-25"
+              image={event?.photo}
+              onUpload={(file) => {
+                const formData = new FormData();
+                formData.append("photo", file);
+                return partnerApi.patch(`/event/${event?.id}/photo`, formData, {
+                  headers: { "Content-Type": "multipart/form-data" },
+                });
+              }}
+              onSuccess={(res) => console.log("Upload concluído:", res)}
+            />
+            <div className="flex flex-col items-start">
+              <InfoLine label="Evento:" value={event?.name} />
+              <InfoLine label="Inicio:" value={formatDate(event?.createdAt)} />
+              <InfoLine
+                label="Fim:"
+                value={
+                  event.endDate
+                    ? formatDate(event.endDate)
+                    : event.isActive
+                      ? "Ativo"
+                      : "Não iniciado"
+                }
               />
-              <div className="flex flex-col items-start">
-                <InfoLine label="Evento:" value={event?.name} size="lg" />
-                <InfoLine
-                  label="Inicio:"
-                  value={formatDate(event?.createdAt)}
-                  size="lg"
-                />
-                <InfoLine
-                  label="Fim:"
-                  value={
-                    event.endDate
-                      ? formatDate(event.endDate)
-                      : event.isActive
-                        ? "Ativo"
-                        : "Não iniciado"
-                  }
-                  size="lg"
-                />
-              </div>
-            </section>
-          </header>
-        </Card>
-        <NavAction className="justify-evenly" position="vertical">
-          <Tooltip info="Leads">
-            <div
-              className="cursor-pointer self-end rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-              onClick={() => navigate(`/events/${eventId}/leads`)}
-            >
-              <Icon icon="fluent:target-arrow-16-regular" width="25" />
             </div>
-          </Tooltip>
-          <Tooltip info="Baixar relatório">
-            <PremiumFeature>
-              <EventReportPdfButton event={event} products={products} />
-            </PremiumFeature>
-          </Tooltip>
-        </NavAction>
-      </section>
-      <section className={`flex w-full justify-between gap-2 p-2`}>
-        <div className="flex flex-col items-start gap-2">
-          <InfoLine
-            label={`Meta:`}
-            value={
-              event.goalType == "VALUE"
-                ? currencyFormatter.ToBRL(event.goal)
-                : event.goal + " unid."
-            }
-            color={goalUtils.handleGoalAchieved(
-              goalUtils.getTotalForGoal(event.allSellers, event.goalType),
-              event?.goal,
-            )}
-            size="lg"
-          />
-          <div
-            className={`flex flex-col items-start gap-2 ${event.goalType == "VALUE" ? "" : "flex-col-reverse"}`}
-          >
+          </section>
+        </header>
+        <div className="flex w-full items-center justify-between">
+          <div className="w-ful flex flex-col items-start gap-2">
             <InfoLine
-              label="Total:"
-              value={currencyFormatter.ToBRL(
-                goalUtils.getTotalForGoal(event.allSellers, "VALUE"),
-              )}
+              label={`Meta:`}
+              value={
+                event.goalType == "VALUE"
+                  ? currencyFormatter.ToBRL(event.goal)
+                  : event.goal + " unid."
+              }
               color={goalUtils.handleGoalAchieved(
                 goalUtils.getTotalForGoal(event.allSellers, event.goalType),
                 event?.goal,
               )}
-              size="lg"
             />
-            <InfoLine
-              label="Total:"
-              value={totalQuantity + " unid."}
-              color={goalUtils.handleGoalAchieved(
-                goalUtils.getTotalForGoal(event.allSellers, event.goalType),
-                event?.goal,
-              )}
-              size="lg"
-            />
+            <div
+              className={`flex flex-col items-start gap-2 ${event.goalType == "VALUE" ? "" : "flex-col-reverse"}`}
+            >
+              <InfoLine
+                label="Total:"
+                value={currencyFormatter.ToBRL(
+                  goalUtils.getTotalForGoal(event.allSellers, "VALUE"),
+                )}
+                color={goalUtils.handleGoalAchieved(
+                  goalUtils.getTotalForGoal(event.allSellers, event.goalType),
+                  event?.goal,
+                )}
+              />
+              <InfoLine
+                label="Total:"
+                value={totalQuantity + " unid."}
+                color={goalUtils.handleGoalAchieved(
+                  goalUtils.getTotalForGoal(event.allSellers, event.goalType),
+                  event?.goal,
+                )}
+              />
+            </div>
           </div>
+          <CircularProgress
+            total={event?.goal}
+            current={goalUtils.getTotalForGoal(
+              event.allSellers,
+              event.goalType,
+            )}
+          />
+          <nav className="flex flex-col items-center gap-2 rounded-lg border-l border-gray-500/15 bg-slate-950 px-2 pl-3">
+            <Tooltip info="Leads">
+              <div
+                className="cursor-pointer self-end rounded-full border border-slate-100/15 p-3 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
+                onClick={() => navigate(`/events/${eventId}/leads`)}
+              >
+                <Icon icon="fluent:target-arrow-16-regular" width="25" />
+              </div>
+            </Tooltip>
+            <Tooltip info="Baixar relatório">
+              <PremiumFeature>
+                <EventReportPdfButton event={event} products={products} />
+              </PremiumFeature>
+            </Tooltip>
+          </nav>
         </div>
-        <CircularProgress
-          total={event?.goal}
-          current={goalUtils.getTotalForGoal(event.allSellers, event.goalType)}
-        />
-      </section>
+      </Card>
+
       <section className="flex w-full flex-col lg:flex-row">
         <div className="w-full rounded-lg bg-slate-950">
           <Accordion

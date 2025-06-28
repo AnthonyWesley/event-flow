@@ -17,7 +17,9 @@ export default function Card({
         <header className="flex items-center justify-center">{header}</header>
       )}
 
-      <div className={`rounded-lg bg-slate-950 p-2 shadow-xl ${childrenStyle}`}>
+      <div
+        className={`w-full rounded-lg bg-slate-950 p-2 shadow-xl ${childrenStyle}`}
+      >
         {children}
       </div>
     </section>
