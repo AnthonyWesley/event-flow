@@ -59,9 +59,9 @@ export default function LeadPage() {
         <p className="text-gray-600">Nenhum lead encontrado.</p>
       ) : (
         <div className="overflow-hidden rounded-lg border border-gray-500/15 text-sm">
-          <div className="max-h-[60vh] overflow-x-auto overflow-y-auto">
+          <div className="max-h-[70vh] overflow-x-auto overflow-y-auto">
             <table className="w-full text-left">
-              <thead className="w-full bg-slate-900 font-semibold">
+              <thead className="w-full bg-slate-950 font-semibold">
                 <tr>
                   <th className="p-2">Nome</th>
                   <th className="p-2">Email</th>
@@ -75,10 +75,10 @@ export default function LeadPage() {
                 </tr>
               </thead>
               <tbody>
-                {filterLeadList?.map((lead: LeadOutputDto) => (
+                {filterLeadList?.map((lead: LeadOutputDto, index) => (
                   <tr
                     key={lead.id}
-                    className="w-full border-t border-gray-500/15 hover:bg-slate-700"
+                    className={`w-full border-t border-gray-500/15 hover:bg-slate-700 ${index % 2 === 0 ? "bg-slate-900" : "bg-slate-900/15"}`}
                   >
                     <td className="max-w-[220px] truncate p-2">{lead.name}</td>
                     <td className="max-w-[200px] truncate p-2">

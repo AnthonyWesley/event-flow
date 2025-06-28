@@ -63,7 +63,7 @@ export default function MultiSectionEntityListPage<T>({
   return (
     <>
       <section className="flex flex-col gap-2 px-4 font-bold sm:flex-row sm:items-center sm:justify-between">
-        <header className="mt-1 flex w-full justify-between">
+        <header className="mt-1 mb-2 flex w-full justify-between">
           <InputSearch
             ref={inputRef}
             type="text"
@@ -120,7 +120,7 @@ export default function MultiSectionEntityListPage<T>({
               }
               startOpen={items.length > 0}
               content={
-                <section className="grid gap-4 p-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                <section className="grid gap-4 py-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                   {items.length === 0 ? (
                     <p className="text-sm text-slate-500">
                       Nenhum item encontrado.

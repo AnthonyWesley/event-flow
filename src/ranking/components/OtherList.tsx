@@ -57,7 +57,7 @@ export default function OtherList({
         key={other.email}
         id={other.id}
         onClick={() => getId(other.id)}
-        className={`flex w-full items-center justify-between gap-1 border-b border-gray-500/30 ${index % 2 === 0 ? "bg-slate-900" : "bg-slate-900/85"}`}
+        className={`flex w-full items-center justify-between gap-1 border-b border-gray-500/20 ${index % 2 === 0 ? "bg-slate-900" : "bg-slate-900/75"}`}
       >
         <div className="m-auto flex items-center justify-between gap-2 py-2">
           <div className="flex w-12 justify-center border-r border-gray-500/40 text-2xl">

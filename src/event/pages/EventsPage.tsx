@@ -32,7 +32,7 @@ export default function EventsPage() {
       CardComponent={(event) => (
         <Card
           className={`rounded pt-[1px] ${!event.isActive ? "bg-silver opacity-50" : "bg-gold"}`}
-          childrenStyle={`hover:shadow-[0_0_10px_#ffdd01] `}
+          childrenStyle={`hover:shadow-[0_0_10px_#ffdd01]`}
         >
           <HeaderRanking event={event} />
           <FlexSection className="justify-between border-t border-gray-500/15 pt-2">
