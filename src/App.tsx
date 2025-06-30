@@ -13,7 +13,6 @@ import ProductDetailPage from "./product/pages/ProductDetailPage";
 import EventsPage from "./event/pages/EventsPage";
 import EventsDetailPage from "./event/pages/EventsDetailPage";
 import GuestPage from "./guest/pages/GuestPage";
-import PendingModal from "./components/PendingModal";
 import { PRIVATE_ROUTES } from "./constants/privateRoutes";
 import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 import ErrorPage from "./auth/pages/ErrorPage";
@@ -26,32 +25,32 @@ import AdmPage2 from "./administrator/pages/AdmPage2";
 
 export default function App() {
   const location = useLocation();
-  const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
   const isAdmAuthenticated = Boolean(localStorage.getItem("admAccessToken"));
-  const {
-    queryPartner: { data: partner },
-  } = usePartner();
+  const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
+  const isAdminRoute = location.pathname.startsWith("/adm");
 
   const isGuestPage = matchPath(
     "events/:eventId/guest/:sellerId",
     location.pathname,
   );
-
-  const isAdminRoute = location.pathname.startsWith("/adm");
+  const {
+    queryPartner: { data: partner },
+  } = usePartner();
 
   const shouldShowNavbar = isAuthenticated && !isGuestPage && !isAdminRoute;
-  const shouldShowPendingModal =
-    isAuthenticated && !isGuestPage && !isAdminRoute;
+  // const shouldShowPendingModal =
+  //   isAuthenticated && !isGuestPage && !isAdminRoute;
   const shouldShowPublicNavbar =
     !isAuthenticated && !isGuestPage && !isAdminRoute;
 
   return (
     <div className="bg-dark scrollbar-transparent flex min-h-screen flex-col">
       {shouldShowNavbar && <Navbar links={PRIVATE_ROUTES(partner)} />}
-      {shouldShowPendingModal && <PendingModal />}
+      {/* {shouldShowPendingModal && <PendingModal />} */}
       {shouldShowPublicNavbar && <Navbar links={PUBLIC_ROUTES} />}
+      {isGuestPage && <Navbar />}
 
-      <main className="container mx-auto mb-26 flex flex-1 flex-col px-2 lg:mb-0">
+      <main className="container mx-auto mt-20 flex flex-1 flex-col px-2 lg:mb-0">
         <ToastContainer />
         <Routes>
           {/* Rotas privadas */}

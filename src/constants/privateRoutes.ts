@@ -1,3 +1,4 @@
+import { fieldFormatter } from "../helpers/fieldFormatter";
 import { PartnerOutputDto } from "../partner/services/partnerService";
 
 export const PRIVATE_ROUTES = (user: PartnerOutputDto) => [
@@ -24,7 +25,7 @@ export const PRIVATE_ROUTES = (user: PartnerOutputDto) => [
   },
   {
     href: "/user",
-    text: "",
+    text: fieldFormatter.name(user?.name, "first"),
     icon: "ri:map-pin-user-fill",
     image: user?.photo,
   },

@@ -108,19 +108,17 @@ export default function PendingModal() {
   return (
     <SlideBar
       icon={
-        <Tooltip
-          info="Alertas"
-          alert={notifications.length > 0 && notifications.length}
-        >
+        <Tooltip alert={notifications.length > 0 && notifications.length}>
           <Icon icon="material-symbols:notifications-active" width="30" />
         </Tooltip>
       }
-      sliderSide="right"
-      verticalPosition={65}
+      className="bg-slate-950/95"
+      sliderSide="left"
+      pushButtonOnSlide={false}
     >
       <ul
         role="list"
-        className="h-full w-[300px] divide-y divide-gray-500 overflow-x-scroll rounded-lg bg-slate-900/95 p-2"
+        className="rounded-lgp-2 h-full w-[280px] divide-y divide-gray-500 overflow-x-scroll"
       >
         {pendingSales.length === 0 && (
           <div className="flex h-full flex-col items-center justify-center gap-20">

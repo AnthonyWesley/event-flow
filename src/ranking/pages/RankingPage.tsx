@@ -25,7 +25,6 @@ import NavAction from "../../components/NavAction";
 import Select from "../../components/Select";
 import { EventOutputDto } from "../../event/services/eventService";
 import { usePersistedEvent } from "../hooks/usePersistedEvent";
-
 import AnimatedSection from "../../components/AnimatedSection";
 import SplitText from "../../components/SplitText";
 import GoalAchievedModal from "../../components/GoalAchievedModal";
@@ -147,7 +146,7 @@ export default function RankingPage() {
         remover
       </button> */}
       {showModal && <GoalAchievedModal onClose={() => setShowModal(false)} />}
-      {showEvent && (
+      {/* {showEvent && (
         <header className="mt-2">
           <Select
             selectList={activeEvents}
@@ -156,14 +155,24 @@ export default function RankingPage() {
             className="bg-gold rankingPageSelect text-lg font-bold text-slate-900"
           />
         </header>
-      )}
+      )} */}
 
       {showEvent ? (
         <div className="flex w-full flex-col lg:flex-row">
           {/* Principal Display */}
           <GameDisplay
-            className="bg-dark mt-2 flex-[2]"
+            className="bg-dark flex-[2]"
             infoHeader={
+              <header className="w-full">
+                <Select
+                  selectList={activeEvents}
+                  selected={showEvent}
+                  onChange={setShowEvent}
+                  className="bg-gold rankingPageSelect w-full text-lg font-bold text-slate-900"
+                />
+              </header>
+            }
+            infoFooter={
               <div className="w-full p-2">
                 <InfoList
                   tittle={list === "SELLERS" ? "Ranking" : "Vendas"}
@@ -181,7 +190,29 @@ export default function RankingPage() {
                 />
               </div>
             }
-            infoFooter={
+          >
+            <section className="mb-auto max-h-[55vh] w-full overflow-y-auto lg:max-h-[60vh]">
+              {list === "SALES" && (
+                <AnimatedSection className="flex flex-1">
+                  <SaleList
+                    sales={showEvent?.sales}
+                    sellers={showEvent?.allSellers}
+                    products={products}
+                  />
+                </AnimatedSection>
+              )}
+              {list === "SELLERS" && (
+                <AnimatedSection className="flex flex-1">
+                  <RankingDisplay event={showEvent} mode="PODIUM" />
+                </AnimatedSection>
+              )}
+            </section>
+          </GameDisplay>
+
+          {/* Estatísticas */}
+          <GameDisplay
+            className="flex-[1]"
+            infoHeader={
               <div className="flex w-full flex-col">
                 <div className="flex justify-between">
                   <InfoLine
@@ -212,41 +243,9 @@ export default function RankingPage() {
                 <ProgressBar total={showEvent?.goal} current={totalGoal} />
               </div>
             }
-          >
-            <section className="mb-auto max-h-[55vh] w-full overflow-y-auto lg:max-h-[60vh]">
-              {list === "SALES" && (
-                <AnimatedSection className="flex flex-1">
-                  <SaleList
-                    sales={showEvent?.sales}
-                    sellers={showEvent?.allSellers}
-                    products={products}
-                  />
-                </AnimatedSection>
-              )}
-              {list === "SELLERS" && (
-                <AnimatedSection className="flex flex-1">
-                  <RankingDisplay event={showEvent} mode="PODIUM" />
-                </AnimatedSection>
-              )}
-            </section>
-          </GameDisplay>
-
-          {/* Estatísticas */}
-          <GameDisplay
-            className="mt-2 flex-[1]"
-            infoHeader={
-              <div className="flex w-full items-center justify-center">
-                <img
-                  // src="./images/bg-3.jpg"
-                  src="./images/logo-2.png"
-                  alt=""
-                  className="max-w-[200px] self-center md:flex lg:flex"
-                />
-              </div>
-            }
             infoFooter={<div className="py-5"></div>}
           >
-            <div className="flex max-h-[45vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
+            <div className="flex max-h-[60vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
               <div className="flex-1 overflow-y-auto">
                 {list === "SELLERS" && (
                   <AnimatedSection className="text-sm">
@@ -266,7 +265,7 @@ export default function RankingPage() {
           </GameDisplay>
 
           {/* Ações */}
-          <GameDisplay className="mt-2">
+          <GameDisplay>
             <AnimatedSection>
               <NavAction position="vertical" className="lg:h-[75vh]">
                 <Tooltip

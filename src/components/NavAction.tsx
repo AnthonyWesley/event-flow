@@ -1,5 +1,4 @@
 import React from "react";
-
 type NavActionProps = {
   children: React.ReactNode;
   position?: "vertical" | "horizontal";

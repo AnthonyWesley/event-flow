@@ -97,14 +97,6 @@ export default function GuestPage() {
 
   return (
     <AnimatedSection>
-      <div className="shadow-basic bg-dark my-2 flex w-full flex-col items-center justify-end gap-1 rounded-xl border border-gray-100/15 p-2">
-        <img
-          // src="./images/bg-3.jpg"
-          src="/images/logo-2.png"
-          alt=""
-          className="max-w-[300px] md:flex lg:flex"
-        />
-      </div>
       <section className="mb-1 flex w-full flex-col gap-1 lg:flex-row">
         <Card className="bg-blue w-full pl-[1px]">
           <header className="flex h-30 w-full items-center gap-2 truncate rounded-lg p-1">

@@ -89,11 +89,9 @@ export default function AuthPage() {
         </div>
       </div>
       <img
-        // src="./images/bg-3.jpg"
-        src="./images/logo.png"
+        src="./images/logo-1.svg"
         alt=""
         className="hidden max-w-[300px] md:flex lg:flex"
-        // className="hidden w-[500px] border mix-blend-multiply lg:flex"
       />
     </section>
   );

@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 
 type TooltipProps = {
   children: React.ReactNode;
-  info: string;
+  info?: string;
   alert?: number;
   className?: string;
 };
