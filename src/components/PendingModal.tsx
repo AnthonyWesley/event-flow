@@ -121,9 +121,9 @@ export default function PendingModal() {
         className="rounded-lgp-2 h-full w-[280px] divide-y divide-gray-500 overflow-x-scroll"
       >
         {pendingSales.length === 0 && (
-          <div className="flex h-full flex-col items-center justify-center gap-20">
-            <p className="text-base"> Sem notificações no momento! </p>
+          <div className="flex h-full flex-col items-center justify-center gap-10">
             <Icon icon="arcticons:pokemon-sleep" width="80" />
+            <p className="text-base"> Sem notificações no momento! </p>
           </div>
         )}
         {pendingSales.map((sale) => (

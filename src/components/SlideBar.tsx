@@ -106,8 +106,19 @@ export default function SlideBar({
             onMouseLeave={handleMouseLeave}
             className={`fixed top-0 flex h-dvh flex-col items-start justify-start ${direction} ${className}`}
           >
-            {children}
+            <motion.div
+              animate={{ opacity: isOpen ? 1 : 0 }}
+              transition={{ duration: 0.9, ease: "easeInOut" }}
+              className="p-2"
+            >
+              {children}
+            </motion.div>
 
+            {/* : { opacity: 0, scale: 0.3, x: -50 },
+      {
+        duration: 0.2,
+        delay: open ? staggerList : 0,
+      }, */}
             {pushButtonOnSlide && (
               <div
                 className={`absolute ${

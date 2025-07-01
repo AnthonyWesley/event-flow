@@ -116,7 +116,7 @@ export default function RankingPage() {
     {
       title: "AtivarOuDesativarEvento",
       id: "RankingPageEventToggleForm",
-      info: !showEvent?.endDate ? "Finalizar Evento" : "Ativar Evento",
+      info: !showEvent?.endDate ? "Finalizar" : "Ativar",
       icon: (
         <Icon
           icon="lets-icons:on-button"
