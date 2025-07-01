@@ -103,10 +103,18 @@ export default function SellerDetailPage() {
               <Icon icon="hugeicons:link-backward" width="20" />
             </div>
           </Tooltip>
-          <Modal id="SellerDetailPageSellerForm" icon="carbon:edit">
+          <Modal
+            info="Editar"
+            id="SellerDetailPageSellerForm"
+            icon="carbon:edit"
+          >
             <SellerForm seller={seller} />
           </Modal>
-          <Modal id="SellerDetailPageDeleteSellerForm" icon="carbon:trash-can">
+          <Modal
+            info="Deletar"
+            id="SellerDetailPageDeleteSellerForm"
+            icon="carbon:trash-can"
+          >
             <Dialog
               message="Deseja excluir o vendedor?"
               onClick={() => {

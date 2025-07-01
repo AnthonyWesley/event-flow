@@ -69,10 +69,18 @@ export default function ProductDetailPage() {
               <Icon icon="hugeicons:link-backward" width="20" />
             </div>
           </Tooltip>
-          <Modal id="ProductDetailPageProductForm" icon="carbon:edit">
+          <Modal
+            info="Editar"
+            id="ProductDetailPageProductForm"
+            icon="carbon:edit"
+          >
             <ProductForm product={product} />,
           </Modal>
-          <Modal id="ProductDetailPageDeleteForm" icon="carbon:trash-can">
+          <Modal
+            info="Deletar"
+            id="ProductDetailPageDeleteForm"
+            icon="carbon:trash-can"
+          >
             <Dialog
               message="Deseja excluir o produto?"
               onClick={() => {
