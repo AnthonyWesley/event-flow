@@ -88,11 +88,11 @@ export default function AuthPage() {
           />
         </div>
       </div>
-      <img
+      {/* <img
         src="./images/logo-1.svg"
         alt=""
         className="hidden max-w-[300px] md:flex lg:flex"
-      />
+      /> */}
     </section>
   );
 }

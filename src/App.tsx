@@ -22,6 +22,7 @@ import LeadPage from "./lead/pages/LeadPage";
 import AdminMenu from "./components/AdminMenu";
 import usePartner from "./partner/hooks/usePartner";
 import AdmPage2 from "./administrator/pages/AdmPage2";
+import HomePage from "./home/pages/HomePage";
 
 export default function App() {
   const location = useLocation();
@@ -50,7 +51,7 @@ export default function App() {
       {shouldShowPublicNavbar && <Navbar links={PUBLIC_ROUTES} />}
       {isGuestPage && <Navbar />}
 
-      <main className="container mx-auto mt-20 flex flex-1 flex-col px-2 lg:mb-0">
+      <main className="container mx-auto mt-20 mb-24 flex flex-1 flex-col px-2 lg:mb-0">
         <ToastContainer />
         <Routes>
           {/* Rotas privadas */}
@@ -73,6 +74,7 @@ export default function App() {
           </Route>
 
           {/* Público */}
+          <Route path="/home" element={<HomePage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/unauthorized" element={<ErrorPage code={401} />} />

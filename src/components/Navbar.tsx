@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import PendingModal from "./PendingModal";
 import Hamburger from "./Hamburger";
 
-type RouteType = {
+export type RouteType = {
   href: string;
   text: string;
   icon: string;
@@ -35,22 +35,18 @@ export default function Navbar({
   const shouldShowPendingModal =
     isAuthenticated && !isGuestPage && !isAdminRoute;
 
-  const shouldShowPublicNavbar = !isAuthenticated && !isAdminRoute;
-
   return (
     <nav
       className={`fixed top-0 z-40 w-full items-center justify-center rounded-b-lg border-b border-solid border-gray-100/15 bg-slate-950 p-1 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:flex`}
     >
       <div
-        className={`Nav flex w-full items-center justify-evenly gap-2 duration-500 ease-in-out ${className}`}
+        className={`Nav flex w-full items-center justify-between gap-2 duration-500 ease-in-out ${className}`}
       >
-        {!shouldShowPublicNavbar && (
-          <img
-            src="/images/logo-2.svg"
-            alt=""
-            className="max-w-[200px] self-center p-4"
-          />
-        )}
+        <img
+          src="/images/logo-2.svg"
+          alt=""
+          className="max-w-[200px] self-center p-4"
+        />
         {links &&
           links.map((link) => (
             <Link
@@ -77,9 +73,9 @@ export default function Navbar({
               {isTittle && <p className="lg:flex">{link.text}</p>}
             </Link>
           ))}
-        <div className="flex w-full items-center justify-end p-2 lg:justify-center">
+        <div className="flex w-full items-center justify-end p-2 lg:hidden lg:justify-center">
           {shouldShowPendingModal && <PendingModal />}
-          {shouldShowPendingModal && <Hamburger />}
+          {links && <Hamburger links={links} />}
         </div>
       </div>
     </nav>

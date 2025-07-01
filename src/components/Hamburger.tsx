@@ -2,14 +2,10 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import SlideBar from "./SlideBar";
-import { PRIVATE_ROUTES } from "../constants/privateRoutes";
-import usePartner from "../partner/hooks/usePartner";
 
-export default function Hamburger() {
-  const {
-    queryPartner: { data: partner },
-  } = usePartner();
-  const links = PRIVATE_ROUTES(partner);
+import { RouteType } from "./Navbar";
+
+export default function Hamburger({ links }: { links: RouteType[] }) {
   const pathname = useLocation();
 
   return (

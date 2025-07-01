@@ -191,7 +191,7 @@ export default function RankingPage() {
               </div>
             }
           >
-            <section className="mb-auto max-h-[55vh] w-full overflow-y-auto lg:max-h-[60vh]">
+            <section className="mb-auto max-h-[55vh] w-full overflow-y-auto lg:max-h-[65vh]">
               {list === "SALES" && (
                 <AnimatedSection className="flex flex-1">
                   <SaleList
@@ -245,7 +245,7 @@ export default function RankingPage() {
             }
             infoFooter={<div className="py-5"></div>}
           >
-            <div className="flex max-h-[60vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[60vh]">
+            <div className="flex max-h-[60vh] w-full flex-1 flex-col bg-slate-900 lg:max-h-[65vh]">
               <div className="flex-1 overflow-y-auto">
                 {list === "SELLERS" && (
                   <AnimatedSection className="text-sm">
@@ -267,7 +267,7 @@ export default function RankingPage() {
           {/* Ações */}
           <GameDisplay>
             <AnimatedSection>
-              <NavAction position="vertical" className="lg:h-[75vh]">
+              <NavAction position="vertical" className="lg:h-[80vh]">
                 <Tooltip
                   info={list === "SALES" ? "Vendas" : "Vendedores"}
                   className="rankingPageChangeList cursor-pointer rounded-full border border-gray-100/15 opacity-80 hover:bg-[#142a49] hover:opacity-100"

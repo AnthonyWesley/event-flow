@@ -12,7 +12,7 @@ export default function GameDisplay({
 }: GameDisplayProps) {
   return (
     <section
-      className={`flex flex-col items-start justify-between overflow-hidden rounded-lg border border-gray-500/15 lg:h-[75vh] ${className}`}
+      className={`flex flex-col items-start justify-between overflow-hidden rounded-lg border border-gray-500/15 lg:h-[80vh] ${className}`}
     >
       {infoHeader && (
         <header className="flex w-full gap-1 bg-slate-950 p-2 not-italic">
