@@ -120,9 +120,7 @@ export default function Tooltip({
 
       {/* Info fixa abaixo (mobile) */}
       {isMobile && info && (
-        <div className="w-[60px] text-center text-[8px] break-words whitespace-normal text-gray-500">
-          {info}
-        </div>
+        <div className="text-[8px] text-gray-300">{info}</div>
       )}
 
       {/* Tooltip flutuante (desktop) */}
