@@ -1,7 +1,6 @@
 import { useLocation, Link, matchPath } from "react-router-dom";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import SlideBar from "./SlideBar";
-import { motion } from "framer-motion";
+
 import PendingModal from "./PendingModal";
 import Hamburger from "./Hamburger";
 
