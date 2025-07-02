@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -29,47 +29,35 @@ export default function SlideBar({
   links = [],
 }: SliderBarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isInteracting, setIsInteracting] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
 
+  const clearCloseTimeout = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
   const toggleMenu = () => {
+    clearCloseTimeout();
     setIsOpen((prev) => !prev);
   };
 
   const startInteraction = () => {
-    setIsInteracting(true);
-    if (timerRef.current) clearTimeout(timerRef.current);
+    clearCloseTimeout();
   };
 
   const endInteraction = () => {
-    setIsInteracting(false);
-    closeIfInactive();
-  };
-
-  const closeIfInactive = () => {
     const isOnActiveRoute = links.some(
       (link) => location.pathname === link.href,
     );
-    if (!isInteracting && isOnActiveRoute) {
-      setTimeout(() => setIsOpen(false), 400);
+
+    if (isOnActiveRoute) {
+      clearCloseTimeout();
+      timerRef.current = setTimeout(() => setIsOpen(false), 500);
     }
   };
-
-  useEffect(() => {
-    if (isOpen && !isInteracting) {
-      timerRef.current = setTimeout(() => setIsOpen(false), 3000);
-    }
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [isOpen, isInteracting]);
-
-  useEffect(() => {
-    if (!isInteracting) {
-      closeIfInactive();
-    }
-  }, [location.pathname, isInteracting]);
 
   const directionClass = sliderSide === "left" ? "left-0" : "right-0";
   const offsetX = sliderSide === "left" ? "-100%" : "100%";

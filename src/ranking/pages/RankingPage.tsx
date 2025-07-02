@@ -295,22 +295,21 @@ export default function RankingPage() {
           <div className="shadow-basic Logo bg-dark my-2 flex w-full flex-col items-center justify-end gap-1 rounded-md border border-gray-100/15 p-2 italic">
             <img
               // src="./images/bg-3.jpg"
-              src="./images/logo.png"
+              src="./images/logo-1.svg"
               alt=""
-              className="max-w-[300px] md:flex lg:flex"
+              className="max-w-[300px] p-8 md:flex lg:flex"
             />
           </div>
-          <div className="flex flex-col items-center justify-center gap-2">
+          <div className="mt-10 flex flex-col items-center justify-center gap-2">
             <SplitText message="Nenhum evento ativo no momento!" />
             <Modal
-              info="Criar"
+              info="Criar evento"
               id="RankingPageEventForm2"
-              className="RankingCreateEvent text-cyan-400"
+              className="RankingCreateEvent mt-10 text-cyan-400"
               icon={<Icon icon="ic:baseline-plus" width="40" />}
             >
               <EventForm event={showEvent} />
             </Modal>
-            <SplitText message="Criar evento!" />
           </div>
         </>
       )}

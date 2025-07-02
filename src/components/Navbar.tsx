@@ -1,6 +1,5 @@
 import { useLocation, Link, matchPath } from "react-router-dom";
-import { Icon } from "@iconify/react/dist/iconify.js";
-
+import { Icon } from "@iconify/react";
 import PendingModal from "./PendingModal";
 import Hamburger from "./Hamburger";
 
@@ -24,7 +23,7 @@ export default function Navbar({
   isTittle = true,
   linkStyle,
 }: NavProps) {
-  const pathname = useLocation();
+  const location = useLocation();
   const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
   const isAdminRoute = location.pathname.startsWith("/adm");
 
@@ -32,6 +31,7 @@ export default function Navbar({
     "events/:eventId/guest/:sellerId",
     location.pathname,
   );
+
   const shouldShowPendingModal =
     isAuthenticated && !isGuestPage && !isAdminRoute;
 
@@ -40,13 +40,14 @@ export default function Navbar({
       className={`fixed top-0 z-40 w-full items-center justify-center rounded-b-lg border-b border-solid border-gray-100/15 bg-slate-950 p-1 shadow-lg shadow-black/15 transition-all duration-[450ms] ease-in-out lg:flex`}
     >
       <div
-        className={`Nav flex w-full items-center justify-between gap-2 duration-500 ease-in-out ${className}`}
+        className={`Nav container flex w-full items-center justify-between gap-2 duration-500 ease-in-out ${className}`}
       >
         <img
           src="/images/logo-2.svg"
-          alt=""
+          alt="Logo"
           className="max-w-[200px] self-center p-4"
         />
+
         {links &&
           links.map((link) => (
             <Link
@@ -54,13 +55,13 @@ export default function Navbar({
               to={link.href}
               aria-label={link.text}
               className={`group ${link.text} ${linkStyle} relative hidden h-16 w-full flex-row items-center justify-center gap-3 rounded-lg border-solid border-gray-100/5 p-4 duration-300 ease-in-out hover:border hover:shadow-lg lg:flex ${
-                pathname.pathname === link.href ||
-                (link.href !== "/" && pathname.pathname.startsWith(link.href))
+                location.pathname === link.href ||
+                (link.href !== "/" && location.pathname.startsWith(link.href))
                   ? "text-cyan-400"
                   : ""
               }`}
             >
-              {link?.image ? (
+              {link.image ? (
                 <img
                   src={link.image}
                   alt={link.text}
@@ -73,7 +74,8 @@ export default function Navbar({
               {isTittle && <p className="lg:flex">{link.text}</p>}
             </Link>
           ))}
-        <div className="flex w-full items-center justify-end p-2 lg:hidden lg:justify-center">
+
+        <div className="flex w-full items-center justify-end p-2 lg:justify-center">
           {shouldShowPendingModal && <PendingModal />}
           {links && <Hamburger links={links} />}
         </div>

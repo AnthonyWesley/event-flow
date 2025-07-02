@@ -195,7 +195,7 @@ export default function EventsDetailPage() {
           <Tooltip info="Voltar">
             <div
               className="cursor-pointer self-end rounded-full border border-slate-100/15 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/events")}
             >
               <Icon icon="hugeicons:link-backward" width="20" />
             </div>

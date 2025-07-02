@@ -98,9 +98,9 @@ export default function SellerDetailByEvent({
                 size="base"
               />
             </div>
-            <div className="flex w-20 items-start justify-end border-l border-l-gray-500/15 pl-2 text-4xl">
+            <div className="flex w-20 items-start justify-end border-l border-l-gray-500/15 pl-2 text-7xl">
               <h1> {index}</h1>
-              <p className="text-base">º</p>
+              <p className="mt-1 text-4xl">º</p>
             </div>
           </header>
         }

@@ -61,7 +61,7 @@ export default function AdmPage2() {
           className="max-w-[60px] self-center md:flex lg:flex"
         />
       </NavAction>
-      <section className="mt-18">
+      <section>
         <MultiSectionEntityListPage<PartnerOutputDto>
           title="PARCEIROS"
           searchPlaceholder="Buscar... Eventos"
@@ -126,9 +126,7 @@ export default function AdmPage2() {
                   <Modal
                     id={`AdminToggleForm-${partner.id}-${partner.status}`}
                     info={
-                      partner?.status === "SUSPENDED"
-                        ? "Ativar parceiro"
-                        : "Suspender parceiro"
+                      partner?.status === "SUSPENDED" ? "Ativar" : "Suspender"
                     }
                     icon={
                       <Icon

@@ -11,13 +11,13 @@ export default function NavAction({
   className = "",
 }: NavActionProps) {
   const baseClasses =
-    "fixed z-50 bg-slate-950 shadow-lg border border-gray-500/15 shadow-black/15 transition-all duration-300 ease-in-out";
+    " z-50 bg-slate-950 shadow-lg border border-gray-500/15 shadow-black/15 transition-all duration-300 ease-in-out";
 
   const mobileTabletStyles =
-    "bottom-0 left-0 flex w-full items-center justify-between rounded-t-lg p-2";
+    "fixed bottom-0 left-0 flex w-full items-center justify-between rounded-t-lg p-2";
 
   const desktopPositionStyles = {
-    horizontal: " ",
+    horizontal: "lg:static ",
     vertical: "lg:static lg:flex lg:max-w-20 lg:flex-col lg:rounded-lg",
   };
 

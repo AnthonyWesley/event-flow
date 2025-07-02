@@ -69,11 +69,11 @@ export default function TopThree({
     if (total === 2) return index === 1 ? "/images/01.png" : "/images/02.png";
 
     const map: Record<number, string> = {
-      0: "/images/02.png",
-      1: "/images/01.png",
-      2: "/images/03.png",
+      0: "/images/shield-02.svg",
+      1: "/images/shield-01.svg",
+      2: "/images/shield-03.svg",
     };
-    return map[index] || "/images/03.png";
+    return map[index] || "/images/shield-03.svg";
   };
   // const images = ["/images/02.png", "/images/01.png", "/images/03.png"];
 

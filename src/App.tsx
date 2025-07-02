@@ -1,4 +1,4 @@
-import { matchPath, Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/Navbar";
 import User from "./partner/pages/PartnerPage";
@@ -13,43 +13,21 @@ import ProductDetailPage from "./product/pages/ProductDetailPage";
 import EventsPage from "./event/pages/EventsPage";
 import EventsDetailPage from "./event/pages/EventsDetailPage";
 import GuestPage from "./guest/pages/GuestPage";
-import { PRIVATE_ROUTES } from "./constants/privateRoutes";
-import { PUBLIC_ROUTES } from "./constants/publicRoutes";
 import ErrorPage from "./auth/pages/ErrorPage";
 import AdmAuthPage from "./administrator/pages/AdmAuthPage";
 import SellerDetailPage from "./seller/pages/SellerDetailPage";
 import LeadPage from "./lead/pages/LeadPage";
 import AdminMenu from "./components/AdminMenu";
-import usePartner from "./partner/hooks/usePartner";
 import AdmPage2 from "./administrator/pages/AdmPage2";
 import HomePage from "./home/pages/HomePage";
+import { useNavbarLinks } from "./partner/hooks/useNavbarLinks";
 
 export default function App() {
-  const location = useLocation();
   const isAdmAuthenticated = Boolean(localStorage.getItem("admAccessToken"));
-  const isAuthenticated = Boolean(localStorage.getItem("accessToken"));
-  const isAdminRoute = location.pathname.startsWith("/adm");
-
-  const isGuestPage = matchPath(
-    "events/:eventId/guest/:sellerId",
-    location.pathname,
-  );
-  const {
-    queryPartner: { data: partner },
-  } = usePartner();
-
-  const shouldShowNavbar = isAuthenticated && !isGuestPage && !isAdminRoute;
-  // const shouldShowPendingModal =
-  //   isAuthenticated && !isGuestPage && !isAdminRoute;
-  const shouldShowPublicNavbar =
-    !isAuthenticated && !isGuestPage && !isAdminRoute;
 
   return (
     <div className="bg-dark scrollbar-transparent flex min-h-screen flex-col">
-      {shouldShowNavbar && <Navbar links={PRIVATE_ROUTES(partner)} />}
-      {/* {shouldShowPendingModal && <PendingModal />} */}
-      {shouldShowPublicNavbar && <Navbar links={PUBLIC_ROUTES} />}
-      {isGuestPage && <Navbar />}
+      <Navbar links={useNavbarLinks()} />
 
       <main className="container mx-auto mt-20 mb-24 flex flex-1 flex-col px-2 lg:mb-0">
         <ToastContainer />
@@ -66,7 +44,6 @@ export default function App() {
             <Route path="products/:productId" element={<ProductDetailPage />} />
             <Route path="sales" element={<Sale />} />
             <Route path="/:type/:eventId/leads" element={<LeadPage />} />
-
             <Route
               path="events/:eventId/guest/:sellerId"
               element={<GuestPage />}
@@ -83,13 +60,11 @@ export default function App() {
 
           {/* Admin */}
           {isAdmAuthenticated && (
-            // <Route path="/adm/dashboard" element={<AdmPage />} />
             <Route path="/adm/dashboard" element={<AdmPage2 />} />
           )}
           <Route path="/adm" element={<AdmAuthPage />} />
         </Routes>
 
-        {/* Menu flutuante do admin */}
         {isAdmAuthenticated && <AdminMenu />}
       </main>
     </div>
