@@ -13,7 +13,7 @@ import { currencyFormatter } from "../../helpers/currencyFormatter";
 import { CircularProgress } from "../../components/CircularProgress";
 import { useParams } from "react-router-dom";
 import useGuest from "../hooks/useGuest";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Accordion from "../../components/Accordion";
 import InfoList from "../../components/InfoList";
 import NavAction from "../../components/NavAction";
@@ -25,6 +25,8 @@ import { fieldFormatter } from "../../helpers/fieldFormatter";
 import AnimatedSection from "../../components/AnimatedSection";
 
 export default function GuestPage() {
+  const [isReady, setIsReady] = useState(false);
+
   const { eventId, sellerId } = useParams<{
     eventId: string;
     sellerId: string;
@@ -33,6 +35,7 @@ export default function GuestPage() {
   const {
     queryGuest: { data: seller, isLoading: isSellerLoading, error },
   } = useGuest(eventId ?? "", sellerId ?? "");
+
   const {
     queryEvent: { data: event, isLoading: isEventLoading },
   } = useEvent(eventId);
@@ -47,13 +50,17 @@ export default function GuestPage() {
     if (token) {
       localStorage.setItem("accessToken", token);
     }
+
+    setIsReady(true);
   }, []);
 
-  if (isEventLoading) return <Spin />;
-  if (isProductLoading) return <Spin />;
-  if (isSellerLoading) return <Spin />;
+  if (!isReady || isEventLoading || isProductLoading || isSellerLoading) {
+    return <Spin />;
+  }
+
   const currentIndex = Array.isArray(event?.allSellers)
-    ? event.allSellers.findIndex((s: any) => s.name === seller?.guest?.name) + 1
+    ? event?.allSellers.findIndex((s: any) => s.name === seller?.guest?.name) +
+      1
     : "-";
 
   const isValueGoal = event?.goalType === "VALUE";

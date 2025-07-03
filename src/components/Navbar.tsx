@@ -49,6 +49,7 @@ export default function Navbar({
         />
 
         {links &&
+          !isGuestPage &&
           links.map((link) => (
             <Link
               key={link.text}
@@ -77,7 +78,7 @@ export default function Navbar({
 
         <div className="flex w-full items-center justify-end p-2 lg:justify-center">
           {shouldShowPendingModal && <PendingModal />}
-          {links && <Hamburger links={links} />}
+          {links && !isGuestPage && <Hamburger links={links} />}
         </div>
       </div>
     </nav>

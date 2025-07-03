@@ -49,8 +49,8 @@ export const guestService = {
     const response = await partnerApi.get(
       `/events/${eventId}/guest/${sellerId}`,
     );
-    // sessionStorage.setItem("accessToken", response.data.token.accessToken);
-    // console.log(response.data);
+
+    localStorage.setItem("accessToken", response.data.token.accessToken);
 
     return response.data;
   },
