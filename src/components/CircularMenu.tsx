@@ -1,62 +1,77 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
-import Modal from "./Modal";
-import EventIcon from "../icons/eventIcon";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Icon } from "@iconify/react";
 
-export default function CircularMenu() {
+type MenuButton = {
+  icon: React.ReactNode;
+  onClick: (e: any) => void;
+};
+
+type CircularMenuProps = {
+  buttons: MenuButton[];
+};
+
+const PREDEFINED_POSITIONS = [
+  { x: 0, y: -80, delay: 0.1 },
+  { x: 55, y: -55, delay: 0.2 },
+  { x: 80, y: 0, delay: 0.3 },
+  { x: 55, y: 55, delay: 0.4 },
+  { x: 0, y: 80, delay: 0.5 },
+];
+
+export default function CircularMenu({ buttons }: CircularMenuProps) {
+  const [open, setOpen] = useState(false);
+
+  const limitedButtons = buttons.slice(0, PREDEFINED_POSITIONS.length);
+
   return (
-    <div className="relative h-[60px] w-[60px]">
-      <input
-        type="checkbox"
-        id="menu-toggle"
-        className="peer absolute z-30 h-[60px] w-[60px] cursor-pointer opacity-0"
-      />
-
+    <div
+      className="relative h-[60px] w-[60px]"
+      onClick={() => setOpen((prev) => !prev)}
+    >
       {/* Botão principal */}
-      <label
-        htmlFor="menu-toggle"
-        className="absolute z-30 flex h-[60px] w-[60px] items-center justify-center rounded-full bg-slate-900 transition-all duration-300 peer-checked:bg-slate-700 peer-hover:bg-slate-700"
+      <motion.button
+        initial={false}
+        animate={{
+          rotate: open ? 135 : 0,
+          backgroundColor: open ? "#334155" : "#0f172a", // slate-700 : slate-900
+        }}
+        className="z-30 flex h-[60px] w-[60px] items-center justify-center rounded-full transition-colors"
       >
         <Icon icon="eos-icons:rotating-gear" width={20} />
-        <span className="hidden peer-checked:inline">−</span>
-      </label>
+      </motion.button>
 
-      <div className="absolute top-0 left-0 rounded-full bg-slate-900 shadow-[3px_3px_10px_rgba(16,16,16,0.5)] transition-all duration-300 peer-checked:translate-y-[-90px] peer-checked:delay-[100ms]">
-        <Modal
-          info="Add Vendedor"
-          id="RankingPageSellerForm"
-          icon="material-symbols:person-add"
-        />
-      </div>
-
-      <div className="absolute top-0 left-0 rounded-full bg-slate-900 shadow-[3px_3px_10px_rgba(16,16,16,0.5)] transition-all duration-300 peer-checked:translate-x-[65px] peer-checked:translate-y-[-65px] peer-checked:delay-[200ms]">
-        <Modal
-          info="Add Vendas"
-          id="RankingPageSaleForm"
-          icon="mi:shopping-cart-add"
-        />
-      </div>
-
-      <div className="absolute top-0 left-0 rounded-full bg-slate-900 shadow-[3px_3px_10px_rgba(16,16,16,0.5)] transition-all duration-300 peer-checked:translate-x-[90px] peer-checked:delay-[300ms]">
-        <Modal
-          info="Finalizar Evento"
-          id="RankingPageEventToggleForm"
-          icon={<Icon icon="lets-icons:on-button" width="20" />}
-        />
-      </div>
-      <div className="absolute top-0 left-0 rounded-full bg-slate-900 shadow-[3px_3px_10px_rgba(16,16,16,0.5)] transition-all duration-300 peer-checked:translate-x-[65px] peer-checked:translate-y-[65px] peer-checked:delay-[400ms]">
-        <Modal
-          info="Editar evento"
-          id="RankingPageEventForm"
-          icon={<EventIcon icon="PEN" />}
-        />
-      </div>
-      <div className="absolute top-0 left-0 rounded-full bg-slate-900 shadow-[3px_3px_10px_rgba(16,16,16,0.5)] transition-all duration-300 peer-checked:translate-y-[90px] peer-checked:delay-[500ms]">
-        <Modal
-          info="Deletar Evento"
-          id="RankingPageEventDeleteForm"
-          icon="carbon:trash-can"
-        />
-      </div>
+      {/* Botões dinâmicos */}
+      <AnimatePresence>
+        {open &&
+          limitedButtons.map((btn, i) => {
+            const { x, y, delay } = PREDEFINED_POSITIONS[i];
+            return (
+              <motion.button
+                key={i}
+                initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
+                animate={{
+                  x,
+                  y,
+                  opacity: 1,
+                  scale: 1,
+                  transition: { delay, type: "spring", stiffness: 300 },
+                }}
+                exit={{
+                  x: 0,
+                  y: 0,
+                  opacity: 0,
+                  scale: 0,
+                  transition: { duration: 0.2 },
+                }}
+                onClick={btn.onClick}
+                className="absolute top-0 left-0 z-20 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-slate-900 shadow-[3px_3px_10px_rgba(16,16,16,0.5)]"
+              >
+                {btn.icon}
+              </motion.button>
+            );
+          })}
+      </AnimatePresence>
     </div>
   );
 }

@@ -12,7 +12,6 @@ import Card from "../../components/Card";
 import FlexSection from "../../components/FlexSection";
 import { InfoLine } from "../../components/InfoLine";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
-
 import MultiSectionEntityListPage from "../../components/MultiSectionEntityListPage";
 import NavAction from "../../components/NavAction";
 
@@ -39,6 +38,7 @@ export default function AdmPage2() {
     localStorage.removeItem("accessToken");
     navigate("/adm");
   };
+
   return (
     <>
       <NavAction className="top-0 h-18">
