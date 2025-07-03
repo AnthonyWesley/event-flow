@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 
 type MenuButton = {
   icon: React.ReactNode;
-  onClick: (e: any) => void;
+  onClick?: (e: any) => void;
 };
 
 type CircularMenuProps = {
@@ -47,7 +47,7 @@ export default function CircularMenu({ buttons }: CircularMenuProps) {
           limitedButtons.map((btn, i) => {
             const { x, y, delay } = PREDEFINED_POSITIONS[i];
             return (
-              <motion.button
+              <motion.div
                 key={i}
                 initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
                 animate={{
@@ -64,11 +64,14 @@ export default function CircularMenu({ buttons }: CircularMenuProps) {
                   scale: 0,
                   transition: { duration: 0.2 },
                 }}
-                onClick={btn.onClick}
-                className="absolute top-0 left-0 z-20 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-slate-900 shadow-[3px_3px_10px_rgba(16,16,16,0.5)]"
+                onClick={(e) => {
+                  e.stopPropagation(); // impede que o clique feche o menu
+                  btn.onClick?.(e);
+                }}
+                className="absolute top-0 left-0 z-20 flex h-[55px] w-[55px] items-center justify-center rounded-full border-gray-100/15 bg-slate-900 opacity-80 shadow-[3px_3px_10px_rgba(16,16,16,0.5)] hover:bg-[#142a49]"
               >
                 {btn.icon}
-              </motion.button>
+              </motion.div>
             );
           })}
       </AnimatePresence>

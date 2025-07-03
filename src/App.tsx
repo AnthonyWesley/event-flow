@@ -44,11 +44,11 @@ export default function App() {
             <Route path="products/:productId" element={<ProductDetailPage />} />
             <Route path="sales" element={<Sale />} />
             <Route path="/:type/:eventId/leads" element={<LeadPage />} />
-            <Route
-              path="events/:eventId/guest/:sellerId"
-              element={<GuestPage />}
-            />
           </Route>
+          <Route
+            path="events/:eventId/guest/:sellerId"
+            element={<GuestPage />}
+          />
 
           {/* Público */}
           <Route path="/home" element={<HomePage />} />

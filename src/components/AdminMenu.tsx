@@ -2,12 +2,16 @@ import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CircularMenu from "./CircularMenu";
+import Dialog from "./Dialog";
+import Modal from "./Modal";
+import { useModalStore } from "../store/useModalStore";
 
 export default function AdminMenu() {
   const navigate = useNavigate();
   const [position, setPosition] = useState({ x: 20, y: 500 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const { openModal } = useModalStore();
 
   const startDragging = (x: number, y: number) => {
     setDragging(true);
@@ -62,6 +66,12 @@ export default function AdminMenu() {
     };
   }, [dragging]);
 
+  const logout = () => {
+    localStorage.removeItem("admAccessToken");
+    localStorage.removeItem("accessToken");
+    navigate("/adm");
+  };
+
   return (
     <div
       className="fixed z-50 flex touch-none flex-col items-center gap-2"
@@ -69,11 +79,6 @@ export default function AdminMenu() {
       onTouchStart={handleTouchStart}
       style={{ left: position.x, top: position.y }}
     >
-      {/* <Icon
-        icon="fluent:arrow-move-24-regular"
-        width="30"
-        className="animate-pulse text-cyan-400"
-      /> */}
       <div className="relative h-30 w-30">
         {/* Setas ao redor */}
         <svg className="absolute inset-0 h-full w-full" viewBox="0 0 80 80">
@@ -86,43 +91,26 @@ export default function AdminMenu() {
           <path d="M70 40 L66 36 V44 Z" fill="gray" opacity="0.2" />{" "}
           {/* Direita */}
         </svg>
-
+        <Modal id="PartnerLogout" info="Sair do app">
+          <Dialog message="Deseja sair do app?" onClick={logout} />
+        </Modal>
         {/* Botão central redondo */}
         <div className="absolute inset-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-white shadow-md hover:bg-cyan-600">
           <CircularMenu
             buttons={[
               {
-                icon: <Icon icon="hugeicons:link-backward" width={20} />,
-                onClick: (e) => {
-                  e.stopPropagation(); // previne arrasto ao clicar
-                  navigate("/adm/dashboard");
-                },
+                icon: (
+                  <Icon
+                    icon="qlementine-icons:log-in-16"
+                    width="20"
+                    rotate={90}
+                  />
+                ),
+                onClick: () => openModal("PartnerLogout"),
               },
               {
-                icon: <Icon icon="hugeicons:link-backward" width={20} />,
-                onClick: (e) => {
-                  e.stopPropagation(); // previne arrasto ao clicar
-                  navigate("/adm/dashboard");
-                },
-              },
-              {
-                icon: <Icon icon="hugeicons:link-backward" width={20} />,
-                onClick: (e) => {
-                  e.stopPropagation(); // previne arrasto ao clicar
-                  navigate("/adm/dashboard");
-                },
-              },
-              {
-                icon: <Icon icon="hugeicons:link-backward" width={20} />,
-                onClick: (e) => {
-                  e.stopPropagation(); // previne arrasto ao clicar
-                  navigate("/adm/dashboard");
-                },
-              },
-              {
-                icon: <Icon icon="hugeicons:link-backward" width={20} />,
-                onClick: (e) => {
-                  e.stopPropagation(); // previne arrasto ao clicar
+                icon: <Icon icon="dashicons:admin-home" width={20} />,
+                onClick: () => {
                   navigate("/adm/dashboard");
                 },
               },
@@ -130,18 +118,6 @@ export default function AdminMenu() {
           />
         </div>
       </div>
-
-      {/* <Tooltip info="Voltar">
-        <div
-          className="cursor-pointer rounded-full border border-slate-100/15 bg-cyan-800 p-4 opacity-80 hover:bg-[#142a49] hover:opacity-100 focus:outline-none"
-          onClick={(e) => {
-            e.stopPropagation(); // previne arrasto ao clicar
-            navigate("/adm/dashboard");
-          }}
-        >
-          <Icon icon="hugeicons:link-backward" width="20" />
-        </div>
-      </Tooltip> */}
     </div>
   );
 }

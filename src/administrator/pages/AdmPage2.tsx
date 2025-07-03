@@ -6,18 +6,14 @@ import Modal from "../../components/Modal";
 import PartnerForm from "../components/AdmForm";
 import Tooltip from "../../components/Tooltip";
 import Dialog from "../../components/Dialog";
-import { useNavigate } from "react-router-dom";
 import { usePartnerMutations } from "../../partner/hooks/usePartnerMutations";
 import Card from "../../components/Card";
 import FlexSection from "../../components/FlexSection";
 import { InfoLine } from "../../components/InfoLine";
 import { fieldFormatter } from "../../helpers/fieldFormatter";
 import MultiSectionEntityListPage from "../../components/MultiSectionEntityListPage";
-import NavAction from "../../components/NavAction";
 
 export default function AdmPage2() {
-  const navigate = useNavigate();
-
   const { accessPartner, activePartner, suspendPartner } = useAdmMutate();
   const { update } = usePartnerMutations();
 
@@ -33,34 +29,9 @@ export default function AdmPage2() {
       suspendPartner.mutate(partner.id);
     }
   };
-  const logout = () => {
-    localStorage.removeItem("admAccessToken");
-    localStorage.removeItem("accessToken");
-    navigate("/adm");
-  };
 
   return (
     <>
-      <NavAction className="top-0 h-18">
-        <Modal
-          id="PartnerLogout"
-          icon={
-            <Icon icon="qlementine-icons:log-in-16" width="20" rotate={90} />
-          }
-          info="Sair do app"
-        >
-          <Dialog message="Deseja sair do app?" onClick={logout} />
-        </Modal>
-        <h1 className="test-center text-xl font-semibold text-cyan-400">
-          ADMIN
-        </h1>
-        <img
-          // src="./images/bg-3.jpg"
-          src="/images/logo.png"
-          alt=""
-          className="max-w-[60px] self-center md:flex lg:flex"
-        />
-      </NavAction>
       <section>
         <MultiSectionEntityListPage<PartnerOutputDto>
           title="PARCEIROS"
